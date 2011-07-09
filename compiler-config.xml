@@ -1,0 +1,13 @@
+<flex-config xmlns="http://www.adobe.com/2006/flex-config">
+    <static-link-runtime-shared-libraries>false</static-link-runtime-shared-libraries>
+    <compiler>
+        <debug>true</debug>
+        <external-library-path append="true">
+            <path-element>${flexlib}/libs/player/{targetPlayerMajorVersion}.{targetPlayerMinorVersion}/playerglobal.swc</path-element>
+        </external-library-path>
+    </compiler>
+    <include-sources>
+        <path-element>src</path-element>
+    </include-sources>
+    <output>${output}/libraries.swc/vfold.swc</output>
+</flex-config>
