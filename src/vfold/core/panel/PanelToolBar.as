@@ -16,7 +16,6 @@ import vfold.controls.button.ButtonDropBox;
 import vfold.core.Core;
 import vfold.core.CoreView;
 import vfold.core.tool.Tool;
-import vfold.core.tool.ToolAlign;
 import vfold.core.account.Account;
 import vfold.core.workspace.WorkspaceSwitcher;
 
@@ -61,13 +60,13 @@ public class PanelToolBar extends CoreView {
         var t:Tool=Tool(e.target);
         var i:uint;
         switch(t.align){
-            case ToolAlign.LEFT:
+            case Tool.ALIGN_LEFT:
                 for(i=0;i<lc.numChildren;i++){
                     if(i!=0)lc.getChildAt(i).x=lc.getChildAt(i-1).x+lc.getChildAt(i-1).width+g;
                     else lc.getChildAt(i).x=g;
                 }
                 break;
-            case ToolAlign.RIGHT:
+            case Tool.ALIGN_RIGHT:
                 for(i=0;i<rc.numChildren;i++){
                     if(i!=0)rc.getChildAt(i).x=-rc.getChildAt(i-1).x-rc.getChildAt(i-1).width-g;
                     else rc.getChildAt(i).x=-rc.getChildAt(i).width;
@@ -79,13 +78,13 @@ public class PanelToolBar extends CoreView {
         var i:uint;
         switch(tool.align){
 
-            case ToolAlign.LEFT:
+            case Tool.ALIGN_LEFT:
                 i=lc.numChildren;
                 lc.addChild(tool);
                 if(i!=0)tool.x=lc.getChildAt(i-1).x+lc.getChildAt(i-1).width+g;
                 else tool.x=g;
                 break;
-            case ToolAlign.RIGHT:
+            case Tool.ALIGN_RIGHT:
                 i=rc.numChildren;
                 rc.addChild(tool);
                 if(i!=0)tool.x=-rc.getChildAt(i-1).x-tool.width-g;

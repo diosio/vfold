@@ -15,8 +15,11 @@ import vfold.core.panel.PanelToolBar;
 
 public class Tool extends Sprite {
 
+    public static const ALIGN_LEFT:String="left";
+    public static const ALIGN_RIGHT:String="right";
+
     // Alignment of tool on toolbar
-    public var align:String=ToolAlign.RIGHT;
+    public var align:String=ALIGN_RIGHT;
     // Tool Change
     public static const TOOL_CHANGE:String="toolChange";
 

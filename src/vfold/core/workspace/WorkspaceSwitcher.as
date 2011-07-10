@@ -11,7 +11,6 @@ package vfold.core.workspace {
 import flash.events.Event;
 import vfold.core.Core;
 import vfold.core.tool.Tool;
-import vfold.core.tool.ToolAlign;
 import vfold.controls.button.ButtonLabel;
 
 public class WorkspaceSwitcher extends Tool {
@@ -27,7 +26,7 @@ public class WorkspaceSwitcher extends Tool {
         bt.label="Dashboard";
         addChild(bt);
 
-        align=ToolAlign.LEFT;
+        align=Tool.ALIGN_LEFT;
         Core.dispatcher.addEventListener(Core.WORKSPACE_CHANGE,onWorkspaceChange);
     }
     public function addSwitch(label:String):void{

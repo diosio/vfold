@@ -9,8 +9,7 @@
 
 package vfold.core.tool {
 public class ToolAlign {
-    public static const LEFT:String="left";
-    public static const RIGHT:String="right";
+
     public function ToolAlign() {
     }
 }
