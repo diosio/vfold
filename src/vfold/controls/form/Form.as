@@ -117,7 +117,7 @@ import vfold.controls.table.Table;
 import vfold.controls.table.TableData;
 import vfold.controls.table.TableRowData;
 import vfold.core.Core;
-import vfold.display.icons.IconsSystem;
+import vfold.display.images.Icon;
 import vfold.display.text.TextSimple;
 import vfold.utilities.ColorModifier;
 
@@ -146,7 +146,7 @@ class FormTable extends FormInput {
 
     public function FormTable(data:TableData) {
         // Icon Bitmap
-        var ic:Bitmap=new IconsSystem.ArrowDown as Bitmap;
+        var ic:Bitmap=new Icon.ArrowDown as Bitmap;
         textField.width-=ic.width+3;
         ic.x=textField.width;
         ic.y=(textField.height-ic.height)/2;
@@ -181,7 +181,7 @@ class Browse extends FormDynamic {
     private var bc:uint;
 
     public function Browse() {
-        var ic:Bitmap=new IconsSystem.Browse as Bitmap;
+        var ic:Bitmap=new Icon.Browse as Bitmap;
         bc=ColorModifier.brightness(fillColor,.5);
         setStatus(Form.ERROR);
         g=background.graphics;

@@ -7,9 +7,9 @@
  * the Original Work                                                 *
  *********************************************************************/
 
-package vfold.display.icons {
+package vfold.display.images {
 
-public class IconsSystem {
+public class Icon {
 
     [Embed(source="assets/find.png")]
     public static var Find:Class;
@@ -21,7 +21,7 @@ public class IconsSystem {
     public static var ArrowDown:Class;
 
 
-    public function IconsSystem() {
+    public function Icon() {
     }
 }
 }

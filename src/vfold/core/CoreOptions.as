@@ -10,7 +10,7 @@
 package vfold.core {
 import vfold.core.workspace.Workspace;
 import vfold.mail.MailOptions;
-import vfold.display.icons.IconsSystem;
+import vfold.display.images.Icon;
 
 public class CoreOptions {
 
@@ -35,7 +35,7 @@ public class CoreOptions {
         gw=gateway;
 
         var w:Workspace=new Workspace();
-        w.panel.logo=new IconsSystem.VFoldMenu;
+        w.panel.logo=new Icon.VFoldMenu;
         w.desktop.classPath="vfold.dashboard.Dashboard";
         w.desktop.library.url="libraries/dashboard.swf";
         w.title="vfold.dashboard.Dashboard";
