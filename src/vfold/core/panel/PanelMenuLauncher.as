@@ -15,7 +15,7 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 import vfold.core.Core;
 import vfold.core.CoreView;
-import vfold.display.images.Icon;
+import vfold.display.assets.Images;
 import vfold.utilities.ColorModifier;
 
 public class PanelMenuLauncher extends CoreView {
@@ -25,7 +25,7 @@ public class PanelMenuLauncher extends CoreView {
     // Tween Max
     private var TM:TweenMax;
     // Logo Bitmap
-    private var bL:Bitmap=new Icon.VFoldMenu;
+    private var bL:Bitmap=new Images.VFoldMenu;
     // Height
     private var h:Number;
 

@@ -17,13 +17,11 @@ import flash.system.Capabilities;
 
 import vfold.core.Core;
 import vfold.core.CoreView;
+import vfold.display.assets.Images;
 import vfold.utilities.ColorModifier;
 
 public class DashboardWallpaper extends CoreView {
 
-    // Wallpaper Tile Bitmap
-    [Embed(source="/home/raphael/development/IdeaProjects/vfold/libraries/dashboard/assets/tile.wallpaper.jpg")]
-    private var Tile:Class;
     // Wallpaper
     private var wl:Bitmap;
 
@@ -33,7 +31,7 @@ public class DashboardWallpaper extends CoreView {
     private function makeWallpaper():void{
 
         var m:Matrix=new Matrix;
-        var t:Bitmap=new Tile as Bitmap;
+        var t:Bitmap=new Images.WallpaperTile as Bitmap;
 
         wl=new Bitmap(new BitmapData(Capabilities.screenResolutionX,Capabilities.screenResolutionY,false));
 

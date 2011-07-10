@@ -7,21 +7,19 @@
  * the Original Work                                                 *
  *********************************************************************/
 
-package vfold.display.images {
+package vfold.display.assets {
 
-public class Icon {
+public class Images {
 
-    [Embed(source="assets/find.png")]
+    [Embed(source="images/find.png")]
     public static var Find:Class;
-    [Embed(source="assets/vfold.png")]
+    [Embed(source="images/vfold.png")]
     public static var VFoldMenu:Class;
-    [Embed(source="assets/browse.png")]
+    [Embed(source="images/browse.png")]
     public static var Browse:Class;
-    [Embed(source="assets/arrow_down.png")]
+    [Embed(source="images/arrow_down.png")]
     public static var ArrowDown:Class;
-
-
-    public function Icon() {
-    }
+    [Embed(source="images/wallpaper.tile.jpg")]
+    public static var WallpaperTile:Class;
 }
 }
