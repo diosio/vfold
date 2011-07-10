@@ -42,7 +42,7 @@ public class Dashboard extends CoreView {
         c.y=Core.panelHandler.height+gp;
 
         addChild(w);
-        //addChild(c);
+        addChild(c);
         c.addChild(h);
         c.addChild(b);
         c.addChild(f);

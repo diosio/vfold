@@ -36,9 +36,9 @@ public class DashboardWallpaper extends CoreView {
         wl=new Bitmap(new BitmapData(Capabilities.screenResolutionX,Capabilities.screenResolutionY,false));
 
         // x-axis repeats
-        var xR:uint=wl.width/t.width+1;
+        var xR:uint=Math.ceil(wl.width/t.width);
         // y-axis repeats
-        var yR:uint=wl.height/t.height+1;
+        var yR:uint=Math.ceil(wl.height/t.height);
 
         for (var i:uint=0;i<xR;i++){
 
