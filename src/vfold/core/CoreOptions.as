@@ -38,7 +38,7 @@ public class CoreOptions {
         w.panel.logo=new IconsSystem.VFoldMenu;
         w.desktop.classPath="vfold.dashboard.Dashboard";
         w.desktop.library.url="libraries/dashboard.swf";
-        w.title="Dashboard";
+        w.title="vfold.dashboard.Dashboard";
         ws[0]=w;
     }
     public function get projectDomain():String{return d}

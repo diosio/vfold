@@ -23,7 +23,7 @@ public class WorkspaceSwitcher extends Tool {
         //bt.setDropBox(lt, this);
         bt.textField.bold=true;
 
-        bt.label="Dashboard";
+        bt.label="vfold.dashboard.Dashboard";
         addChild(bt);
 
         align=Tool.ALIGN_LEFT;
