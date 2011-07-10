@@ -3,7 +3,7 @@ VFOLD library
 
 Use this library to build your vfold platform. Contains all core functionality for adding applications, tools, desktops, and widgets.
 
-!http://www.pledgie.com/campaigns/15620.png!:http://www.pledgie.com/campaigns/15620
+<a href='http://www.pledgie.com/campaigns/15620'><img alt='Click here to lend your support to: VFOLD and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/15620.png?skin_name=chrome' border='0' /></a>
 
 Things in there you should know about:
 -------
