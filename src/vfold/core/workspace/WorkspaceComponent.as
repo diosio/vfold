@@ -63,5 +63,6 @@ public class WorkspaceComponent{
     }
     private function onComponentLoaded(e:Event=null):void{instantiate(iF)}
     public function get library():WorkspaceLibrary{return l}
+    public function set library(value:WorkspaceLibrary):void{l=value}
 }
 }

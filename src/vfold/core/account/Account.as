@@ -9,7 +9,6 @@
 
 package vfold.core.account {
 import flash.events.Event;
-
 import vfold.core.Core;
 import vfold.core.tool.Tool;
 import vfold.controls.button.ButtonLabel;

@@ -25,8 +25,7 @@ public class Workspace extends ButtonOptions{
     private var fcg:FolderOptions=new FolderOptions;
 
     public function Workspace(){
-        desktop.classPath="vfold.dashboard.Dashboard";
-        desktop.library.url="libraries/dashboard.swf";
+        desktop.classPath="vfold.core.dashboard.Dashboard";
     }
     public function get desktop():WorkspaceComponent{return dcg}
     public function get widgets():WidgetOptions{return wcg}
