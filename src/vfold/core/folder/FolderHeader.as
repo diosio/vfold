@@ -26,21 +26,23 @@ public class FolderHeader extends FolderView{
     // Application Data Vector
     private var av:Vector.<ApplicationView>=new Vector.<ApplicationView>();
 
-    public function FolderHeader(folder:Folder):void {
+    public function FolderHeader(f:Folder):void {
 
-        super(folder);
-        tb=new Tabs(folder.headerHeight-folder.borderThickness,folder.color,.55,onTabSelect,onTabClose,folder.title);
-        btn=new HeaderButtons(folder.minimize,folder.maximize,folder.close);
+        super(f);
+        ht.title=f.title;
+        tb=new Tabs(f.headerHeight-f.borderThickness,f.color,.55,onTabSelect,onTabClose,f.title);
+        btn=new HeaderButtons(f.minimize,f.maximize,f.close);
 
+        addChild(ht);
         addChild(btn);
         addChild(tb);
 
-        btn.y=(folder.headerHeight-btn.height)/2;
-        tb.y=folder.borderThickness;
-        tb.x=folder.innerRadius;
+        btn.y=(f.headerHeight-btn.height)/2;
+        tb.y=f.borderThickness;
+        ht.x=f.innerRadius;
+        tb.x=ht.width+ht.x;
 
         mouseEnabled=false;
-
     }
     public function changeView(view:ApplicationView):void{
         if(!ad[view])folder.minWidth=addView(view);
@@ -83,7 +85,6 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.filters.BlurFilter;
-import flash.text.TextField;
 
 import vfold.controls.button.ButtonSymbol;
 import vfold.core.Core;
@@ -150,9 +151,11 @@ class HeaderButton extends ButtonSymbol{
     }
 }
 class HeaderTitle extends Sprite{
-    private var tf:TextSimple=new TextSimple;
+    private var tf:TextSimple=new TextSimple(14,ColorFunction.brightness(Core.color,.7),true);
     public function HeaderTitle(){
-
+        addChild(tf);
     }
-
+    public function set title(value:String):void{
+        tf.text=value;
+    }
 }
