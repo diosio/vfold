@@ -21,8 +21,6 @@ import vfold.core.application.ApplicationView;
 
 public class Folder extends CoreView{
 
-    public static const ADJUSTING_END:String="fldAdjust";
-
     // Border Thickness
     private const bT:int = 5;
     // Header Height
@@ -122,8 +120,9 @@ public class Folder extends CoreView{
         bh=FH-hh-fh;
         aw=bw-bd.thumbnail.width-Application.GAP;
         bg.onFolderAdjust(FW,FH,bw,bh);
+        ft.onFolderAdjust(FW,FH);
+        hd.onFolderAdjust();
         bd.height=bh;
-        dispatchEvent(new Event(ADJUSTING_END));
         FA.onFolderResize();
         cn.visible=true;
     }
@@ -152,8 +151,6 @@ public class Folder extends CoreView{
 
         FW=TW=width;
         FH=TH=height;
-
-        dispatchEvent(new Event(ADJUSTING_END));
     }
     public function close():void{
         Core.folderHandler.folderClose(folderIndex);
@@ -194,17 +191,34 @@ public class Folder extends CoreView{
 }
 import flash.display.Bitmap;
 import flash.display.BitmapData;
+import flash.display.DisplayObject;
 import flash.display.Graphics;
 import flash.display.Shape;
 import flash.display.Sprite;
+import flash.events.MouseEvent;
+import flash.filters.BlurFilter;
 import flash.filters.DropShadowFilter;
 import flash.filters.GlowFilter;
 import flash.geom.ColorTransform;
+import flash.utils.Dictionary;
+
+import vfold.controls.button.ButtonSymbol;
+import vfold.controls.tabs.Tabs;
+import vfold.core.Core;
 
 import vfold.core.application.Application;
+import vfold.core.application.ApplicationView;
 import vfold.core.folder.Folder;
 import vfold.display.content.ContentScroll;
+import vfold.display.text.TextSimple;
 import vfold.utilities.ColorFunction;
+import vfold.utilities.Draw;
+
+/*******************************************************
+ *
+ *  The Background
+ *
+ ********************************************************/
 
 class Background extends Bitmap{
 
@@ -265,6 +279,149 @@ class Background extends Bitmap{
         g.clear();
     }
 }
+/*******************************************************
+ *
+ *  The Header
+ *
+ ********************************************************/
+class FolderHeader extends Sprite{
+    private var ht:HeaderTitle=new HeaderTitle;
+    private var tb:Tabs;
+    private var btn:HeaderButtons;
+    private const g:Number=7;
+
+    // Application Data Index Dictionary
+    private var ad:Dictionary=new Dictionary();
+    // Application Data Vector
+    private var av:Vector.<ApplicationView>=new Vector.<ApplicationView>();
+    private var f:Folder;
+
+    public function FolderHeader(folder:Folder):void {
+        f=folder;
+        ht.title=f.title;
+        tb=new Tabs(f.headerHeight-f.borderThickness,f.color,.55,onTabSelect,onTabClose,f.title);
+        btn=new HeaderButtons(f.minimize,f.maximize,f.close);
+
+        addChild(ht);
+        addChild(btn);
+        addChild(tb);
+
+        btn.y=(f.headerHeight-btn.height)/2;
+        tb.y=f.borderThickness;
+        ht.x=f.innerRadius;
+        tb.x=ht.width+ht.x;
+
+        mouseEnabled=false;
+    }
+    public function changeView(view:ApplicationView):void{
+        if(!ad[view])f.minWidth=addView(view);
+        else selectView(view);
+    }
+    private function addView(view:ApplicationView):Number {
+        ad[view]=tb.length;
+        tb.selectTab(tb.addTab(view.title).vectorIndex);
+        return tb.minimumWidth+btn.width+f.outerRadius+g;
+    }
+    private function selectView(view:ApplicationView):void {
+        tb.selectTab(ad[view]);
+    }
+    private function onTabClose():void {
+
+        ad[av[tb.removedIndex]]=null;
+        av.splice(tb.removedIndex,1);
+        for(var i:uint=tb.removedIndex;i<av.length;i++)ad[av[i]]-=1;
+        if(tb.removedSelected){
+            if(tb.length!=0)f.application.changeView(av[tb.currentIndex]);
+            else f.application.changeToDefaultView();
+        }
+    }
+    private function onTabSelect():void{
+        f.application.changeView(av[tb.currentIndex]);
+    }
+    public function onFolderAdjust():void {
+        btn.x=f.width-btn.width-f.outerRadius/2;
+        tb.adjust(btn.x-g);
+    }
+    public function set active(b:Boolean):void{
+        if(b)tb.alpha=btn.alpha=1;
+        else tb.alpha=btn.alpha=.4;
+    }
+}
+
+
+class HeaderButtons extends Sprite{
+    // Close Button
+    private var CL:HeaderButton;
+    // Minimize Button
+    private var MN:HeaderButton;
+    // Maximize Button
+    private var MX:HeaderButton;
+    // Y offset
+    private var yo:Number=0;
+    // Button Size
+    private const bs:Number=10;
+    // Gap
+    private const g:int=2;
+
+    public function HeaderButtons(minimize:Function,maximize:Function,close:Function):void{
+        mouseEnabled=false;
+        var cl:Shape=new Shape, mn:Shape=new Shape, mx:Shape=new Shape;
+        Draw.close(cl.graphics,bs);
+        Draw.minimize(mn.graphics,bs);
+        Draw.maximize(mx.graphics,bs);
+        CL=new HeaderButton(cl,close);
+        MN=new HeaderButton(mn,minimize);
+        MX=new HeaderButton(mx,maximize);
+        addChild(CL);
+        addChild(MN);
+        addChild(MX);
+        MX.x=MN.width+g;
+        CL.x=MX.x+MX.width+g;
+        align();
+        addEventListener(MouseEvent.MOUSE_OVER,onMouseOver);
+        addEventListener(MouseEvent.MOUSE_OUT,onMouseOut);
+        addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
+    }
+    private function onMouseOver(e:MouseEvent):void {ButtonSymbol(e.target.onMouseOver())}
+    private function onMouseOut(e:MouseEvent):void {ButtonSymbol(e.target.onMouseOut())}
+    private function onMouseDown(e:MouseEvent):void {ButtonSymbol(e.target.onMouseDown())}
+    private function align():void{
+        var mxh:Number=Math.max(MN.height,MX.height,CL.height);
+        var i:int=numChildren;
+        var dso:DisplayObject;
+        while(i-->0){
+            dso=getChildAt(i);
+            dso.y=-dso.height/2;
+        }
+        yo=mxh/2;
+    }
+    override public function set y(value:Number):void {
+        super.y=value+yo;
+    }
+}
+class HeaderButton extends ButtonSymbol{
+    public function HeaderButton(symbol:DisplayObject,onDownFunction:Function){
+        this.onDownFunction=onDownFunction;
+        addChild(symbol);
+        color=ColorFunction.brightness(Core.color,.4);
+        background.filters=[new BlurFilter(8,8)];
+    }
+}
+class HeaderTitle extends Sprite{
+    private var tf:TextSimple=new TextSimple(14,ColorFunction.brightness(Core.color,.7),true);
+    public function HeaderTitle(){
+        addChild(tf);
+    }
+    public function set title(value:String):void{
+        tf.text=value;
+    }
+}
+/*******************************************************
+ *
+ *  The Body
+ *
+ ********************************************************/
+
 class FolderBody extends ContentScroll{
 
 
@@ -276,5 +433,67 @@ class FolderBody extends ContentScroll{
     public function onFolderAdjust(bh:Number):void {
 
         height=bh;
+    }
+}
+/*******************************************************
+ *
+ *  The Footer
+ *
+ ********************************************************/
+class FolderFooter extends Sprite{
+
+    private var a:FooterFolderAdjust;
+    private var bt:int;
+    private var fh:int;
+
+    public function FolderFooter(folder:Folder):void{
+        bt = folder.borderThickness;
+        fh = folder.footerHeight;
+        a=new FooterFolderAdjust(folder);
+        addChild(a);
+    }
+    public function onFolderAdjust(w:Number,h:Number):void {
+        y=h-fh;
+        a.x=w-a.width-bt;
+        a.y=fh-a.height-bt;
+    }
+}
+
+class FooterFolderAdjust extends ButtonSymbol {
+
+    private var lX:Number;
+    private var lY:Number;
+
+    private var oW:Number;
+    private var oH:Number;
+    private var f:Folder;
+
+    public function FooterFolderAdjust(folder:Folder) {
+
+        f=folder;
+        var s:Shape=new Shape;
+        Draw.resize(s.graphics,12,12/3);
+        s.alpha=.7;
+        addChild(s);
+        background.filters=[new BlurFilter(8,8)];
+        color=ColorFunction.brightness(Core.color,.4);
+        addEventListener(MouseEvent.MOUSE_OVER,onMouseOver);
+        addEventListener(MouseEvent.MOUSE_OUT,onMouseOut);
+        addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
+    }
+    override protected function onDown():void {
+        lX=mouseX;
+        lY=mouseY;
+        stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+        stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
+        f.adjustingStart();
+    }
+    private function onMouseMove(e:MouseEvent):void {
+        f.adjusting(oW=mouseX-lX,oH=mouseY-lY);
+    }
+    override public function onMouseUp(e:MouseEvent = null):void {
+        f.adjustingEnd(oW,oH);
+        stage.removeEventListener(MouseEvent.MOUSE_UP,onMouseUp);
+        stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
     }
 }

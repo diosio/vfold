@@ -15,10 +15,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="602afeac-122c-4c11-8e22-e9a638d8d41b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderBody.as" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderFooter.as" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderView.as" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/Folder.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/Folder.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as" />
     </list>
     <ignored path="vfold.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -77,19 +78,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="FolderFooter.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderFooter.as">
+      <file leaf-file-name="FolderOptions.as" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderOptions.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="21" selection-start="1472" selection-end="1472" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FolderHeader.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="155" column="34" selection-start="5435" selection-end="5435" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -122,19 +114,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FolderView.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderView.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="653" selection-end="653" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Folder.as" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="210" column="40" selection-start="6144" selection-end="6144" vertical-scroll-proportion="0.1720154">
+            <state line="163" column="36" selection-start="4377" selection-end="4377" vertical-scroll-proportion="0.2503209">
               <folding />
             </state>
           </provider>
@@ -176,14 +159,14 @@
         <option value="$PROJECT_DIR$/src/vfold/controls/table/Table.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/application/ApplicationSection.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/folder/FolderView.as" />
-        <option value="$PROJECT_DIR$/src/vfold/core/folder/FolderFooter.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/folder/FolderBackground.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/Core.as" />
         <option value="$PROJECT_DIR$/src/vfold/controls/tabs/Tabs.as" />
         <option value="$PROJECT_DIR$/src/vfold/controls/button/ButtonSymbol.as" />
-        <option value="$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/folder/FolderBody.as" />
+        <option value="$PROJECT_DIR$/src/vfold/core/folder/FolderFooter.as" />
+        <option value="$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/folder/Folder.as" />
       </list>
     </option>
@@ -323,6 +306,58 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="controls" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tabs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vfold" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vfold" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vfold" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controls" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vfold" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vfold" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vfold" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controls" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="button" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -543,7 +578,7 @@
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="many many fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Optimizing Folder" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -557,6 +592,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="many many fixes" />
+    <MESSAGE value="Optimizing Folder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -607,14 +643,9 @@
         <state line="121" column="18" selection-start="3806" selection-end="3816" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderFooter.as">
+    <entry file="file://$PROJECT_DIR$/src/vfold/core/application/Application.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="21" selection-start="1472" selection-end="1472" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/controls/tabs/Tabs.as">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="386" column="22" selection-start="12522" selection-end="12522" vertical-scroll-proportion="0.0" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/vfold/controls/button/ButtonSymbol.as">
@@ -622,9 +653,9 @@
         <state line="40" column="30" selection-start="1433" selection-end="1433" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/core/Core.as">
+    <entry file="file://$PROJECT_DIR$/src/vfold/controls/tabs/Tabs.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="212" column="0" selection-start="7766" selection-end="7766" vertical-scroll-proportion="0.0" />
+        <state line="386" column="22" selection-start="12522" selection-end="12522" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as">
@@ -632,26 +663,21 @@
         <state line="96" column="11" selection-start="3232" selection-end="3233" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/core/application/Application.as">
+    <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderOptions.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="34" selection-start="5435" selection-end="5435" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderView.as">
+    <entry file="file://$PROJECT_DIR$/src/vfold/core/Core.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="653" selection-end="653" vertical-scroll-proportion="0.0" />
+        <state line="212" column="0" selection-start="7766" selection-end="7766" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="210" column="40" selection-start="6144" selection-end="6144" vertical-scroll-proportion="0.1720154">
+        <state line="163" column="36" selection-start="4377" selection-end="4377" vertical-scroll-proportion="0.2503209">
           <folding />
         </state>
       </provider>
