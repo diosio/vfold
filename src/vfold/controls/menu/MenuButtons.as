@@ -112,7 +112,7 @@ import vfold.utilities.Draw;
 import vfold.display.text.TextSimple;
 import flash.display.Graphics;
 import flash.display.Shape;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 class MenuParent extends Sprite{
 
     // Button Container
@@ -213,7 +213,7 @@ class MenuButton extends Button {
     private function drawRectangle(g:Graphics,c:uint,a:Number,w:Number):void{
 
         g.clear();
-        g.lineStyle(2,ColorModifier.brightness(c,.55),1,true);
+        g.lineStyle(2,ColorFunction.brightness(c,.55),1,true);
         g.beginFill(c,a);
         g.drawRoundRect(0,0,w,tfl.height,15);
         g.endFill();

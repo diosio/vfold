@@ -12,7 +12,7 @@ import flash.display.DisplayObject;
 import vfold.display.content.ContentContainer;
 import vfold.display.content.ContentScroll;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 
 public class Table extends ContentContainer {
     // Width
@@ -38,7 +38,7 @@ public class Table extends ContentContainer {
         se.isCaseSensitive=false;
         this.color=color;
         hd=new Header(color);
-        cp=new TableContent(ColorModifier.brightness(color,0.56),tm.textFormat,tm.height,onSelect);
+        cp=new TableContent(ColorFunction.brightness(color,0.56),tm.textFormat,tm.height,onSelect);
         pc=new ContentScroll(cp);
         pc.y=hd.height;
         pc.wheelEnabled=true;
@@ -46,7 +46,7 @@ public class Table extends ContentContainer {
         addChild(pc);
         width=320;
         height=230;
-        if(td=data){
+        if(td==data){
             columns=td.columns;
             rows=td.rows;
         }
@@ -153,7 +153,7 @@ import flash.text.TextFormat;
 import vfold.controls.button.Button;
 import vfold.core.CoreObjectPool;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 import flash.display.DisplayObject;
 import flash.display.Sprite;
 
@@ -248,7 +248,7 @@ class TableRow extends Button{
     }
     private function draw():void{
         drawRow(bg.graphics,cl,eb?1:.5);
-        drawRow(hl.graphics,ColorModifier.brightness(cl,0.7),1);
+        drawRow(hl.graphics,ColorFunction.brightness(cl,0.7),1);
     }
     internal function getTextField(index:uint):TextSimple{return op.objects[index] as TextSimple}
 
@@ -476,11 +476,11 @@ class TableContent extends Sprite{
         r.y=r.index*rh;
         rcn.addChild(r);
     }
-    internal function get prevTopDataIndex():uint{
+    internal function get prevTopDataIndex():int{
         if(lrm.length==1)return 1;
         return  lrm[1].index;
     }
-    internal function get prevBottomDataIndex():uint{
+    internal function get prevBottomDataIndex():int{
         if(lrm.length==1)return -1;
         return  lrm[lrm.length-2].index;
     }
@@ -501,7 +501,7 @@ class Header extends Sprite{
     public function Header(color:uint){
         cl=color;
         tmr.size=14;
-        tmr.color=ColorModifier.brightness(cl,.74);
+        tmr.color=ColorFunction.brightness(cl,.74);
     }
     internal function set data(value:Vector.<String>):void{
         for(var i:uint=0;i<value.length;i++){

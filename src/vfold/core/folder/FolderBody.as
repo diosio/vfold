@@ -13,7 +13,7 @@ import flash.display.Shape;
 import flash.events.Event;
 import vfold.core.application.Application;
 import vfold.display.content.ContentScroll;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 
 public class FolderBody extends FolderView{
     // Body Width
@@ -29,8 +29,8 @@ public class FolderBody extends FolderView{
 
     public function FolderBody(folder:Folder):void {
         super(folder);
-        x=borderThickness;
-        y=headerHeight;
+        x=folder.borderThickness;
+        y=folder.headerHeight;
         sb=new ContentScroll(folder.application);
         sb.x=Application.GAP;
         sW=sb.thumbnail.width;
@@ -38,15 +38,15 @@ public class FolderBody extends FolderView{
         addChild(sb);
     }
     override public function onFolderAdjust(e:Event = null):void {
-        bW=folder.width-2*borderThickness;
-        bH=folder.height-headerHeight-footerHeight;
+        bW=folder.width-2*folder.borderThickness;
+        bH=folder.height-folder.headerHeight-folder.footerHeight;
         drawGraphics(bg.graphics);
         sb.height=bH;
     }
     private function drawGraphics(g:Graphics):void{
         g.clear();
-        g.beginFill(ColorModifier.brightness(folder.color,.7));
-        g.drawRoundRect(0,0,bW,bH,innerRadius);
+        g.beginFill(ColorFunction.brightness(folder.color,.55));
+        g.drawRoundRect(0,0,bW,bH,folder.innerRadius);
         g.endFill();
     }
     public function get appWidth():Number{return bW-sW-Application.GAP}

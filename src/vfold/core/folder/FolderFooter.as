@@ -24,9 +24,9 @@ public class FolderFooter extends FolderView{
         addChild(a);
     }
     override public function onFolderAdjust(e:Event = null):void {
-        y=folder.height-footerHeight;
-        a.x=folder.width-a.width-borderThickness;
-        a.y=footerHeight-a.height-borderThickness;
+        y=folder.height-folder.footerHeight;
+        a.x=folder.width-a.width-folder.borderThickness;
+        a.y=folder.footerHeight-a.height-folder.borderThickness;
     }
 }
 }
@@ -38,7 +38,7 @@ import vfold.controls.button.ButtonSymbol;
 import vfold.core.Core;
 import vfold.core.folder.Folder;
 import vfold.core.folder.FolderView;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 import vfold.utilities.Draw;
 
 class FooterFolderAdjust extends FolderView {
@@ -64,7 +64,7 @@ class FooterFolderAdjust extends FolderView {
         b.addEventListener(MouseEvent.MOUSE_OUT,b.onMouseOut);
         b.addEventListener(MouseEvent.MOUSE_DOWN,b.onMouseDown);
         b.background.filters=[new BlurFilter(8,8)];
-        b.color=ColorModifier.brightness(Core.color,.4);
+        b.color=ColorFunction.brightness(Core.color,.4);
         addChild(b);
     }
 

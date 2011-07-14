@@ -72,7 +72,7 @@ import vfold.core.account.AccountRole;
 import vfold.core.account.AccountVO;
 import vfold.controls.form.Form;
 import vfold.mail.MailComposition;
-import vfold.utilities.StringModifier;
+import vfold.utilities.StringFunction;
 import vfold.utilities.EmailValidator;
 
 class SignIn extends Form{
@@ -172,7 +172,7 @@ class Join extends Form{
         acc.loginname=entries[2].text;
         acc.password=Core.encryptPassword(entries[4].text);
         acc.email=entries[5].text;
-        acc.code=mt.code=StringModifier.generate(24);
+        acc.code=mt.code=StringFunction.generate(24);
         mt.firstname=entries[0].text;
         mc.sendToSingle(entries[0].text+" "+entries[1].text,entries[5].text);
         mc.tokens=mt;

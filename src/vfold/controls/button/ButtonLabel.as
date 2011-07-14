@@ -16,7 +16,7 @@ import flash.events.MouseEvent;
 
 import vfold.core.Core;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 
 public class ButtonLabel extends Button {
 
@@ -32,7 +32,7 @@ public class ButtonLabel extends Button {
     private var bs:ButtonStyle;
 
     public function ButtonLabel(style:ButtonStyle=null):void {
-        bs=style?style:new ButtonStyle(ColorModifier.brightness(Core.color,0.12),1,1,ColorModifier.brightness(Core.color,0.6));
+        bs=style?style:new ButtonStyle(ColorFunction.brightness(Core.color,0.12),1,1,ColorFunction.brightness(Core.color,0.6));
         tf=new TextSimple(13,bs.textColor);
         tf.bold=bs.textBold;
         tf.rightMargin=2;

@@ -101,8 +101,7 @@ import flash.utils.Dictionary;
 import vfold.controls.button.ButtonStyle;
 import vfold.controls.tabs.Tabs;
 import vfold.core.Core;
-import vfold.core.application.ApplicationSectionView;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 
 class SectionHeader extends Sprite{
     // Header Tabs
@@ -120,11 +119,11 @@ class SectionHeader extends Sprite{
     private var av:Vector.<DisplayObject>=new Vector.<DisplayObject>();
     public function SectionHeader(onTabSelect:Function,radius:Number,mainView:DisplayObject):void {
         sf=onTabSelect;
-        var bs:ButtonStyle=new ButtonStyle(ColorModifier.brightness(Core.color,.12),0,0,ColorModifier.brightness(Core.color,.7),0);
+        var bs:ButtonStyle=new ButtonStyle(ColorFunction.brightness(Core.color,.12),0,0,ColorFunction.brightness(Core.color,.6),0);
         bs.textBold=true;
         rd=radius;
         av.push(mainView);
-        tb=new Tabs(h-bd,Core.color,.77,this.onTabSelect,onTabClose,"untitled");
+        tb=new Tabs(h-bd,Core.color,.62,this.onTabSelect,onTabClose,"untitled");
         tb.y=bd;
         tb.x=20;
 
@@ -144,7 +143,7 @@ class SectionHeader extends Sprite{
         tb.adjust(w-tb.x);
         var g:Graphics=bg.graphics;
         g.clear();
-        g.beginFill(ColorModifier.brightness(color,.07));
+        g.beginFill(ColorFunction.brightness(color,.07));
         g.moveTo(0,rd);
         g.curveTo(0,0,rd,0);
         g.lineTo(w-rd,0);
@@ -191,7 +190,7 @@ class SectionBackground extends Shape{
     }
     private function drawShadow(g:Graphics,color:uint):void{
         g.clear();
-        g.beginFill(ColorModifier.brightness(color,.77));
+        g.beginFill(ColorFunction.brightness(color,.62));
         g.drawRoundRect(0,0,w,h,rd*2);
         g.endFill();
     }

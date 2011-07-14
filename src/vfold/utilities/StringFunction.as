@@ -7,7 +7,7 @@
  * the Original Work                                                 *
  *********************************************************************/
 package vfold.utilities {
-public class StringModifier {
+public class StringFunction {
 
     public static function generate(length:int):String
     {

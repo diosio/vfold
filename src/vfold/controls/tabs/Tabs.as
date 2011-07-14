@@ -14,7 +14,7 @@ import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
 import vfold.controls.button.ButtonSymbol;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 
 public class Tabs extends Sprite{
     // Tab vector
@@ -56,7 +56,7 @@ public class Tabs extends Sprite{
 
     public function Tabs(height:Number,color:uint,bm:Number,onSelect:Function,onClose:Function,mainTab:String=null) {
         const dif:Number=.3;
-        cl=bm>dif?ColorModifier.brightness(color,bm-dif):color;bcl=ColorModifier.brightness(color,bm);sf=onSelect;cf=onClose;th=height;mt=mainTab;
+        cl=bm>dif?ColorFunction.brightness(color,bm-dif):color;bcl=ColorFunction.brightness(color,bm);sf=onSelect;cf=onClose;th=height;mt=mainTab;
 
         bds=new Rectangle(0,0,0,0);
         addChild(bnk);
@@ -197,15 +197,15 @@ public class Tabs extends Sprite{
     }
     private function onSelect(i:uint):void{
         if(!tV[i].selected){
-        selectTab(i);
-        oI=tV[vI].orderIndex;
-        if(mt&&i!=0||!mt){
-            bds.width=width-tV[i].width;
-            tV[i].startDrag(false,bds);
-            stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
-            stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
-        }
-        sf.call();
+            selectTab(i);
+            oI=tV[vI].orderIndex;
+            if(mt&&i!=0||!mt){
+                bds.width=width-tV[i].width;
+                tV[i].startDrag(false,bds);
+                stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
+                stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+            }
+            sf.call();
         }
     }
     private function onMouseUp(e:MouseEvent):void {
@@ -260,7 +260,7 @@ import vfold.core.Core;
 import vfold.display.text.TextSimple;
 import flash.text.TextFieldAutoSize;
 import vfold.controls.button.ButtonSymbol;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 import vfold.utilities.Draw;
 import vfold.controls.button.Button;
 import flash.display.Graphics;
@@ -288,7 +288,7 @@ class Tab extends Button{
     // Bright Color
     private var bcl:uint;
     // Close Button
-    private var cb:ButtonSymbol;
+    private var cb:CloseButton;
     // Current Default Text Width
     private var ctw:Number;
     // Current Default Tab Width
@@ -312,13 +312,7 @@ class Tab extends Button{
             t.bold=true;
         }
         else{
-            var n:Shape=new Shape;
-            n.alpha=.84;
-            cb=new ButtonSymbol;
-            Draw.close(n.graphics,7,0);
-            cb.addChild(n);
-            cb.onDownFunction=this.onClose;
-            cb.color=ColorModifier.brightness(Core.color,.3);
+            cb = new CloseButton(onClose);
             cb.y=(H-cb.height)/2;
             addChild(cb);
         }
@@ -371,4 +365,27 @@ class Tab extends Button{
     public function get textWidthOrig():Number{return ctw}
     public function get orderIndex():uint{return oI}
     public function set orderIndex(value:uint):void{oI=value}
+}
+class CloseButton extends ButtonSymbol{
+
+    private var ov:Shape=new Shape;
+    private var ot:Shape=new Shape;
+
+    public function CloseButton (onClose:Function){
+        Draw.close(ov.graphics,7,0xFFFFFF);
+        Draw.close(ot.graphics,7,Core.color);
+        onDownFunction=onClose;
+        color=Core.color;
+        addChild(ot);
+    }
+    override protected function onOver():void {
+        super.onOver();
+        addChild(ov);
+        removeChild(ot);
+    }
+    override protected function onOut():void {
+        super.onOut();
+        addChild(ot);
+        removeChild(ov);
+    }
 }

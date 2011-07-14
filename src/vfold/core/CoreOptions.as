@@ -45,7 +45,7 @@ public class CoreOptions {
     public function get projectTitle():String{return t}
     public function set projectTitle(value:String):void{t=value}
     public function get securityKey():String{return ak}
-    public function set securityKey(value:String){ak=value}
+    public function set securityKey(value:String):void{ak=value}
     public function set defaultWorkspace(value:Workspace){ws[0]=value}
     public function get mailOptions():MailOptions{return mo}
     public function get workspaces():Vector.<Workspace>{return ws}

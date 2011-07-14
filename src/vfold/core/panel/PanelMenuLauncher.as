@@ -16,7 +16,7 @@ import flash.events.MouseEvent;
 import vfold.core.Core;
 import vfold.core.CoreView;
 import vfold.display.assets.Images;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 
 public class PanelMenuLauncher extends CoreView {
 
@@ -30,7 +30,7 @@ public class PanelMenuLauncher extends CoreView {
     private var h:Number;
 
     public function PanelMenuLauncher():void {
-        var c:Object=ColorModifier.hexToRGB(Core.color);
+        var c:Object=ColorFunction.hexToRGB(Core.color);
         TweenMax.to(bL,0,{colorTransform:{redOffset:c.red,greenOffset:c.green,blueOffset:c.blue}});
         addChild(bL);
         h=Core.panelHandler.contentHeight;

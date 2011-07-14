@@ -36,6 +36,7 @@ public class ButtonSymbol extends Button {
         smc.mouseEnabled=smc.mouseChildren=false;
     }
     private function draw():void{
+        bg.graphics.clear();
         rd=Math.sqrt((Math.pow(smc.width,2)+Math.pow(smc.height,2))/4)+gp;
         Draw.circle(bg.graphics,rd*2,cl,1);
         smc.x=smc.y=rd+1;

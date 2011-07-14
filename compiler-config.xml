@@ -1,13 +1,26 @@
 <flex-config xmlns="http://www.adobe.com/2006/flex-config">
     <static-link-runtime-shared-libraries>false</static-link-runtime-shared-libraries>
     <compiler>
+
         <debug>true</debug>
+
         <external-library-path append="true">
             <path-element>${flexlib}/libs/player/{targetPlayerMajorVersion}.{targetPlayerMinorVersion}/playerglobal.swc</path-element>
         </external-library-path>
+
+        <!-- Missing constructor. -->
+        <warn-no-constructor>false</warn-no-constructor>
+        <!-- In ActionScript 3.0, white space is ignored and '' returns 0. Number() returns -->
+        <!-- NaN in ActionScript 2.0 when the parameter is '' or contains white space.      -->
+        <warn-number-from-string-changes>false</warn-number-from-string-changes>
+        <!-- Boolean() with no arguments returns false in ActionScript 3.0. Boolean() returned undefined in ActionScript 2.0. -->
+        <warn-boolean-constructor-with-no-args>false</warn-boolean-constructor-with-no-args>
+        <!-- __resolve is no longer supported. -->
+        <warn-changes-in-resolve>false</warn-changes-in-resolve>
+
     </compiler>
     <include-sources>
         <path-element>src</path-element>
     </include-sources>
-    <output>${output}/libraries.swc/vfold.swc</output>
+    <output>${output}/libraries.swc/${name}.swc</output>
 </flex-config>

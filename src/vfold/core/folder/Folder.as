@@ -21,6 +21,17 @@ public class Folder extends CoreView{
 
     public static const ADJUSTING_END:String="fldAdjust";
 
+    // Border Thickness
+    private const bT:int = 5;
+    // Header Height
+    private const hh:int = 25;
+    // Footer Height
+    private const fh:int = 30;
+    // Outer Radius
+    private const or:int = 20;
+    // Inner Radius
+    private const ir:int = 10;
+
     // Folder Width
     private var FW:Number=670;
     // Folder Height
@@ -44,7 +55,7 @@ public class Folder extends CoreView{
     private var FC:uint;
 
     // Folder Background
-    private var bg:FolderBackground;
+    private var bg:Background;
     // Folder Body
     private var bd:FolderBody;
     // Folder Footer
@@ -70,7 +81,7 @@ public class Folder extends CoreView{
         FT=FA.title;
         FC=FA.color;
 
-        bg=new FolderBackground(this);
+        bg=new Background(color,outerRadius);
         bd=new FolderBody(this);
         ft=new FolderFooter(this);
         hd=new FolderHeader(this);
@@ -90,7 +101,7 @@ public class Folder extends CoreView{
     public function adjusting(widthOffset:Number,heightOffset:Number):void{
         FW=TW+(TW+widthOffset>MW?widthOffset:MW-TW);
         FH=TH+(TH+heightOffset>MH?heightOffset:MH-TH);
-        bg.drawBackground();
+        //bg.drawBackground();
     }
     public function adjustingEnd(widthOffset:Number=0,heightOffset:Number=0):void{
         TW+=TW+widthOffset>MW?widthOffset:MW-TW;
@@ -100,6 +111,7 @@ public class Folder extends CoreView{
         dispatchEvent(new Event(ADJUSTING_END));
         FA.onFolderResize();
         cn.visible=true;
+        bg.onFolderAdjust(width,height);
     }
     public function maximizeSize ():void {
 
@@ -150,6 +162,12 @@ public class Folder extends CoreView{
     public function get appHeight():Number{return bd.appHeight}
     public function set minWidth(value:Number):void{MW=value}
 
+    public function get borderThickness():int{return bT}
+    public function get headerHeight():int{return hh}
+    public function get footerHeight():int{return fh}
+    public function get outerRadius():int{return or}
+    public function get innerRadius():int{return ir}
+
     override public function get width():Number{return FW}
     override public function get height():Number{return FH}
 
@@ -160,4 +178,38 @@ public class Folder extends CoreView{
         addChild(cn);
     }
 }
+}
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.display.Graphics;
+import flash.display.Shape;
+import flash.filters.DropShadowFilter;
+import flash.filters.GlowFilter;
+
+import vfold.utilities.ColorFunction;
+
+class Background extends Bitmap{
+    private var bg:Shape=new Shape;
+    private var g:Graphics=bg.graphics;
+    private var bd:BitmapData;
+    private var cm:Vector.<int>=new <int>[1,2,3,2,3,2,3,2,3];
+    private var r:Number;
+    private var c:uint;
+
+    public function Background(color:uint,radius:int) {
+        r=radius;
+        c=color;
+        bg.filters=[new GlowFilter(ColorFunction.brightness(c,.8),1,7,7,2,1,true)];
+        filters=[new DropShadowFilter(5,90,0,1,12,12,1.4)];
+        alpha=.8;
+    }
+    public function onFolderAdjust(w:Number, h:Number):void {
+        bd = new BitmapData(w,h,true,0);
+        g.beginFill(c);
+        g.drawPath(cm,new <Number>[0,r,0,h-r,0,h,r,h,w-r,h,w,h,w,h-r,w,r,w,0,w-r,0,r,0,0,0,0,r]);
+        g.endFill();
+        bd.draw(bg);
+        g.clear();
+        bitmapData=bd;
+    }
 }

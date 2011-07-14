@@ -12,6 +12,8 @@ package vfold.core.folder {
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
+
+import vfold.controls.button.Button;
 import vfold.core.Core;
 import vfold.core.workspace.WorkspaceComponentHandler;
 import flash.events.Event;
@@ -89,7 +91,8 @@ public class FolderHandler extends WorkspaceComponentHandler {
         dispatchEvent(new Event(FOLDER_SELECT));
     }
     private function onMouseDown(e:MouseEvent):void {
-        if(e.target is FolderBackground){
+        //TODO: Fix this
+        if(e.target is Button){
             var f:Folder=e.target.parent as Folder;
             folderSelect(f.folderIndex);
             xO = mouseX - currentFolder.x;

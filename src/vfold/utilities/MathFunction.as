@@ -6,9 +6,13 @@
  * following licensing notice adjacent to the copyright notice for   *
  * the Original Work                                                 *
  *********************************************************************/
-package vfold.controls.menu {
-public class MenuButton {
-    public var title:String;
-    public var classPath:String;
+package vfold.utilities {
+public class MathFunction {
+    public static function randomNumber(from:Number,to:Number):Number{
+        return (Math.random()*(to-from))+from;
+    }
+    public static function randomInt(from:int,to:int):int{
+        return Math.round(Math.random()*(to-from))+from;
+    }
 }
 }

@@ -13,7 +13,7 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 
 
 public class WindowHeader extends Sprite {
@@ -57,7 +57,7 @@ public class WindowHeader extends Sprite {
         g.curveTo(width,0,width,R);
         g.lineTo(0,R);
         g.endFill();
-        g.lineStyle(2,ColorModifier.brightness(cUI,.8),1,true);
+        g.lineStyle(2,ColorFunction.brightness(cUI,.8),1,true);
         g.moveTo(0,R);
         g.curveTo(0,0,R,0);
         g.lineTo(width-R,0);

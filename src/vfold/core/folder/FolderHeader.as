@@ -13,12 +13,12 @@ import flash.events.Event;
 import flash.utils.Dictionary;
 import vfold.controls.tabs.Tabs;
 import vfold.core.application.ApplicationView;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 
 public class FolderHeader extends FolderView{
-
-    private var btn:HeaderButtons;
+    private var ht:HeaderTitle=new HeaderTitle;
     private var tb:Tabs;
+    private var btn:HeaderButtons;
     private const g:Number=7;
 
     // Application Data Index Dictionary
@@ -29,15 +29,15 @@ public class FolderHeader extends FolderView{
     public function FolderHeader(folder:Folder):void {
 
         super(folder);
-        tb=new Tabs(headerHeight-borderThickness,folder.color,.7,onTabSelect,onTabClose,folder.title);
+        tb=new Tabs(folder.headerHeight-folder.borderThickness,folder.color,.55,onTabSelect,onTabClose,folder.title);
         btn=new HeaderButtons(folder.minimize,folder.maximize,folder.close);
 
         addChild(btn);
         addChild(tb);
 
-        btn.y=(headerHeight-btn.height)/2;
-        tb.y=borderThickness;
-        tb.x=innerRadius;
+        btn.y=(folder.headerHeight-btn.height)/2;
+        tb.y=folder.borderThickness;
+        tb.x=folder.innerRadius;
 
         mouseEnabled=false;
 
@@ -49,7 +49,7 @@ public class FolderHeader extends FolderView{
     private function addView(view:ApplicationView):Number {
         ad[view]=tb.length;
         tb.selectTab(tb.addTab(view.title).vectorIndex);
-        return tb.minimumWidth+btn.width+outerRadius+g;
+        return tb.minimumWidth+btn.width+folder.outerRadius+g;
     }
     private function selectView(view:ApplicationView):void {
         tb.selectTab(ad[view]);
@@ -68,7 +68,7 @@ public class FolderHeader extends FolderView{
         folder.application.changeView(av[tb.currentIndex]);
     }
     override public function onFolderAdjust(e:Event = null):void {
-        btn.x=folder.width-btn.width-outerRadius/2;
+        btn.x=folder.width-btn.width-folder.outerRadius/2;
         tb.adjust(btn.x-g);
     }
     public function set active(b:Boolean):void{
@@ -83,9 +83,12 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.filters.BlurFilter;
+import flash.text.TextField;
+
 import vfold.controls.button.ButtonSymbol;
 import vfold.core.Core;
-import vfold.utilities.ColorModifier;
+import vfold.display.text.TextSimple;
+import vfold.utilities.ColorFunction;
 import vfold.utilities.Draw;
 
 class HeaderButtons extends Sprite{
@@ -142,7 +145,14 @@ class HeaderButton extends ButtonSymbol{
     public function HeaderButton(symbol:DisplayObject,onDownFunction:Function){
         this.onDownFunction=onDownFunction;
         addChild(symbol);
-        color=ColorModifier.brightness(Core.color,.4);
+        color=ColorFunction.brightness(Core.color,.4);
         background.filters=[new BlurFilter(8,8)];
     }
+}
+class HeaderTitle extends Sprite{
+    private var tf:TextSimple=new TextSimple;
+    public function HeaderTitle(){
+
+    }
+
 }

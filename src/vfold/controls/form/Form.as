@@ -119,7 +119,7 @@ import vfold.controls.table.TableRowData;
 import vfold.core.Core;
 import vfold.display.assets.Images;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 
 class Title extends TextSimple{
     public function Title(label:String){
@@ -182,7 +182,7 @@ class Browse extends FormDynamic {
 
     public function Browse() {
         var ic:Bitmap=new Images.Browse as Bitmap;
-        bc=ColorModifier.brightness(fillColor,.5);
+        bc=ColorFunction.brightness(fillColor,.5);
         setStatus(Form.ERROR);
         g=background.graphics;
         addChild(ic);

@@ -18,7 +18,7 @@ import flash.system.Capabilities;
 import vfold.core.Core;
 import vfold.core.CoreView;
 import vfold.display.assets.Images;
-import vfold.utilities.ColorModifier;
+import vfold.utilities.ColorFunction;
 
 public class DashboardWallpaper extends CoreView {
 
@@ -55,7 +55,7 @@ public class DashboardWallpaper extends CoreView {
         addChild(wl);
     }
     public function set color(value:uint):void{
-        TweenMax.to(wl,0,{colorMatrixFilter:{colorize:ColorModifier.brightness(value,.2),amount:1}});
+        TweenMax.to(wl,0,{colorMatrixFilter:{colorize:ColorFunction.brightness(value,.2),amount:1}});
     }
 }
 }
