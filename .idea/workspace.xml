@@ -15,38 +15,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="602afeac-122c-4c11-8e22-e9a638d8d41b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/vfold/utilities/ColorFunction.as" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderBackground.as" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/utilities/ColorModifier.as" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/vfold/controls/menu/MenuButton.as" afterPath="$PROJECT_DIR$/src/vfold/utilities/MathFunction.as" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/vfold/utilities/StringModifier.as" afterPath="$PROJECT_DIR$/src/vfold/utilities/StringFunction.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/compiler-config.xml" afterPath="$PROJECT_DIR$/compiler-config.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/button/ButtonLabel.as" afterPath="$PROJECT_DIR$/src/vfold/controls/button/ButtonLabel.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/button/ButtonSymbol.as" afterPath="$PROJECT_DIR$/src/vfold/controls/button/ButtonSymbol.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/form/Form.as" afterPath="$PROJECT_DIR$/src/vfold/controls/form/Form.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/form/FormDynamic.as" afterPath="$PROJECT_DIR$/src/vfold/controls/form/FormDynamic.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/menu/MenuButtons.as" afterPath="$PROJECT_DIR$/src/vfold/controls/menu/MenuButtons.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/table/Table.as" afterPath="$PROJECT_DIR$/src/vfold/controls/table/Table.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/tabs/Tabs.as" afterPath="$PROJECT_DIR$/src/vfold/controls/tabs/Tabs.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/CoreOptions.as" afterPath="$PROJECT_DIR$/src/vfold/core/CoreOptions.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/account/Account.as" afterPath="$PROJECT_DIR$/src/vfold/core/account/Account.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/application/ApplicationSection.as" afterPath="$PROJECT_DIR$/src/vfold/core/application/ApplicationSection.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/Folder.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/Folder.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderBody.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/FolderBody.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderFooter.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/FolderFooter.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderView.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/FolderView.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/panel/PanelBackground.as" afterPath="$PROJECT_DIR$/src/vfold/core/panel/PanelBackground.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/panel/PanelMenuLauncher.as" afterPath="$PROJECT_DIR$/src/vfold/core/panel/PanelMenuLauncher.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/dashboard/DashboardFooter.as" afterPath="$PROJECT_DIR$/src/vfold/dashboard/DashboardFooter.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/dashboard/DashboardFrame.as" afterPath="$PROJECT_DIR$/src/vfold/dashboard/DashboardFrame.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/dashboard/DashboardWallpaper.as" afterPath="$PROJECT_DIR$/src/vfold/dashboard/DashboardWallpaper.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/display/window/WindowHeader.as" afterPath="$PROJECT_DIR$/src/vfold/display/window/WindowHeader.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/display/window/WindowSimple.as" afterPath="$PROJECT_DIR$/src/vfold/display/window/WindowSimple.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/mail/MailComposition.as" afterPath="$PROJECT_DIR$/src/vfold/mail/MailComposition.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vfold.iml" afterPath="$PROJECT_DIR$/vfold.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="vfold.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -126,7 +95,7 @@
       <file leaf-file-name="FolderHeader.as" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="148" column="13" selection-start="5219" selection-end="5219" vertical-scroll-proportion="0.7457627">
+            <state line="138" column="21" selection-start="4869" selection-end="4869" vertical-scroll-proportion="0.5762712">
               <folding />
             </state>
           </provider>
@@ -539,17 +508,17 @@
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.116100766" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24959914" sideWeight="0.8838992" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24959914" sideWeight="0.8838992" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.116100766" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -579,7 +548,7 @@
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" />
+    <option name="LAST_COMMIT_MESSAGE" value="many many fixes" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -592,6 +561,7 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+    <MESSAGE value="many many fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -652,13 +622,6 @@
         <state line="42" column="21" selection-start="1472" selection-end="1472" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="148" column="13" selection-start="5219" selection-end="5219" vertical-scroll-proportion="0.7457627">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/vfold/controls/tabs/Tabs.as">
       <provider selected="true" editor-type-id="text-editor">
         <state line="386" column="22" selection-start="12522" selection-end="12522" vertical-scroll-proportion="0.0" />
@@ -692,6 +655,13 @@
     <entry file="file://$PROJECT_DIR$/src/vfold/core/application/Application.as">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderHeader.as">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="138" column="21" selection-start="4869" selection-end="4869" vertical-scroll-proportion="0.5762712">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>
