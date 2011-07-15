@@ -47,17 +47,23 @@ public class ContentScroll extends Sprite {
     // Minimum Height
     private var mnH:Number=100;
 
-    public function ContentScroll(content:DisplayObject,thumbnailColor:uint=0xFFFFFF):void{
-        cnt=content;
-        cnt.mask=mS;
-        cH=cnt.height;
+    public function ContentScroll(thumbnailColor:uint=0xFFFFFF):void{
+
         tS=new ContentThumbnail(onScrollStart,onContentScrolling);
         width=200;
         height=300;
         addEventListener(Event.ADDED_TO_STAGE,init);
-        cnt.addEventListener(Event.RESIZE,onContentResize);
         mouseEnabled=false;
     }
+    public function set content(value:DisplayObject):void{
+        cnt=value;
+        cnt.mask=mS;
+        cnt.addEventListener(Event.RESIZE,onContentResize);
+    }
+    override public function addChild(child:DisplayObject):DisplayObject {
+        return null;
+    }
+
     private function init(e:Event):void {
         removeEventListener(Event.ADDED_TO_STAGE,init);
         draw();

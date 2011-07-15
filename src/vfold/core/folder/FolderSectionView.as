@@ -8,20 +8,20 @@
  *********************************************************************/
 
 
-package vfold.core.application {
+package vfold.core.folder {
 import flash.display.Sprite;
 import flash.events.Event;
 
-public class ApplicationSectionView extends Sprite {
+public class FolderSectionView extends Sprite {
     protected const gap:uint=5;
     private var t:String="Untiled";
-    public var view:ApplicationSectionView;
+    public var view:FolderSectionView;
     public static const CHANGE_VIEW:String="changeView";
-    public function ApplicationSectionView() {
+    public function FolderSectionView() {
     }
     public function set title(value:String):void{t=value}
     public function get title():String{return t}
-    protected function changeView(sectionView:ApplicationSectionView):void{
+    protected function changeView(sectionView:FolderSectionView):void{
         view=sectionView;
         dispatchEvent(new Event(CHANGE_VIEW,true))
     }

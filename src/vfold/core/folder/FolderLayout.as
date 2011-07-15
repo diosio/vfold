@@ -7,19 +7,20 @@
  * the Original Work                                                 *
  *********************************************************************/
 
-package vfold.core.application {
+package vfold.core.folder {
+
 import flash.display.Sprite;
-public class ApplicationLayout extends Sprite {
-    private var sv:Vector.<ApplicationSection>;
+public class FolderLayout extends Sprite {
+    private var sv:Vector.<FolderSection>=new <FolderSection>[];
     public var index:uint;
     // Application Width
     private var AW:Number;
     // Application Height
     private var AH:Number;
-    public function ApplicationLayout(sections:Vector.<ApplicationSection>) {
+    public function FolderLayout() {
         y=Application.GAP;
-        sv=sections;
     }
+    public function get sections():Vector.<FolderSection>{return sv}
     public function onFolderResize(appWidth:Number,appHeight:Number):void{
         AW=appWidth;
         AH=appHeight;

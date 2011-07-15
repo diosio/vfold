@@ -8,12 +8,13 @@
  *********************************************************************/
 
 package vfold.core.folder {
-import vfold.core.application.ApplicationComponent;
+import vfold.core.workspace.WorkspaceComponent;
+
 public class FolderOptions {
     // Application Components
     private var ac:Object={};
-    public function getAppComponent(classPath:String):ApplicationComponent{return ac[classPath] as ApplicationComponent}
-    public function setAppComponent(appComponent:ApplicationComponent):void{ac[appComponent.classPath]=appComponent}
+    public function getAppComponent(classPath:String):WorkspaceComponent{return ac[classPath] as WorkspaceComponent}
+    public function setAppComponent(appComponent:WorkspaceComponent):void{ac[appComponent.classPath]=appComponent}
     public function get appComponents():Object{return ac}
 }
 }

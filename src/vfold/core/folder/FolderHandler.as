@@ -17,7 +17,6 @@ import vfold.controls.button.Button;
 import vfold.core.Core;
 import vfold.core.workspace.WorkspaceComponentHandler;
 import flash.events.Event;
-import vfold.core.application.Application;
 
 public class FolderHandler extends WorkspaceComponentHandler {
 
@@ -57,7 +56,7 @@ public class FolderHandler extends WorkspaceComponentHandler {
         Core.currentWorkspace.folders.getAppComponent(classPath).instantiate(onAppInstantiated);
     }
     private function onAppInstantiated(instance:*):void {
-        fV.push(new Folder(instance as Application,fV.length));
+        fV.push(instance as Folder);
         pI=cI;
         cI=fV.length-1;
         wcv[Core.currentWorkspaceIndex].addChild(fV[cI]);

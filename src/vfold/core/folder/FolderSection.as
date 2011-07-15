@@ -7,11 +7,13 @@
  * the Original Work                                                 *
  *********************************************************************/
 
-package vfold.core.application {
+package vfold.core.folder {
+import vfold.core.application.*;
+
 import flash.display.DisplayObject;
 import flash.display.Sprite;
 import flash.events.Event;
-public class ApplicationSection extends ApplicationSectionView{
+public class FolderSection extends FolderSectionView{
 
     // Header
     private var hd:SectionHeader;
@@ -40,7 +42,7 @@ public class ApplicationSection extends ApplicationSectionView{
     // Default Application Section View
     private var dv:Sprite=new Sprite;
 
-    public function ApplicationSection() {
+    public function FolderSection() {
         cv=dv;
         bd.addChild(dv);
         hd=new SectionHeader(onTabSelect,rd,dv);
@@ -51,7 +53,7 @@ public class ApplicationSection extends ApplicationSectionView{
         bd.x=5;
         bd.y=bd.x+hd.height;
         bd.addEventListener(Event.RESIZE,drawSection);
-        addEventListener(ApplicationSectionView.CHANGE_VIEW,onChangeView);
+        addEventListener(FolderSectionView.CHANGE_VIEW,onChangeView);
     }
     private function drawSection(e:Event=null):void
     {
@@ -59,8 +61,8 @@ public class ApplicationSection extends ApplicationSectionView{
         hd.draw(AW,ccl)
     }
     private function onChangeView(e:Event):void{
-        if(e.target is ApplicationSectionView){
-            var view:ApplicationSectionView=ApplicationSectionView(e.target).view;
+        if(e.target is FolderSectionView){
+            var view:FolderSectionView=FolderSectionView(e.target).view;
             onTabSelect(view);
             hd.changeView(view,view.title);
         }
