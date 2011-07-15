@@ -14,8 +14,6 @@ import flash.events.MouseEvent;
 import flash.geom.Rectangle;
 import flash.utils.Dictionary;
 
-
-
 import vfold.core.Core;
 import vfold.core.CoreView;
 
@@ -51,10 +49,6 @@ public class Folder extends CoreView{
     private var FW:Number=670;
     // Folder Height
     private var FH:Number=380;
-    // Temporary Width
-    private var TW:Number=FW;
-    // Temporary Height
-    private var TH:Number=FH;
     // Minimum Width
     private var MW:Number=100;
     // Minimum Height
@@ -62,7 +56,8 @@ public class Folder extends CoreView{
     // Folder Title
     private var FT:String="untitled";
 
-
+    // Folder Border
+    private var br:Border;
     // Folder Background
     private var bg:Background;
     // Folder Body
@@ -90,7 +85,7 @@ public class Folder extends CoreView{
 
 
     public function Folder(defaultView:FolderView,defaultLayout:FolderLayout) {
-
+        br=new Border(this);
         bg=new Background(this);
         bd=new FolderBody(this);
         ft=new FolderFooter(this);
@@ -104,13 +99,13 @@ public class Folder extends CoreView{
         addEventListener(Event.RESIZE,onApplicationResize);
 
         x=y=30;
-
+        addChild(br);
         addChild(bg);
         addChild(bd);
         addChild(hd);
         addChild(ft);
 
-        adjustingEnd();
+        stopDrag();
     }
     public function addView(view:FolderView,layout:FolderLayout):void{
         if(!ld[layout]){
@@ -138,7 +133,7 @@ public class Folder extends CoreView{
         pfs.width=FW;
         pfs.height=height;
         fmb=true;
-        setWidthHeight(stage.stageWidth,stage.stageHeight-Core.panelHandler.height);
+        adjustSize(stage.stageWidth,stage.stageHeight-Core.panelHandler.height);
         x=y=0;
     }
     public function get maximized():Boolean{
@@ -148,14 +143,13 @@ public class Folder extends CoreView{
     public function restoreSize():void{
 
         fmb=false;
-        setWidthHeight(pfs.width,pfs.height);
+        adjustSize(pfs.width,pfs.height);
         x=pfs.x;
         y=pfs.y;
     }
-    public function setWidthHeight(width:Number,height:Number):void{
-        FW=TW=width;
-        FH=TH=height;
-        adjustingEnd();
+    public function adjustSize(width:Number,height:Number):void{
+        FW=width;
+        FH=height;
     }
     public function close():void{
         Core.folderHandler.closeFolder(this);
@@ -184,20 +178,23 @@ public class Folder extends CoreView{
     public function get currentLayout():FolderLayout{return lv[CV.layoutIndex]}
     public function get appWidth():Number{return aw}
     public function get appHeight():Number {return bd.contentHeight}
+    public function get minWidth():Number{return MW}
+    public function get minHeight():Number{return MH}
+    public function get borderUpdate():Function{return br.adjust}
 
     override public function get width():Number{return FW}
     override public function get height():Number{return FH}
 
 
     public function onStartDrag(e:MouseEvent):void {
-        xO = mouseX-x;
-        yO = mouseY-y;
+        xO = stage.mouseX-x;
+        yO = stage.mouseY-y;
         stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
         stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
     }
     private function onMouseMove(e:MouseEvent):void {
-        x=mouseX-xO;
-        y=mouseY-yO;
+        x=stage.mouseX-xO;
+        y=stage.mouseY-yO;
         if(y<0)y = 0;
         else if(y>stage.stageHeight-yO)y=stage.stageHeight-yO;
         if(x<-xO)x=-xO;
@@ -208,12 +205,12 @@ public class Folder extends CoreView{
         stage.removeEventListener(MouseEvent.MOUSE_UP,onMouseUp);
     }
 
-    public function set widthOffset(value:Number):void{FW=TW+(TW+value>MW?value:MW-TW)}
-    public function set heightOffset(value:Number):void{FH=TH+(TH+value>MH?value:MH-TH)}
-
-    public function adjustingStart():void {
+    override public function startDrag(lockCenter:Boolean = false, bounds:Rectangle = null):void {
+        addChild(br);
     }
-    public function adjustingEnd():void{
+
+    override public function stopDrag():void {
+        removeChild(br);
         bw=FW-bT*2;
         bh=FH-hh-fh;
         aw=bw-bd.thumbnail.width-Folder.GAP;
@@ -223,7 +220,6 @@ public class Folder extends CoreView{
         currentLayout.onFolderResize(bw,bh);
         dispatchEvent(re);
     }
-
 }
 }
 import flash.display.Bitmap;
@@ -248,6 +244,25 @@ import vfold.display.content.ContentScroll;
 import vfold.display.text.TextSimple;
 import vfold.utilities.ColorFunction;
 import vfold.utilities.Draw;
+
+/*******************************************************
+ *
+ *  Border
+ *
+ ********************************************************/
+
+class Border extends Shape{
+    private var g:Graphics = graphics;
+    private var r:int;
+    private var cm:Vector.<int>=new <int>[1,2,3,2,3,2,3,2,3];
+    private var c:int;
+    public function Border(f:Folder){r=f.outerRadius,f.color}
+    public function adjust(w:Number,h:Number):void{
+        g.clear();
+        g.lineStyle(2,ColorFunction.brightness(c,.8),1,true);
+        g.drawPath(cm,new <Number>[0,r,0,h-r,0,h,r,h,w-r,h,w,h,w,h-r,w,r,w,0,w-r,0,r,0,0,0,0,r]);
+    }
+}
 
 /*******************************************************
  *
@@ -331,11 +346,13 @@ class FolderHeader extends Sprite{
     private var f:Folder;
 
     public function FolderHeader(folder:Folder):void {
-        ht.addEventListener(MouseEvent.MOUSE_DOWN,f.onStartDrag);
         f=folder;
-        ht.title=f.title;
+
         tb=new Tabs(f.headerHeight-f.borderThickness,f.color,.55,onTabSelect,onTabClose,f.title);
         btn=new HeaderButtons(f.minimize,f.maximize,f.close);
+
+        ht.title=f.title;
+        ht.addEventListener(MouseEvent.MOUSE_DOWN,f.onStartDrag);
 
         addChild(ht);
         addChild(btn);
@@ -498,9 +515,15 @@ class FooterFolderAdjust extends ButtonSymbol {
     private var oH:Number;
     private var f:Folder;
 
-    public function FooterFolderAdjust(folder:Folder) {
+    // Temporary Width
+    private var TW:Number;
+    // Temporary Height
+    private var TH:Number;
 
+    public function FooterFolderAdjust(folder:Folder) {
         f=folder;
+        TW=f.width;
+        TH=f.height;
         var s:Shape=new Shape;
         Draw.resize(s.graphics,12,12/3);
         s.alpha=.7;
@@ -516,16 +539,18 @@ class FooterFolderAdjust extends ButtonSymbol {
         lY=mouseY;
         stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
         stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
-        f.adjustingStart();
+        f.startDrag();
     }
     private function onMouseMove(e:MouseEvent):void {
-        f.widthOffset=oW=mouseX-lX;
-        f.heightOffset=oH=mouseY-lY;
+        oW=mouseX-lX;
+        oH=mouseY-lY;
+        f.borderUpdate(folderWidth,folderHeight);
     }
+    private function get folderWidth():Number{return TW+(TW+oW>f.minWidth?oW:f.minWidth-TW)}
+    private function get folderHeight():Number{return TH+(TH+oH>f.minHeight?oH:f.minHeight-TH)}
     override public function onMouseUp(e:MouseEvent = null):void {
-        f.widthOffset=oW;
-        f.heightOffset=oH;
-        f.adjustingEnd();
+        f.adjustSize(TW=folderWidth,TH=folderHeight);
+        f.stopDrag();
         stage.removeEventListener(MouseEvent.MOUSE_UP,onMouseUp);
         stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
     }

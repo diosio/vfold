@@ -1,27 +1,27 @@
 ﻿package com.jac.mouse
 {
-	
+
 	import flash.display.InteractiveObject;
 	import flash.display.Stage;
 	import flash.events.MouseEvent;
 	import flash.external.ExternalInterface;
 	import flash.utils.getTimer;
-	
+
 	/**
-	   Major credit goes to: 
+	   Major credit goes to:
 	   http://blog.earthbrowser.com/2009/01/simple-solution-for-mousewheel-events.html
 	*/
 	public class MouseWheelEnabler
 	{
-		
+
 		static private var initialised:Boolean = false;
 		static private var currentItem:InteractiveObject;
 		static private var browserMouseEvent:MouseEvent;
 		static private var lastEventTime:uint = 0;
-		
+
 		static public var useRawValues:Boolean;
 		static public var eventTimeout:Number = 50;		//in milliseconds
-		
+
 		public static function init(stage:Stage, useRawDelta:Boolean = false ):void
 		{
 			if( !initialised )
@@ -30,17 +30,17 @@
 				registerListenerForMouseMove( stage );
 				registerJS();
 			}
-			
+
 			useRawValues = useRawDelta;
 		}
-		
+
 		private static function registerListenerForMouseMove( stage : Stage ) : void
 		{
 			//Generate a target and an internal mouse event so we can access
 			//the mouse event properties when an external event is fired
 			stage.addEventListener
 			(
-				MouseEvent.MOUSE_MOVE, 
+				MouseEvent.MOUSE_MOVE,
 				function(e:MouseEvent ):void
 				{//build handler
 					currentItem = InteractiveObject( e.target );
@@ -48,7 +48,7 @@
 				}//build handler
 			);
 		}
-	
+
 
 		private static function registerJS() : void
 		{
@@ -58,18 +58,18 @@
 				ExternalInterface.addCallback(id, function():void{});
 				ExternalInterface.call(MouseWheelEnabler_JavaScript.CODE);
 				ExternalInterface.call("mws.InitMouseWheelSupport", id);
-				ExternalInterface.addCallback('externalMouseEvent', handleExternalMouseEvent);	
+				ExternalInterface.addCallback('externalMouseEvent', handleExternalMouseEvent);
 			}
 		}
-	
+
 		private static function handleExternalMouseEvent(rawDelta:Number, scaledDelta:Number):void
 		{
 			var delta:Number;
 			var curTime:uint = getTimer();
-			
+
 			if (curTime >= eventTimeout + lastEventTime)
 			{//dispatch
-			
+
 				if (useRawValues)
 				{//use raw
 					delta = rawDelta;
@@ -78,19 +78,19 @@
 				{//use scaled
 					delta = scaledDelta;
 				}//use scaled
-				
+
 				if(currentItem && browserMouseEvent)
 				{
-					currentItem.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_WHEEL, true, false, 
+					currentItem.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_WHEEL, true, false,
 						browserMouseEvent.localX, browserMouseEvent.localY, browserMouseEvent.relatedObject,
 						browserMouseEvent.ctrlKey, browserMouseEvent.altKey, browserMouseEvent.shiftKey, browserMouseEvent.buttonDown,
 						int(delta)));
 				}
-				
+
 				lastEventTime = curTime;
 			}//dispatch
 		}
-		
+
 		public static function getBrowserInfo():BrowserInfo
 		{//getBrowserInfo
 			if (ExternalInterface.available)
@@ -98,7 +98,7 @@
 				var infoObj:Object = ExternalInterface.call("mws.getBrowserInfo");
 				var platformObj:Object = ExternalInterface.call("mws.getPlatformInfo");
 				var agent:String = ExternalInterface.call("mws.getAgentInfo");
-				
+
 				return new BrowserInfo(infoObj, platformObj, agent);
 			}//get browser info
 			else
@@ -106,14 +106,14 @@
 				return null;
 			}//null
 		}//getBrowserInfo
-		
+
 	}
 }
 
 class MouseWheelEnabler_JavaScript
 {
-	public static const CODE : XML = 
-	
+	public static const CODE : XML =
+
 	<script><![CDATA[
 		function()
 		{
