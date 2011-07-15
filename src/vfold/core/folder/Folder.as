@@ -145,7 +145,7 @@ public class Folder extends CoreView{
         FH=TH=height;
     }
     public function close():void{
-        Core.folderHandler.folderClose(this);
+        Core.folderHandler.closeFolder(this);
     }
     public function maximize():void{
         if(maximized)restoreSize();

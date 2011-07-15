@@ -33,7 +33,7 @@ public class PanelFolderBar extends CoreView{
         tb.removeTab(Core.folderHandler.currentIndex);
     }
     private function onTabClose():void {
-        Core.folderHandler.folderRemove(tb.removedIndex);
+        Core.folderHandler.closeFolderByIndex(tb.removedIndex);
     }
     private function tabAdd(e:Event):void {
         tb.selectTab(tb.addTab(Core.folderHandler.currentFolder.title).vectorIndex);
