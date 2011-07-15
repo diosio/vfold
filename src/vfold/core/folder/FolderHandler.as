@@ -12,6 +12,7 @@ package vfold.core.folder {
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
+import flash.utils.Dictionary;
 
 import vfold.controls.button.Button;
 import vfold.core.Core;
@@ -24,8 +25,10 @@ public class FolderHandler extends WorkspaceComponentHandler {
     public static const FOLDER_CLOSE:String="FolderClose";
     public static const FOLDER_SELECT:String = "FolderSelect";
 
-    // folder Vector
-    public var fV:Vector.<Folder>=new Vector.<Folder>;
+    // folder Dictionary
+    private var fd:Dictionary=new Dictionary;
+    // Folder Vector
+    private var fV:Vector.<Folder>=new <Folder>[];
     // current Index
     private var cI:uint;
     // previous Index
@@ -62,21 +65,24 @@ public class FolderHandler extends WorkspaceComponentHandler {
         wcv[Core.currentWorkspaceIndex].addChild(fV[cI]);
         dispatchEvent(new Event(FOLDER_ADD));
     }
-    public function folderRemove(vI:uint):void{
+    private function folderRemove(index:uint):void{
 
-        removeChild(fV[vI]);
-        fV[vI]=null;
-        fV.splice(vI,1);
-        for (var i:uint=vI;i<fV.length;i++){
-
-            fV[i].folderIndex=i;
+        removeChild(fV[index]);
+        fV[index]=fd[fV[index]]=null;
+        fV.splice(i,1);
+        for (var i:uint=index;i<fV.length;i++){
+            fd[fV[i]]=i;
         }
-    }
-    public function folderClose(vI:uint):void{
-
-        cI=vI;
-        folderRemove(cI);
         dispatchEvent(new Event(FOLDER_CLOSE));
+    }
+    public function getFolderIndex(folder:Folder):uint{
+        return fd[folder];
+    }
+    public function closeFolder(folder:Folder):void{
+        if(fd[folder])folderRemove(fd[folder]);
+    }
+    public function closeFolderByIndex(index:uint):void{
+         folderRemove(index);
     }
     public function folderSelect(i:uint):void{
 
@@ -93,7 +99,7 @@ public class FolderHandler extends WorkspaceComponentHandler {
         //TODO: Fix this
         if(e.target is Button){
             var f:Folder=e.target.parent as Folder;
-            folderSelect(f.folderIndex);
+            folderSelect(fd[f]);
             xO = mouseX - currentFolder.x;
             yO = mouseY - currentFolder.y;
             currentFolder.startDrag();

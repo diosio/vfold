@@ -8,7 +8,6 @@
  *********************************************************************/
 
 package vfold.core.folder {
-import vfold.core.application.*;
 
 import flash.display.DisplayObject;
 import flash.display.Sprite;

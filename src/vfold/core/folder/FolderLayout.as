@@ -18,7 +18,7 @@ public class FolderLayout extends Sprite {
     // Application Height
     private var AH:Number;
     public function FolderLayout() {
-        y=Application.GAP;
+        y=Folder.GAP;
     }
     public function get sections():Vector.<FolderSection>{return sv}
     public function onFolderResize(appWidth:Number,appHeight:Number):void{

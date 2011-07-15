@@ -8,6 +8,7 @@
  *********************************************************************/
 
 package vfold.display.content {
+
 import flash.display.DisplayObject;
 import flash.display.Graphics;
 import flash.display.Shape;
@@ -19,7 +20,7 @@ import com.greensock.TweenLite;
 public class ContentScroll extends Sprite {
 
     //content
-    private var cnt:DisplayObject;
+    private var cnt:Sprite = new Sprite;
     //mask
     private var mS:Shape=new Shape;
     // Thumbnail
@@ -48,19 +49,17 @@ public class ContentScroll extends Sprite {
     private var mnH:Number=100;
 
     public function ContentScroll(thumbnailColor:uint=0xFFFFFF):void{
-
+        cnt.mask=mS;
         tS=new ContentThumbnail(onScrollStart,onContentScrolling);
         width=200;
         height=300;
         addEventListener(Event.ADDED_TO_STAGE,init);
         mouseEnabled=false;
     }
-    public function set content(value:DisplayObject):void{
-        cnt=value;
-        cnt.mask=mS;
-        cnt.addEventListener(Event.RESIZE,onContentResize);
-    }
+
     override public function addChild(child:DisplayObject):DisplayObject {
+        cnt.addChild(child);
+        onContentResize();
         return null;
     }
 
@@ -116,7 +115,7 @@ public class ContentScroll extends Sprite {
         else cnt.removeEventListener(MouseEvent.MOUSE_WHEEL, onStageMouseWheel);
     }
     public function get thumbnail():ContentThumbnail{return tS}
-    private function onContentResize(e:Event):void{
+    public function onContentResize(e:Event=null):void{
         cW=cnt.width;
         cH=cnt.height;
         cR=cH-mH;
@@ -137,6 +136,7 @@ public class ContentScroll extends Sprite {
         }
         draw();
     }
+    public function get contentHeight():Number{return cnt.height}
     public function get minimumWidth():Number{return mnW}
     public function get minimumHeight():Number{return mnH}
     override public function set x(value:Number):void {super.x=value}

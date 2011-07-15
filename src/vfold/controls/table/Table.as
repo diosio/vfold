@@ -39,7 +39,8 @@ public class Table extends ContentContainer {
         this.color=color;
         hd=new Header(color);
         cp=new TableContent(ColorFunction.brightness(color,0.56),tm.textFormat,tm.height,onSelect);
-        pc=new ContentScroll(cp);
+        pc=new ContentScroll();
+        pc.addChild(cp);
         pc.y=hd.height;
         pc.wheelEnabled=true;
         addChild(hd);
