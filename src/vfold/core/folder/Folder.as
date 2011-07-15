@@ -10,8 +10,10 @@
 
 package vfold.core.folder {
 import flash.events.Event;
+import flash.events.MouseEvent;
 import flash.geom.Rectangle;
 import flash.utils.Dictionary;
+
 
 
 import vfold.core.Core;
@@ -19,8 +21,9 @@ import vfold.core.CoreView;
 
 public class Folder extends CoreView{
 
+    // Folder Layout Dictionary
     private var ld:Dictionary=new Dictionary();
-    // Application Layouts;
+    // Folder Layout Vector;
     private var lv:Vector.<FolderLayout>=new Vector.<FolderLayout>();
 
     // Current View
@@ -78,26 +81,36 @@ public class Folder extends CoreView{
     // Body Height
     private var bh:Number;
     private var aw:Number;
-    // Folder Title
+    // Folder Color
     private var FC:uint;
+    // x position Offset
+    private var xO:Number;
+    // y position Offset
+    private var yO:Number;
+
 
     public function Folder(defaultView:FolderView,defaultLayout:FolderLayout) {
-
-        addView(defaultView,defaultLayout);
-        addEventListener(Event.RESIZE,onApplicationResize);
-
-        x=y=30;
 
         bg=new Background(this);
         bd=new FolderBody(this);
         ft=new FolderFooter(this);
         hd=new FolderHeader(this);
 
+        DV=CV=defaultView;
+        addView(DV,defaultLayout);
+        bd.addChild(defaultLayout);
+        defaultLayout.changeData(DV.data);
+
+        addEventListener(Event.RESIZE,onApplicationResize);
+
+        x=y=30;
+
         addChild(bg);
         addChild(bd);
         addChild(hd);
         addChild(ft);
 
+        adjustingEnd();
     }
     public function addView(view:FolderView,layout:FolderLayout):void{
         if(!ld[layout]){
@@ -106,12 +119,12 @@ public class Folder extends CoreView{
         }
         view.layoutIndex=ld[layout];
     }
-    public function changeView(view:FolderView):void{
+    public function useView(view:FolderView):void{
         if(view.layoutIndex){
             bd.removeChild(currentLayout);
             CV=view;
             bd.addChild(currentLayout);
-            currentLayout.changeData(CV.data,CV.color);
+            currentLayout.changeData(CV.data);
         }
         hd.changeView(view)
     }
@@ -140,9 +153,9 @@ public class Folder extends CoreView{
         y=pfs.y;
     }
     public function setWidthHeight(width:Number,height:Number):void{
-
         FW=TW=width;
         FH=TH=height;
+        adjustingEnd();
     }
     public function close():void{
         Core.folderHandler.closeFolder(this);
@@ -175,10 +188,26 @@ public class Folder extends CoreView{
     override public function get width():Number{return FW}
     override public function get height():Number{return FH}
 
-    override public function startDrag(lockCenter:Boolean = false, bounds:Rectangle = null):void {
+
+    public function onStartDrag(e:MouseEvent):void {
+        xO = mouseX-x;
+        yO = mouseY-y;
+        stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+        stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
     }
-    override public function stopDrag():void {
+    private function onMouseMove(e:MouseEvent):void {
+        x=mouseX-xO;
+        y=mouseY-yO;
+        if(y<0)y = 0;
+        else if(y>stage.stageHeight-yO)y=stage.stageHeight-yO;
+        if(x<-xO)x=-xO;
+        else if(x>stage.stageWidth-xO)x=stage.stageWidth-xO;
     }
+    private function onMouseUp(e:MouseEvent):void {
+        stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+        stage.removeEventListener(MouseEvent.MOUSE_UP,onMouseUp);
+    }
+
     public function set widthOffset(value:Number):void{FW=TW+(TW+value>MW?value:MW-TW)}
     public function set heightOffset(value:Number):void{FH=TH+(TH+value>MH?value:MH-TH)}
 
@@ -191,10 +220,10 @@ public class Folder extends CoreView{
         bg.onFolderAdjust(FW,FH,bw,bh);
         ft.onFolderAdjust(FW,FH);
         hd.onFolderAdjust();
-        bd.height=bh;
         currentLayout.onFolderResize(bw,bh);
         dispatchEvent(re);
     }
+
 }
 }
 import flash.display.Bitmap;
@@ -302,6 +331,7 @@ class FolderHeader extends Sprite{
     private var f:Folder;
 
     public function FolderHeader(folder:Folder):void {
+        ht.addEventListener(MouseEvent.MOUSE_DOWN,f.onStartDrag);
         f=folder;
         ht.title=f.title;
         tb=new Tabs(f.headerHeight-f.borderThickness,f.color,.55,onTabSelect,onTabClose,f.title);
@@ -336,12 +366,12 @@ class FolderHeader extends Sprite{
         av.splice(tb.removedIndex,1);
         for(var i:uint=tb.removedIndex;i<av.length;i++)ad[av[i]]-=1;
         if(tb.removedSelected){
-            if(tb.length!=0)f.changeView(av[tb.currentIndex]);
-            else f.changeView(f.defaultView);
+            if(tb.length!=0)f.useView(av[tb.currentIndex]);
+            else f.useView(f.defaultView);
         }
     }
     private function onTabSelect():void{
-        f.changeView(av[tb.currentIndex]);
+        f.useView(av[tb.currentIndex]);
     }
     public function onFolderAdjust():void {
         btn.x=f.width-btn.width-f.outerRadius/2;
@@ -433,10 +463,6 @@ class FolderBody extends ContentScroll{
     public function FolderBody(folder:Folder):void {
         x=folder.borderThickness+Folder.GAP;
         y=folder.headerHeight;
-    }
-    public function onFolderAdjust(bh:Number):void {
-
-        height=bh;
     }
 }
 /*******************************************************

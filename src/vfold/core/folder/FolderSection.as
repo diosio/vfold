@@ -12,6 +12,9 @@ package vfold.core.folder {
 import flash.display.DisplayObject;
 import flash.display.Sprite;
 import flash.events.Event;
+
+import vfold.core.Core;
+
 public class FolderSection extends FolderSectionView{
 
     // Header
@@ -35,7 +38,7 @@ public class FolderSection extends FolderSectionView{
     // Minimum Height
     private var MH:Number=100;
     // Current Color
-    private var ccl:uint;
+    private var ccl:uint=Core.color;
     // Current View
     private var cv:DisplayObject;
     // Default Application Section View
@@ -77,7 +80,6 @@ public class FolderSection extends FolderSectionView{
     override public function removeChild(child:DisplayObject):DisplayObject {return dv.removeChild(child)}
     override public function set title(value:String):void{super.title=value;hd.tabs.changeLabelAt(value,0)}
 
-    public function changeData(data:Object,color:uint):void{ccl=color}
     public function onSectionResize():void{drawSection()}
 
     protected function set menuDropContent(value:DisplayObject):void{hd.dropContent=value}

@@ -37,12 +37,7 @@ public class FolderLayout extends Sprite {
             if(i!=0)sv[i].y=sv[i-1].y+sv[i-1].height+10;
         }
     }
-    public function changeData(dataVector:Vector.<Object>,color:uint):void{
-        for(var i:uint=0;i<sv.length;i++){
-            sv[i].changeData(dataVector[i],color);
-            addChild(sv[i]);
-        }
+    public function changeData(data:*):void{
     }
-    public function get sectionsLength():uint{return sv.length}
 }
 }

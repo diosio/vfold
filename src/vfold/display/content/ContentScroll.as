@@ -70,9 +70,9 @@ public class ContentScroll extends Sprite {
         spN = 0;
         cS = 0.9;
         wS = 0.005;
-        addChild(mS);
-        addChild(cnt);
-        addChild(tS);
+        super.addChild(mS);
+        super.addChild(cnt);
+        super.addChild(tS);
     }
     private function drawMask(g:Graphics):void{
         g.clear();

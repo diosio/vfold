@@ -47,7 +47,6 @@ public class FolderHandler extends WorkspaceComponentHandler {
     public function FolderHandler():void{
         addChild(dbc);
         mouseEnabled=false;
-        addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
         addEventListener(Event.ADDED_TO_STAGE, addedToStage);
     }
     private function addedToStage(e:Event):void{
@@ -94,32 +93,6 @@ public class FolderHandler extends WorkspaceComponentHandler {
         }
         addChildAt(fV[cI],numChildren-1);
         dispatchEvent(new Event(FOLDER_SELECT));
-    }
-    private function onMouseDown(e:MouseEvent):void {
-        //TODO: Fix this
-        if(e.target is Button){
-            var f:Folder=e.target.parent as Folder;
-            folderSelect(fd[f]);
-            xO = mouseX - currentFolder.x;
-            yO = mouseY - currentFolder.y;
-            currentFolder.startDrag();
-            stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
-            stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
-        }
-    }
-    private function onMouseMove(e:MouseEvent):void {
-        var f:Folder=currentFolder;
-        f.x=mouseX-xO;
-        f.y=mouseY-yO;
-        if(f.y<0)f.y = 0;
-        else if(f.y>stage.stageHeight-yO)f.y=stage.stageHeight-yO;
-        if(f.x<-xO)f.x=-xO;
-        else if(f.x>stage.stageWidth-xO)f.x=stage.stageWidth-xO;
-    }
-    private function onMouseUp(e:MouseEvent):void {
-        currentFolder.stopDrag();
-        stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
-        stage.removeEventListener(MouseEvent.MOUSE_UP,onMouseUp);
     }
     override public function onStageResize(e:Event = null):void {
         bnd.width=stage.stageWidth;

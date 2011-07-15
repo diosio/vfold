@@ -8,18 +8,15 @@
  *********************************************************************/
 
 package vfold.core.folder {
-import vfold.core.Core;
 
 public class FolderView {
     public var title:String="untitled";
-    public var color:uint=Core.color;
-    public var data:Vector.<Object>;
+    public var data:*;
     public var layoutIndex:uint;
     public function FolderView(){
     }
     public function set layout(value:FolderLayout):void{
         layoutIndex=value.index;
-        data=new Vector.<Object>(value.sectionsLength,true);
     }
 }
 }
