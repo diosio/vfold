@@ -150,22 +150,34 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 
-class ContentThumbnail extends Sprite{
+import vfold.utilities.ColorFunction;
 
-    private var bg:Shape=new Shape();
-    private const tg:uint=6;
+class ContentThumbnail extends Sprite{
+    // Background Shape
+    private var bs:Shape=new Shape();
+    // Thumb Shape
+    private var ts:Shape=new Shape();
+    // Thumb Width
     private var w:Number=9;
-    private var h:Number=20;
-    private var c:uint;
+    // Thumb Color
+    private var tc:uint;
+    // Background Color
+    private var bc:uint;
+    // on Scroll Start Function
     private var ssf:Function;
+    // on Scroll Moving Function
     private var smf:Function;
+    // Gap
+    private const gap:int=1;
 
     public function ContentThumbnail(color:uint,onScrollStart:Function,onScrollMoving:Function):void{
-        c = color;
-        addChild(bg);
-        drawShape(bg.graphics);
+        tc=color;
+        bc=ColorFunction.brightness(tc,-0.5);
         ssf=onScrollStart;
         smf=onScrollMoving;
+        addChild(bs);
+        addChild(ts);
+        ts.x=ts.y=gap;
         addEventListener(MouseEvent.MOUSE_DOWN,this.onScrollStart);
     }
     private function onScrollStart(e:MouseEvent):void {
@@ -181,21 +193,24 @@ class ContentThumbnail extends Sprite{
         stage.removeEventListener(MouseEvent.MOUSE_MOVE,onContentScrolling);
         stage.removeEventListener(MouseEvent.MOUSE_UP,onContentStopScrolling);
     }
-    override public function set width(value:Number):void {
-        w=value;
-        drawShape(bg.graphics);
-    }
-    override public function set height(value:Number):void {
-        h=value;
-        drawShape(bg.graphics);
-    }
-    override public function get height():Number{return h}
-    override public function get width():Number{return w+tg}
-    private function drawShape(g:Graphics):void{
+    public function adjust(height:Number,thumbHeight:Number):void{
+        var g:Graphics=bs.graphics;
         g.clear();
-        g.beginFill(c,1);
-        g.drawRoundRect(tg,0,w,h,w);
-        g.endFill();
+        g.beginFill(bc);
+        drawShape(g,w,height);
+        g = ts.graphics;
+        g.clear();
+        g.beginFill(tc);
+        drawShape(g,w-gap*2,thumbHeight-gap*2);
+    }
+    override public function get height():Number{return ts.height+gap*2}
+    private function drawShape(g:Graphics,width:Number,height:Number):void{
+        var w:Number = x+width,h:Number = y+height;
+        g.beginFill(bc);
+        g.curveTo(w,0,w,w);
+        g.lineTo(w,h-w);
+        g.curveTo(w,h,0,h);
+        g.lineTo(0,0);
     }
     public function get enabled():Boolean{return alpha==1}
 
