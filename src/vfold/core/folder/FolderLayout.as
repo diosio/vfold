@@ -13,22 +13,15 @@ import flash.display.Sprite;
 public class FolderLayout extends Sprite {
     private var sv:Vector.<FolderSection>=new <FolderSection>[];
     public var index:uint;
-    // Application Width
-    private var AW:Number;
-    // Application Height
-    private var AH:Number;
     public function FolderLayout() {
-        y=Folder.GAP;
     }
     public function addSection(value:FolderSection):void{
         sv.push(value);
         addChild(value);
     }
-    public function onFolderResize(appWidth:Number,appHeight:Number):void{
-        AW=appWidth;
-        AH=appHeight;
+    public function onFolderResize(w:Number,h:Number):void{
         for(var i:uint=0;i<sv.length;i++){
-            sv[i].width=AW;
+            sv[i].width=w;
             sv[i].height=sv[i].prefHeight;
             sv[i].onSectionResize();
         }

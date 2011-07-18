@@ -29,10 +29,6 @@ public class Folder extends CoreView{
     // Default View
     private var DV:FolderView;
 
-    // Resize Event
-    private var re:Event=new Event(Event.RESIZE);
-    // Y Offset
-    public static const GAP:uint=7;
 
     // Border Thickness
     private const bT:int = 5;
@@ -75,7 +71,6 @@ public class Folder extends CoreView{
     private var bw:Number;
     // Body Height
     private var bh:Number;
-    private var aw:Number;
     // Folder Color
     private var FC:uint=Core.color;
     // x position Offset
@@ -85,18 +80,20 @@ public class Folder extends CoreView{
 
 
     public function Folder(defaultView:FolderView,defaultLayout:FolderLayout) {
+
         FT = defaultView.title;
+        DV=CV=defaultView;
+        addView(DV,defaultLayout);
+        defaultLayout.changeData(DV.data);
+
+        addEventListener(Event.RESIZE,onApplicationResize);
+
         br=new Border(this);
         bg=new Background(this);
         bd=new FolderBody(this);
         ft=new FolderFooter(this);
         hd=new FolderHeader(this);
-        DV=CV=defaultView;
-        addView(DV,defaultLayout);
-        bd.addChild(defaultLayout);
-        defaultLayout.changeData(DV.data);
-
-        addEventListener(Event.RESIZE,onApplicationResize);
+        bd.content.addChild(defaultLayout);
 
         x=y=30;
         addChild(bg);
@@ -108,6 +105,7 @@ public class Folder extends CoreView{
     }
     public function addView(view:FolderView,layout:FolderLayout):void{
         if(!ld[layout]){
+            layout.y=FolderBody.GAP;
             ld[layout]=lv.length;
             lv.push(layout);
         }
@@ -115,12 +113,13 @@ public class Folder extends CoreView{
     }
     public function useView(view:FolderView):void{
         if(view.layoutIndex){
-            bd.removeChild(currentLayout);
+            CV.y=currentLayout.y;
             CV=view;
-            bd.addChild(currentLayout);
+            currentLayout.y=CV.y;
+            bd.switchLayout(currentLayout);
             currentLayout.changeData(CV.data);
         }
-        hd.changeView(view)
+        hd.changeView(view);
     }
     private function onApplicationResize(e:Event=null):void{
         currentLayout.adjustSections();
@@ -177,8 +176,6 @@ public class Folder extends CoreView{
     public function get defaultView():FolderView{return DV}
     public function get currentView():FolderView{return CV}
     public function get currentLayout():FolderLayout{return lv[CV.layoutIndex]}
-    public function get appWidth():Number{return aw}
-    public function get appHeight():Number {return bd.contentHeight}
     public function get minWidth():Number{return MW}
     public function get minHeight():Number{return MH}
     public function get borderUpdate():Function{return br.adjust}
@@ -205,11 +202,9 @@ public class Folder extends CoreView{
         stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
         stage.removeEventListener(MouseEvent.MOUSE_UP,onMouseUp);
     }
-
     override public function startDrag(lockCenter:Boolean = false, bounds:Rectangle = null):void {
         addChild(br);
     }
-
     override public function stopDrag():void {
         removeChild(br);
         adjustEnd();
@@ -217,12 +212,10 @@ public class Folder extends CoreView{
     private function adjustEnd():void{
         bw=FW-bT*2;
         bh=FH-hh-fh;
-        aw=bw-bd.thumbnail.width-Folder.GAP;
-        bg.onFolderAdjust(FW,FH,bw,bh);
+        bg.onFolderAdjust(FW,FH);
         ft.onFolderAdjust(FW,FH);
         hd.onFolderAdjust();
-        currentLayout.onFolderResize(bw,bh);
-        dispatchEvent(re);
+        bd.onFolderAdjust(bw,bh);
     }
 }
 }
@@ -242,6 +235,7 @@ import flash.utils.Dictionary;
 import vfold.controls.button.ButtonSymbol;
 import vfold.controls.tabs.Tabs;
 import vfold.core.Core;
+import vfold.core.folder.FolderLayout;
 import vfold.core.folder.FolderView;
 import vfold.core.folder.Folder;
 import vfold.display.content.ContentScroll;
@@ -258,13 +252,12 @@ import vfold.utilities.Draw;
 class Border extends Shape{
     private var g:Graphics = graphics;
     private var r:int;
-    private var cm:Vector.<int>=new <int>[1,2,3,2,3,2,3,2,3];
     private var c:int;
     public function Border(f:Folder){r=f.outerRadius,f.color}
     public function adjust(w:Number,h:Number):void{
         g.clear();
         g.lineStyle(2,ColorFunction.brightness(c,.8),1,true);
-        g.drawPath(cm,new <Number>[0,r,0,h-r,0,h,r,h,w-r,h,w,h,w,h-r,w,r,w,0,w-r,0,r,0,0,0,0,r]);
+        g.drawRoundRect(0,0,w,h,r);
     }
 }
 
@@ -281,8 +274,6 @@ class Background extends Bitmap{
     private var bg:Shape=new Shape;
     // Shape Graphics
     private var g:Graphics=bg.graphics;
-    // Drawing Commands
-    private var cm:Vector.<int>=new <int>[1,2,3,2,3,2,3,2,3];
     // Inner Radius
     private var ir:int;
     // Outer Radius
@@ -313,21 +304,16 @@ class Background extends Bitmap{
         bt = folder.borderThickness;
         hh = folder.headerHeight;
     }
-    public function onFolderAdjust(w:Number, h:Number,bw:Number, bh:Number):void {
+    public function onFolderAdjust(w:Number, h:Number):void {
         var bd:BitmapData = new BitmapData(w+(br*2),h+(br*2),true,0);
         g.beginFill(c,1);
-        g.drawPath(cm,new <Number>[0,or,0,h-or,0,h,or,h,w-or,h,w,h,w,h-or,w,or,w,0,w-or,0,or,0,0,0,0,or]);
+        g.drawRoundRect(0,0,w,h,or);
         g.endFill();
         bg.filters=[gf];
         bd.draw(cn,null,ct);
         bg.filters=[sf];
         bd.draw(cn);
         bg.filters=[];
-        g.clear();
-        g.beginFill(ColorFunction.brightness(c,.55));
-        g.drawRoundRect(bt,hh,bw,bh,ir);
-        g.endFill();
-        bd.draw(cn);
         bitmapData=bd;
         g.clear();
     }
@@ -480,12 +466,37 @@ class HeaderTitle extends Sprite{
  ********************************************************/
 
 class FolderBody extends ContentScroll{
+    public static const GAP:uint=7;
 
-
+    private var bg:Bitmap = new Bitmap();
+    private var s:Shape = new Shape();
+    private var g:Graphics=s.graphics;
+    private var f:Folder;
     public function FolderBody(folder:Folder):void {
-        x=folder.borderThickness+Folder.GAP;
-        y=folder.headerHeight;
+        f = folder;
+        x=f.borderThickness+GAP;
+        bg.x=-GAP;
+        y=f.headerHeight;
+        addChild(f.currentLayout);
+        wheelEnabled=true;
+        addChildAt(bg,0);
     }
+    public function switchLayout(layout:FolderLayout):void{
+        content.removeChild(getChildAt(0));
+        content.addChild(layout);
+    }
+    public function onFolderAdjust(w:Number,h:Number):void {
+        var bd:BitmapData=new BitmapData(w,h,true,0);
+        g.clear();
+        g.beginFill(ColorFunction.brightness(f.color,.55));
+        g.drawRoundRect(0,0,w,h,f.innerRadius);
+        bd.draw(s);
+        bg.bitmapData=bd;
+
+        FolderLayout(content.getChildAt(0)).onFolderResize(w-GAP-thumbnail.width,h);
+        width=w-GAP;height=h;
+    }
+
 }
 /*******************************************************
  *

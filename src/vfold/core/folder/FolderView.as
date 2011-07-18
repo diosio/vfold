@@ -13,6 +13,7 @@ public class FolderView {
     public var title:String="untitled";
     public var data:*;
     public var layoutIndex:uint;
+    public var y:Number;
     public function FolderView(){
     }
     public function set layout(value:FolderLayout):void{

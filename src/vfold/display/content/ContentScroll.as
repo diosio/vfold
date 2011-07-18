@@ -35,36 +35,24 @@ public class ContentScroll extends Sprite {
     private var cR:Number;
     // Content Speed
     private var cS:Number;
-    // Wheel Speed
-    private var wS:Number;
     // Mask Height
     private var mH:Number=0;
-    // Content Width
-    private var cW:Number=0;
-    // Content Height
-    private var cH:Number=0;
+    private var we:Boolean=false;
+    private var wa:Boolean=false;
 
-    public function ContentScroll(thumbnailColor:uint=0xFFFFFF):void{
+    public function ContentScroll(color:uint=0xFFFFFF):void{
         cnt.mask=mS;
-        tS=new ContentThumbnail(onScrollStart,onContentScrolling);
+        tS=new ContentThumbnail(color,onScrollStart,onContentScrolling);
         width=200;
         height=300;
         addEventListener(Event.ADDED_TO_STAGE,init);
-        mouseEnabled=false;
     }
-
-    override public function addChild(child:DisplayObject):DisplayObject {
-        cnt.addChild(child);
-        return null;
-    }
-
     private function init(e:Event):void {
         removeEventListener(Event.ADDED_TO_STAGE,init);
         draw();
         yoN=0;
         spN = 0;
         cS = 0.9;
-        wS = 0.005;
         super.addChild(mS);
         super.addChild(cnt);
         super.addChild(tS);
@@ -72,11 +60,11 @@ public class ContentScroll extends Sprite {
     private function drawMask(g:Graphics):void{
         g.clear();
         g.beginFill(0,1);
-        g.drawRect(0,0,cW,mH);
+        g.drawRect(0,0,tS.x,mH);
         g.endFill();
     }
     private function onStageMouseWheel(event:MouseEvent):void {
-        spN -= event.delta * wS;
+        spN -= event.delta*mH/1000;
         //set boundaries:
         if (spN > 1) spN = 1;
         if (spN < 0) spN = 0;
@@ -106,30 +94,47 @@ public class ContentScroll extends Sprite {
     }
     public function get scrollPercentage():Number{return spN}
     public function set wheelEnabled(value:Boolean):void {
-        if (value)cnt.addEventListener(MouseEvent.MOUSE_WHEEL, onStageMouseWheel);
-        else cnt.removeEventListener(MouseEvent.MOUSE_WHEEL, onStageMouseWheel);
+        we=value;
+        wheelActive=wa;
     }
-    public function get thumbnail():ContentThumbnail{return tS}
-    public function get content():DisplayObject{return cnt}
+    public function set wheelActive(value:Boolean):void{
+        wa=value;
+        if (wa)addEventListener(MouseEvent.MOUSE_WHEEL,onStageMouseWheel);
+        else removeEventListener(MouseEvent.MOUSE_WHEEL,onStageMouseWheel);
+    }
+    public function get thumbnail():DisplayObject{return tS}
+    public function get content():Sprite{return cnt}
 
     public function updateContent():void{
-        cW=cnt.width-tS.width;
-        tS.x=cW;
-        cH=cnt.height;
+        tS.x=cnt.width-tS.width;
         updateValues();
-
-
+    }
+    override public function get height():Number{return mH}
+    override public function set height(value:Number):void {
+        mH=value;
+        tR=mH-tS.height;
+        updateValues();
+    }
+    override public function set width(value:Number):void {
+        tS.x=value-tS.width;
+        draw();
     }
     private function updateValues():void{
-        cR=cH-mH;
-        if(cH>mH){
+        cR=cnt.height-mH;
+        if(cnt.height>mH){
+            if(we&&!wa){
+                wheelActive=true;
+            }
             if(!tS.enabled)tS.enabled=true;
             cnt.y=-spN*cR;
-            tS.height=(mH*mH)/cH;
+            tS.height=(mH*mH)/cnt.height;
             tR=mH-tS.height;
             tS.y=spN*tR;
         }
         else{
+            if(we&&wa){
+                wheelActive=false;
+            }
             tS.enabled=false;
             cnt.y=0;
             tS.y=0;
@@ -138,11 +143,68 @@ public class ContentScroll extends Sprite {
         }
         draw();
     }
-    override public function get height():Number{return mH}
-    override public function set height(value:Number):void {
-        mH=value;
-        tR=mH-tS.height;
-        updateValues();
-    }
 }
+}
+import flash.display.Graphics;
+import flash.display.Shape;
+import flash.display.Sprite;
+import flash.events.MouseEvent;
+
+class ContentThumbnail extends Sprite{
+
+    private var bg:Shape=new Shape();
+    private const tg:uint=6;
+    private var w:Number=9;
+    private var h:Number=20;
+    private var c:uint;
+    private var ssf:Function;
+    private var smf:Function;
+
+    public function ContentThumbnail(color:uint,onScrollStart:Function,onScrollMoving:Function):void{
+        c = color;
+        addChild(bg);
+        drawShape(bg.graphics);
+        ssf=onScrollStart;
+        smf=onScrollMoving;
+        addEventListener(MouseEvent.MOUSE_DOWN,this.onScrollStart);
+    }
+    private function onScrollStart(e:MouseEvent):void {
+        ssf.call(null);
+        stage.addEventListener(MouseEvent.MOUSE_MOVE,onContentScrolling);
+        stage.addEventListener(MouseEvent.MOUSE_UP,onContentStopScrolling);
+    }
+    private function onContentScrolling(e:MouseEvent):void {
+        smf.call(null);
+        e.updateAfterEvent();
+    }
+    private function onContentStopScrolling(e:MouseEvent):void {
+        stage.removeEventListener(MouseEvent.MOUSE_MOVE,onContentScrolling);
+        stage.removeEventListener(MouseEvent.MOUSE_UP,onContentStopScrolling);
+    }
+    override public function set width(value:Number):void {
+        w=value;
+        drawShape(bg.graphics);
+    }
+    override public function set height(value:Number):void {
+        h=value;
+        drawShape(bg.graphics);
+    }
+    override public function get height():Number{return h}
+    override public function get width():Number{return w+tg}
+    private function drawShape(g:Graphics):void{
+        g.clear();
+        g.beginFill(c,1);
+        g.drawRoundRect(tg,0,w,h,w);
+        g.endFill();
+    }
+    public function get enabled():Boolean{return alpha==1}
+
+    public function set enabled(value:Boolean):void{
+        if(value){
+            alpha=1;
+        }
+        else{
+            alpha=.5;
+        }
+    }
 }
