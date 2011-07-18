@@ -43,10 +43,6 @@ public class ContentScroll extends Sprite {
     private var cW:Number=0;
     // Content Height
     private var cH:Number=0;
-    // Minimum Width
-    private var mnW:Number=100;
-    // Minimum Height
-    private var mnH:Number=100;
 
     public function ContentScroll(thumbnailColor:uint=0xFFFFFF):void{
         cnt.mask=mS;
@@ -59,7 +55,6 @@ public class ContentScroll extends Sprite {
 
     override public function addChild(child:DisplayObject):DisplayObject {
         cnt.addChild(child);
-        onContentResize();
         return null;
     }
 
@@ -115,12 +110,19 @@ public class ContentScroll extends Sprite {
         else cnt.removeEventListener(MouseEvent.MOUSE_WHEEL, onStageMouseWheel);
     }
     public function get thumbnail():ContentThumbnail{return tS}
-    public function onContentResize(e:Event=null):void{
-        cW=cnt.width;
-        cH=cnt.height;
-        cR=cH-mH;
+    public function get content():DisplayObject{return cnt}
+
+    public function updateContent():void{
+        cW=cnt.width-tS.width;
         tS.x=cW;
-        if(cnt.height>mH){
+        cH=cnt.height;
+        updateValues();
+
+
+    }
+    private function updateValues():void{
+        cR=cH-mH;
+        if(cH>mH){
             if(!tS.enabled)tS.enabled=true;
             cnt.y=-spN*cR;
             tS.height=(mH*mH)/cH;
@@ -136,21 +138,11 @@ public class ContentScroll extends Sprite {
         }
         draw();
     }
-    public function get contentHeight():Number{return cnt.height}
-    public function get minimumWidth():Number{return mnW}
-    public function get minimumHeight():Number{return mnH}
-    override public function set x(value:Number):void {super.x=value}
-    override public function set y(value:Number):void {super.y=value}
     override public function get height():Number{return mH}
     override public function set height(value:Number):void {
         mH=value;
         tR=mH-tS.height;
-        cR=cH-mH;
-    }
-    override public function get width():Number{return cW+tS.width}
-    override public function set width(value:Number):void {
-        cW=value-tS.width;
-        draw();
+        updateValues();
     }
 }
 }

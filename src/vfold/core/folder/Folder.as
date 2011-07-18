@@ -54,7 +54,7 @@ public class Folder extends CoreView{
     // Minimum Height
     private var MH:Number=100;
     // Folder Title
-    private var FT:String="untitled";
+    private var FT:String;
 
     // Folder Border
     private var br:Border;
@@ -77,7 +77,7 @@ public class Folder extends CoreView{
     private var bh:Number;
     private var aw:Number;
     // Folder Color
-    private var FC:uint;
+    private var FC:uint=Core.color;
     // x position Offset
     private var xO:Number;
     // y position Offset
@@ -85,12 +85,12 @@ public class Folder extends CoreView{
 
 
     public function Folder(defaultView:FolderView,defaultLayout:FolderLayout) {
+        FT = defaultView.title;
         br=new Border(this);
         bg=new Background(this);
         bd=new FolderBody(this);
         ft=new FolderFooter(this);
         hd=new FolderHeader(this);
-
         DV=CV=defaultView;
         addView(DV,defaultLayout);
         bd.addChild(defaultLayout);
@@ -99,13 +99,12 @@ public class Folder extends CoreView{
         addEventListener(Event.RESIZE,onApplicationResize);
 
         x=y=30;
-        addChild(br);
         addChild(bg);
         addChild(bd);
         addChild(hd);
         addChild(ft);
 
-        stopDrag();
+        adjustEnd();
     }
     public function addView(view:FolderView,layout:FolderLayout):void{
         if(!ld[layout]){
@@ -134,6 +133,7 @@ public class Folder extends CoreView{
         pfs.height=height;
         fmb=true;
         adjustSize(stage.stageWidth,stage.stageHeight-Core.panelHandler.height);
+        adjustEnd();
         x=y=0;
     }
     public function get maximized():Boolean{
@@ -146,6 +146,7 @@ public class Folder extends CoreView{
         adjustSize(pfs.width,pfs.height);
         x=pfs.x;
         y=pfs.y;
+        adjustEnd();
     }
     public function adjustSize(width:Number,height:Number):void{
         FW=width;
@@ -162,9 +163,9 @@ public class Folder extends CoreView{
         visible=!visible;
     }
 
+    protected function set color_(value:uint):void{FC = value}
     public function set active(b:Boolean):void{hd.active=b}
     public function set minWidth(value:Number):void{MW=value}
-
     public function get title():String{return FT}
     public function get color():uint{return FC}
     public function get bodyHeight():Number{return bh}
@@ -211,6 +212,9 @@ public class Folder extends CoreView{
 
     override public function stopDrag():void {
         removeChild(br);
+        adjustEnd();
+    }
+    private function adjustEnd():void{
         bw=FW-bT*2;
         bh=FH-hh-fh;
         aw=bw-bd.thumbnail.width-Folder.GAP;
@@ -348,7 +352,7 @@ class FolderHeader extends Sprite{
     public function FolderHeader(folder:Folder):void {
         f=folder;
 
-        tb=new Tabs(f.headerHeight-f.borderThickness,f.color,.55,onTabSelect,onTabClose,f.title);
+        tb=new Tabs(f.headerHeight-f.borderThickness,f.color,.55,onTabSelect,onTabClose);
         btn=new HeaderButtons(f.minimize,f.maximize,f.close);
 
         ht.title=f.title;
@@ -361,6 +365,7 @@ class FolderHeader extends Sprite{
         btn.y=(f.headerHeight-btn.height)/2;
         tb.y=f.borderThickness;
         ht.x=f.innerRadius;
+        ht.y = (f.headerHeight-ht.height)/2;
         tb.x=ht.width+ht.x;
 
         mouseEnabled=false;
@@ -501,8 +506,12 @@ class FolderFooter extends Sprite{
     }
     public function onFolderAdjust(w:Number,h:Number):void {
         y=h-fh;
-        a.x=w-a.width-bt;
-        a.y=fh-a.height-bt;
+        a.y=((fh-bt-a.height)/2);
+        a.x=w-a.width-(fh-(a.y+a.height));
+    }
+
+    override public function get height():Number {
+        return super.height;
     }
 }
 

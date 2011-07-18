@@ -20,7 +20,10 @@ public class FolderLayout extends Sprite {
     public function FolderLayout() {
         y=Folder.GAP;
     }
-    public function get sections():Vector.<FolderSection>{return sv}
+    public function addSection(value:FolderSection):void{
+        sv.push(value);
+        addChild(value);
+    }
     public function onFolderResize(appWidth:Number,appHeight:Number):void{
         AW=appWidth;
         AH=appHeight;

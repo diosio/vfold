@@ -126,7 +126,7 @@ class SectionHeader extends Sprite{
         bs.textBold=true;
         rd=radius;
         av.push(mainView);
-        tb=new Tabs(h-bd,Core.color,.62,this.onTabSelect,onTabClose,"untitled");
+        tb=new Tabs(h-bd,Core.color,.62,this.onTabSelect,onTabClose);
         tb.y=bd;
         tb.x=20;
 

@@ -51,20 +51,14 @@ public class Tabs extends Sprite{
     private var cl:uint;
     // Bright Color
     private var bcl:uint;
-    // Has Main Tab
-    private var mt:Boolean=false;
 
-    public function Tabs(height:Number,color:uint,bm:Number,onSelect:Function,onClose:Function,mainTab:String=null) {
+    public function Tabs(height:Number,color:uint,bm:Number,onSelect:Function,onClose:Function) {
         const dif:Number=.3;
-        cl=bm>dif?ColorFunction.brightness(color,bm-dif):color;bcl=ColorFunction.brightness(color,bm);sf=onSelect;cf=onClose;th=height;mt=mainTab;
+        cl=bm>dif?ColorFunction.brightness(color,bm-dif):color;bcl=ColorFunction.brightness(color,bm);sf=onSelect;cf=onClose;th=height;
 
         bds=new Rectangle(0,0,0,0);
         addChild(bnk);
         mouseEnabled=false;
-        if(mainTab){
-            addTab(mainTab);
-            bds.x=tV[0].width-RADIUS;
-        }
         addEventListener(MouseEvent.MOUSE_OVER,onMouseOver);
         addEventListener(MouseEvent.MOUSE_OUT,onMouseOut);
         addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
@@ -81,7 +75,7 @@ public class Tabs extends Sprite{
     }
     public function addTab(label:String="untitled"):Tab {
         var i:uint=tV.length;
-        tV.push(new Tab(th,cl,bcl,tV.length,onSelect,closeTab,mt&&i==0));
+        tV.push(new Tab(th,cl,bcl,tV.length,onSelect,closeTab));
         tV[i].label=label;
         addChildAt(tV[i],0);
         if(i!=0){
@@ -93,11 +87,9 @@ public class Tabs extends Sprite{
             swapChildren(tV[i],bnk);
         }
         tV[i].posX=tV[i].x;
-        if(mt&&i!=0||!mt){
-            stw+=tV[i].textWidthOrig;
-            stg+=tV[i].width-tV[i].textWidthOrig;
-            if(i!=0)stg-=RADIUS;
-        }
+        stw+=tV[i].textWidthOrig;
+        stg+=tV[i].width-tV[i].textWidthOrig;
+        if(i!=0)stg-=RADIUS;
         iV.push(i);
         checkWidth();
         return tV[i];
@@ -111,13 +103,10 @@ public class Tabs extends Sprite{
         twd=tV[i].textWidthOrig;
         wd=tV[i].widthOrig;
         tV[i].label=label;
-        if(mt&&i!=0||!mt){
-            twd-=tV[i].textWidthOrig;
-            wd-=tV[i].widthOrig;
-            stg-=twd;
-            stw-=wd;
-        }
-        else bds.x=tV[0].width-RADIUS;
+        twd-=tV[i].textWidthOrig;
+        wd-=tV[i].widthOrig;
+        stg-=twd;
+        stw-=wd;
         checkWidth();
     }
     private function checkWidth():void{
@@ -127,7 +116,7 @@ public class Tabs extends Sprite{
         var a:uint;
         var n:Number;
         n=(w-stg)/stw;
-        for (var i:uint=mt?1:0;i<tV.length;i++){
+        for (var i:uint=0;i<tV.length;i++){
             a=iV[i];
             tV[a].changeWidth(n);
             if(i!=0){
@@ -199,12 +188,10 @@ public class Tabs extends Sprite{
         if(!tV[i].selected){
             selectTab(i);
             oI=tV[vI].orderIndex;
-            if(mt&&i!=0||!mt){
-                bds.width=width-tV[i].width;
-                tV[i].startDrag(false,bds);
-                stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
-                stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
-            }
+            bds.width=width-tV[i].width;
+            tV[i].startDrag(false,bds);
+            stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
+            stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
             sf.call();
         }
     }
@@ -251,7 +238,7 @@ public class Tabs extends Sprite{
     public function get length():uint{return tV.length}
     public function get minimumWidth():Number{return stg}
     override public function get height():Number{return th}
-    override public function get width():Number{return mt?(super.width-(tV[0].width-RADIUS)):super.width}
+    override public function get width():Number{return super.width}
 }
 }
 
@@ -298,7 +285,7 @@ class Tab extends Button{
     // Shadow
     private var sh:Shape=new Shape;
 
-    public function Tab(height:Number,color:uint,brightColor:uint,index:uint,onSelect:Function,onClose:Function,main:Boolean=false):void{
+    public function Tab(height:Number,color:uint,brightColor:uint,index:uint,onSelect:Function,onClose:Function):void{
         super(true);
         cl=color;bcl=brightColor;vI=index;oI=index;sf=onSelect;cf=onClose;H=height;
         t=new TextSimple(13,0);
@@ -308,14 +295,9 @@ class Tab extends Button{
         addChild(sh);
         addChild(bg);
         addChild(t);
-        if(main){
-            t.bold=true;
-        }
-        else{
-            cb = new CloseButton(onClose);
-            cb.y=(H-cb.height)/2;
-            addChild(cb);
-        }
+        cb = new CloseButton(onClose);
+        cb.y=(H-cb.height)/2;
+        addChild(cb);
         sh.filters=[new DropShadowFilter(0,90,0,1,12,0,1,1,false,true)];
         label="untitled";
     }
