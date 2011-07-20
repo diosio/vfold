@@ -39,10 +39,6 @@ public class FolderHandler extends WorkspaceComponentHandler {
     private var wcv:Vector.<Sprite>=new <Sprite>[];
     // Dashboard Container
     private var dbc:Sprite=new Sprite;
-    // X Offset
-    private var xO:Number;
-    // Y Offset
-    private var yO:Number;
 
     public function FolderHandler():void{
         addChild(dbc);
@@ -58,9 +54,9 @@ public class FolderHandler extends WorkspaceComponentHandler {
         Core.currentWorkspace.folders.getAppComponent(classPath).instantiate(onAppInstantiated);
     }
     private function onAppInstantiated(instance:*):void {
-        fV.push(instance as Folder);
         pI=cI;
-        cI=fV.length-1;
+        cI=fV.length;
+        fV.push(instance as Folder);
         wcv[Core.currentWorkspaceIndex].addChild(fV[cI]);
         dispatchEvent(new Event(FOLDER_ADD));
     }

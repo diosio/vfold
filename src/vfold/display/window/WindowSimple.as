@@ -14,7 +14,7 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
-import vfold.utilities.ColorFunction;
+import vfold.utilities.ColorUtility;
 
 public class WindowSimple extends Sprite{
 
@@ -113,7 +113,7 @@ public class WindowSimple extends Sprite{
     private function drawContentBackground(g:Graphics):void{
 
         g.clear();
-        g.beginFill(ColorFunction.brightness(bCl,.75),1);
+        g.beginFill(ColorUtility.brightness(bCl,.75),1);
         g.drawRect(bTh,wH.height+bTh,cnt.width,cnt.height);
         g.endFill();
     }
@@ -122,7 +122,7 @@ public class WindowSimple extends Sprite{
         var h:Number=height-bTh;
 
         g.clear();
-        g.lineStyle(2,ColorFunction.brightness(bCl,.8),1,true);
+        g.lineStyle(2,ColorUtility.brightness(bCl,.8),1,true);
         g.beginFill(bCl,1);
         g.moveTo(0,wH.height);
         g.lineTo(0,h);

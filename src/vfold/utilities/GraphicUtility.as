@@ -12,7 +12,7 @@ import flash.display.CapsStyle;
 import flash.display.Graphics;
 import flash.display.GraphicsPath;
 
-public class Draw {
+public class GraphicUtility {
 
     public static function arrowLeft(g:Graphics,w:Number,h:Number,c:uint=0xFFFFFF):void {
 

@@ -13,7 +13,7 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorFunction;
+import vfold.utilities.ColorUtility;
 
 
 public class WindowHeader extends Sprite {
@@ -57,7 +57,7 @@ public class WindowHeader extends Sprite {
         g.curveTo(width,0,width,R);
         g.lineTo(0,R);
         g.endFill();
-        g.lineStyle(2,ColorFunction.brightness(cUI,.8),1,true);
+        g.lineStyle(2,ColorUtility.brightness(cUI,.8),1,true);
         g.moveTo(0,R);
         g.curveTo(0,0,R,0);
         g.lineTo(width-R,0);
@@ -108,7 +108,7 @@ public class WindowHeader extends Sprite {
 import flash.display.Shape;
 import flash.events.MouseEvent;
 import vfold.controls.button.Button;
-import vfold.utilities.Draw;
+import vfold.utilities.GraphicUtility;
 
 class ButtonMinimize extends Button{
 
@@ -118,7 +118,7 @@ class ButtonMinimize extends Button{
 
     public function ButtonMinimize(size:uint):void{
 
-        Draw.arrowDown(a.graphics,size,size);
+        GraphicUtility.arrowDown(a.graphics,size,size);
         addChild(a);
 
         addEventListener(MouseEvent.MOUSE_OVER,onMouseOver);

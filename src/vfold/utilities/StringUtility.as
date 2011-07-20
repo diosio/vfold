@@ -7,7 +7,7 @@
  * the Original Work                                                 *
  *********************************************************************/
 package vfold.utilities {
-public class StringFunction {
+public class StringUtility {
 
     public static function generate(length:int):String
     {
@@ -60,6 +60,16 @@ public class StringFunction {
             a=str.indexOf(A,b+B.length);
         }
         return v;
+    }
+        // permissive, will allow quite a few non matching email addresses
+    public static const EMAIL_REGEX : RegExp = /^[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+
+    /** Checks if the given string is a valid email address.
+     *  @param email The email address as a String
+     *  @return True if the given string is a valid email address, false otherwise.
+     */
+    public static function isValidEmail(email : String) : Boolean{
+        return Boolean(email.match(EMAIL_REGEX));
     }
 }
 }

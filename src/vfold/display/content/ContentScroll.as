@@ -17,8 +17,6 @@ import flash.events.MouseEvent;
 import flash.events.Event;
 import com.greensock.TweenLite;
 
-import flash.media.scanHardware;
-
 public class ContentScroll extends Sprite {
 
     //content
@@ -136,19 +134,17 @@ public class ContentScroll extends Sprite {
         cR=cnt.height-mH;
         sh = mH-sg*2;
         if(cnt.height>mH){
-            if(we&&!wa){
-                wheelActive=true;
-                sb.visible=true;
-            }
+            if(!sb.visible)sb.visible=true;
+            if(we&&!wa)wheelActive=true;
             cnt.y=-spN*cR;
             sb.adjust(sh,(sh*mH)/cnt.height);
             tR=sh-sb.thumbHeight;
             sb.thumbY=spN*tR;
         }
         else{
+            if(sb.visible)sb.visible=false;
             if(we&&wa){
                 wheelActive=false;
-                sb.visible=false;
             }
             cnt.y=0;
         }
@@ -161,7 +157,7 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 
-import vfold.utilities.ColorFunction;
+import vfold.utilities.ColorUtility;
 
 class ScrollBar extends Sprite{
     // Background Shape
@@ -182,7 +178,7 @@ class ScrollBar extends Sprite{
 
     public function ScrollBar(color:uint,onScrollStart:Function,onScrollMoving:Function):void{
         tc=color;
-        bc=ColorFunction.brightness(tc,-.3);
+        bc=ColorUtility.brightness(tc,-.3);
         ssf=onScrollStart;
         smf=onScrollMoving;
         addChild(bs);

@@ -15,7 +15,7 @@ import flash.display.Sprite;
 
 import flash.filters.BlurFilter;
 
-import vfold.utilities.Draw;
+import vfold.utilities.GraphicUtility;
 public class ButtonSymbol extends Button {
     // Background
     private var bg:Shape=new Shape;
@@ -27,8 +27,6 @@ public class ButtonSymbol extends Button {
     private var smc:Sprite=new Sprite;
     // Color
     private var cl:uint=0;
-    // Down Function
-    private var df:Function;
     public function ButtonSymbol(){
         bg.alpha=0;
         super.addChild(bg);
@@ -38,7 +36,7 @@ public class ButtonSymbol extends Button {
     private function draw():void{
         bg.graphics.clear();
         rd=Math.sqrt((Math.pow(smc.width,2)+Math.pow(smc.height,2))/4)+gp;
-        Draw.circle(bg.graphics,rd*2,cl,1);
+        GraphicUtility.circle(bg.graphics,rd*2,cl,1);
         smc.x=smc.y=rd+1;
     }
     override public function addChild(child:DisplayObject):DisplayObject {
@@ -50,11 +48,9 @@ public class ButtonSymbol extends Button {
     }
     override protected function onOver():void {bg.alpha=1;}
     override protected function onOut():void {bg.alpha=0;}
-    override protected function onDown():void {if(df)df.call()}
 
     public function get background():DisplayObject{return bg}
     public function set color(value:uint):void{cl=value;draw();}
     public function set gap(value:uint):void{gp=value;draw();}
-    public function set onDownFunction(value:Function):void{df=value}
 }
 }

@@ -16,7 +16,7 @@ import flash.geom.Matrix;
 
 import vfold.core.Core;
 import vfold.core.CoreView;
-import vfold.utilities.ColorFunction;
+import vfold.utilities.ColorUtility;
 
 public class PanelBackground extends CoreView{
     // Background
@@ -46,13 +46,13 @@ public class PanelBackground extends CoreView{
     private function drawBackground(g:Graphics):void{
         g.clear();
         m.createGradientBox(stage.stageWidth,Core.panelHandler.contentHeight,Math.PI/2);
-        g.beginGradientFill(gt,[ColorFunction.brightness(Core.color,.3),Core.color],[1,1],[0,255],m);
+        g.beginGradientFill(gt,[ColorUtility.brightness(Core.color,.3),Core.color],[1,1],[0,255],m);
         g.drawRect(0,0,stage.stageWidth,Core.panelHandler.contentHeight);
         g.endFill();
     }
     private function drawLine(g:Graphics):void{
         g.clear();
-        g.beginFill(ColorFunction.brightness(Core.color,.7),1);
+        g.beginFill(ColorUtility.brightness(Core.color,.7),1);
         g.drawRect(0,0,stage.stageWidth,Core.panelHandler.heightLine);
         g.endFill();
     }

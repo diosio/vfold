@@ -108,11 +108,11 @@ import flash.display.Sprite;
 import vfold.controls.menu.MenuButtons;
 import vfold.controls.button.*;
 import vfold.core.Core;
-import vfold.utilities.Draw;
+import vfold.utilities.GraphicUtility;
 import vfold.display.text.TextSimple;
 import flash.display.Graphics;
 import flash.display.Shape;
-import vfold.utilities.ColorFunction;
+import vfold.utilities.ColorUtility;
 class MenuParent extends Sprite{
 
     // Button Container
@@ -184,7 +184,7 @@ class MenuButton extends Button {
 
         wdt=super.width;
         if(arrow){
-            arr.graphics.drawGraphicsData(new <IGraphicsData>[new GraphicsSolidFill(0xFFFFFF,.8),Draw.arrowRight(0,0,tfl.height/4,tfl.height/2.5)]);
+            arr.graphics.drawGraphicsData(new <IGraphicsData>[new GraphicsSolidFill(0xFFFFFF,.8),GraphicUtility.arrowRight(0,0,tfl.height/4,tfl.height/2.5)]);
             arr.y=(tfl.height-arr.height)/2;
             arr.x=tfl.width;
             wdt=super.width+gap/2;
@@ -213,7 +213,7 @@ class MenuButton extends Button {
     private function drawRectangle(g:Graphics,c:uint,a:Number,w:Number):void{
 
         g.clear();
-        g.lineStyle(2,ColorFunction.brightness(c,.55),1,true);
+        g.lineStyle(2,ColorUtility.brightness(c,.55),1,true);
         g.beginFill(c,a);
         g.drawRoundRect(0,0,w,tfl.height,15);
         g.endFill();

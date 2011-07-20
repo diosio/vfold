@@ -15,7 +15,7 @@ import flash.display.Sprite;
 
 import vfold.core.Core;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorFunction;
+import vfold.utilities.ColorUtility;
 
 public class FormDynamic extends Sprite{
     // Input Field
@@ -37,7 +37,7 @@ public class FormDynamic extends Sprite{
     // Width
     private var w:Number;
     // Fill Color
-    private const fc:uint=ColorFunction.brightness(Core.color,.5);
+    private const fc:uint=ColorUtility.brightness(Core.color,.5);
     // Stroke Color
     private var sc:uint=0;
 

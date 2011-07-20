@@ -14,7 +14,7 @@ import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
 import vfold.controls.button.ButtonSymbol;
-import vfold.utilities.ColorFunction;
+import vfold.utilities.ColorUtility;
 
 public class Tabs extends Sprite{
     // Tab vector
@@ -54,7 +54,11 @@ public class Tabs extends Sprite{
 
     public function Tabs(height:Number,color:uint,bm:Number,onSelect:Function,onClose:Function) {
         const dif:Number=.3;
-        cl=bm>dif?ColorFunction.brightness(color,bm-dif):color;bcl=ColorFunction.brightness(color,bm);sf=onSelect;cf=onClose;th=height;
+        cl=bm>dif?ColorUtility.brightness(color,bm-dif):color;
+        bcl=ColorUtility.brightness(color,bm);
+        sf=onSelect;
+        cf=onClose;
+        th=height;
 
         bds=new Rectangle(0,0,0,0);
         addChild(bnk);
@@ -64,18 +68,19 @@ public class Tabs extends Sprite{
         addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
     }
     private function onMouseOver(e:MouseEvent):void {
-        if(e.target is ButtonSymbol)ButtonSymbol(e.target).onMouseOver();
+        if(e.target is CloseButton)CloseButton(e.target).onMouseOver();
     }
     private function onMouseOut(e:MouseEvent):void {
-        if(e.target is ButtonSymbol)ButtonSymbol(e.target).onMouseOut();
+        if(e.target is CloseButton)CloseButton(e.target).onMouseOut();
     }
     private function onMouseDown(e:MouseEvent):void {
-        if(e.target is ButtonSymbol)ButtonSymbol(e.target).onMouseDown();
-        else if(e.target is Tab){Tab(e.target).onMouseDown();}
+        if(e.target is CloseButton)closeTab(Tab(e.target.parent).index);
+        else if(e.target is Tab)onSelect(Tab(e.target).index);
     }
-    public function addTab(label:String="untitled"):Tab {
+    public function addTab(label:String="untitled",data:*=null):Tab {
         var i:uint=tV.length;
-        tV.push(new Tab(th,cl,bcl,tV.length,onSelect,closeTab));
+        tV.push(new Tab(th,cl,bcl,i));
+        tV[i].data=data;
         tV[i].label=label;
         addChildAt(tV[i],0);
         if(i!=0){
@@ -189,10 +194,9 @@ public class Tabs extends Sprite{
             selectTab(i);
             oI=tV[vI].orderIndex;
             bds.width=width-tV[i].width;
-            tV[i].startDrag(false,bds);
             stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
             stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
-            sf.call();
+            //sf.call();
         }
     }
     private function onMouseUp(e:MouseEvent):void {
@@ -202,6 +206,7 @@ public class Tabs extends Sprite{
         TweenLite.to(tV[vI],.3,{x:tV[vI].posX});
     }
     private function onMouseMove(e:MouseEvent):void{
+        tV[vI].x+=2;
         if (oI!=0)if(tV[vI].x<tV[iV[oI-1]].posX+tV[iV[oI-1]].width/2){
             moveLeft(oI-1);
             oI--;
@@ -247,8 +252,8 @@ import vfold.core.Core;
 import vfold.display.text.TextSimple;
 import flash.text.TextFieldAutoSize;
 import vfold.controls.button.ButtonSymbol;
-import vfold.utilities.ColorFunction;
-import vfold.utilities.Draw;
+import vfold.utilities.ColorUtility;
+import vfold.utilities.GraphicUtility;
 import vfold.controls.button.Button;
 import flash.display.Graphics;
 import flash.display.Shape;
@@ -266,10 +271,6 @@ class Tab extends Button{
     public var oI:uint;
     // Position X
     public var posX:Number;
-    // On Select Function
-    private var sf:Function;
-    // On Close Function;
-    private var cf:Function;
     // Color
     private var cl:uint;
     // Bright Color
@@ -284,10 +285,16 @@ class Tab extends Button{
     private var bg:Shape=new Shape;
     // Shadow
     private var sh:Shape=new Shape;
+    // Data
+    public var data:*;
 
-    public function Tab(height:Number,color:uint,brightColor:uint,index:uint,onSelect:Function,onClose:Function):void{
+    public function Tab(height:Number,color:uint,brightColor:uint,index:uint):void{
         super(true);
-        cl=color;bcl=brightColor;vI=index;oI=index;sf=onSelect;cf=onClose;H=height;
+        cl=color;
+        bcl=brightColor;
+        vI=index;
+        oI=index;
+        H=height;
         t=new TextSimple(13,0);
         t.x=r;
         t.y=(H-t.height)/2;
@@ -295,7 +302,7 @@ class Tab extends Button{
         addChild(sh);
         addChild(bg);
         addChild(t);
-        cb = new CloseButton(onClose);
+        cb = new CloseButton;
         cb.y=(H-cb.height)/2;
         addChild(cb);
         sh.filters=[new DropShadowFilter(0,90,0,1,12,0,1,1,false,true)];
@@ -336,11 +343,9 @@ class Tab extends Button{
         g.endFill();
 
     }
-    private function onClose():void{cf.call(null,vI)}
-    override protected function onDown():void {sf.call(null,vI)}
     override protected function selectAction():void{draw(bg.graphics,bcl)}
     override protected function deselectAction():void{draw(bg.graphics,cl)}
-
+    override public function get index():uint {return vI}
     public function get widthOrig():Number{return cw}
     public function set vectorIndex(i:uint):void{vI=i}
     public function get vectorIndex():uint{return vI}
@@ -351,23 +356,20 @@ class Tab extends Button{
 class CloseButton extends ButtonSymbol{
 
     private var ov:Shape=new Shape;
-    private var ot:Shape=new Shape;
 
-    public function CloseButton (onClose:Function){
-        Draw.close(ov.graphics,7,0xFFFFFF);
-        Draw.close(ot.graphics,7,Core.color);
-        onDownFunction=onClose;
+    public function CloseButton (){
         color=Core.color;
-        addChild(ot);
+        onOut();
+        addChild(ov);
     }
     override protected function onOver():void {
         super.onOver();
-        addChild(ov);
-        removeChild(ot);
+        ov.graphics.clear();
+        GraphicUtility.close(ov.graphics,7,0xFFFFFF);
     }
     override protected function onOut():void {
         super.onOut();
-        addChild(ot);
-        removeChild(ov);
+        ov.graphics.clear();
+        GraphicUtility.close(ov.graphics,7,Core.color);
     }
 }

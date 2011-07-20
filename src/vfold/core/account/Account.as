@@ -72,8 +72,7 @@ import vfold.core.account.AccountRole;
 import vfold.core.account.AccountVO;
 import vfold.controls.form.Form;
 import vfold.mail.MailComposition;
-import vfold.utilities.StringFunction;
-import vfold.utilities.EmailValidator;
+import vfold.utilities.StringUtility;
 
 class SignIn extends Form{
     private var ef:Function;
@@ -172,7 +171,7 @@ class Join extends Form{
         acc.loginname=entries[2].text;
         acc.password=Core.encryptPassword(entries[4].text);
         acc.email=entries[5].text;
-        acc.code=mt.code=StringFunction.generate(24);
+        acc.code=mt.code=StringUtility.generate(24);
         mt.firstname=entries[0].text;
         mc.sendToSingle(entries[0].text+" "+entries[1].text,entries[5].text);
         mc.tokens=mt;
@@ -215,7 +214,7 @@ class Join extends Form{
     private function checkEmail():void{
         var s:String;
         if(entries[5].text.length>0)
-            if(EmailValidator.isValidEmail(entries[5].text)){
+            if(StringUtility.isValidEmail(entries[5].text)){
                 entries[5].setStatus(Form.WARNING,"Your e-mail may be correct");
                 Core.amfCall("Account.checkEmail",onCheckEmail,entries[5].text);
                 return;

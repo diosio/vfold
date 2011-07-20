@@ -7,11 +7,11 @@
  * the Original Work                                                 *
  *********************************************************************/
 package vfold.utilities {
-import vfold.utilities.MathFunction;
+import vfold.utilities.MathUtility;
 
-public class ColorFunction {
+public class ColorUtility {
 
-    public function ColorFunction() {
+    public function ColorUtility() {
     }
     public static function hexToRGB(hex:Number):Object
     {
@@ -119,7 +119,7 @@ public class ColorFunction {
         return (r << 16 | g << 8 | b);
     }
     public static function randomColor(hueFrom:Number=0,hueTo:Number=1,saturationFrom:Number=0,saturationTo:Number=1,brightnessFrom:Number = 0,brightnessTo:Number = 1):uint{
-        return convertHSBtoRGB(MathFunction.randomNumber(hueFrom,hueTo),MathFunction.randomNumber(saturationFrom,saturationTo),MathFunction.randomNumber(brightnessFrom,brightnessTo));
+        return convertHSBtoRGB(MathUtility.randomNumber(hueFrom,hueTo),MathUtility.randomNumber(saturationFrom,saturationTo),MathUtility.randomNumber(brightnessFrom,brightnessTo));
     }
 }
 }

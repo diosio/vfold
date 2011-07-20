@@ -15,7 +15,7 @@ import flash.display.Sprite;
 
 import vfold.core.Core;
 import vfold.core.CoreView;
-import vfold.utilities.ColorFunction;
+import vfold.utilities.ColorUtility;
 
 public class DashboardFrame extends CoreView {
 
@@ -49,7 +49,7 @@ public class DashboardFrame extends CoreView {
     private function drawFrame(g:Graphics):void{
 
         g.clear();
-        g.lineStyle(2,ColorFunction.brightness(clr,.7));
+        g.lineStyle(2,ColorUtility.brightness(clr,.7));
         g.drawRoundRect(0,0,w,h,brd);
     }
     override public function set width(value:Number):void {w=value;cw=w-brd*2;drawFrame(frm.graphics)}

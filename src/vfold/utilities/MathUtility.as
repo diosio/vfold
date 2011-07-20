@@ -7,7 +7,7 @@
  * the Original Work                                                 *
  *********************************************************************/
 package vfold.utilities {
-public class MathFunction {
+public class MathUtility {
     public static function randomNumber(from:Number,to:Number):Number{
         return (Math.random()*(to-from))+from;
     }

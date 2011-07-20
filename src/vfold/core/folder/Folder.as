@@ -240,8 +240,8 @@ import vfold.core.folder.FolderView;
 import vfold.core.folder.Folder;
 import vfold.display.content.ContentScroll;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorFunction;
-import vfold.utilities.Draw;
+import vfold.utilities.ColorUtility;
+import vfold.utilities.GraphicUtility;
 
 /*******************************************************
  *
@@ -256,7 +256,7 @@ class Border extends Shape{
     public function Border(f:Folder){r=f.outerRadius,f.color}
     public function adjust(w:Number,h:Number):void{
         g.clear();
-        g.lineStyle(2,ColorFunction.brightness(c,.8),1,true);
+        g.lineStyle(2,ColorUtility.brightness(c,.8),1,true);
         g.drawRoundRect(0,0,w,h,r);
     }
 }
@@ -288,7 +288,7 @@ class Background extends Bitmap{
     // Blur Radius
     private const br:int=12;
     // Glow Filter
-    private const gf:GlowFilter=new GlowFilter(ColorFunction.brightness(c,.8),1,7,7,2,1,true);
+    private const gf:GlowFilter=new GlowFilter(ColorUtility.brightness(c,.8),1,7,7,2,1,true);
     // Drop Shadow Filter
     private const sf:DropShadowFilter=new DropShadowFilter(5,90,0,1,br,br,1,1,false,true);
     // Bitmap Data Drawing Color Transform
@@ -409,9 +409,9 @@ class HeaderButtons extends Sprite{
     public function HeaderButtons(minimize:Function,maximize:Function,close:Function):void{
         mouseEnabled=false;
         var cl:Shape=new Shape, mn:Shape=new Shape, mx:Shape=new Shape;
-        Draw.close(cl.graphics,bs);
-        Draw.minimize(mn.graphics,bs);
-        Draw.maximize(mx.graphics,bs);
+        GraphicUtility.close(cl.graphics,bs);
+        GraphicUtility.minimize(mn.graphics,bs);
+        GraphicUtility.maximize(mx.graphics,bs);
         CL=new HeaderButton(cl,close);
         MN=new HeaderButton(mn,minimize);
         MX=new HeaderButton(mx,maximize);
@@ -443,15 +443,20 @@ class HeaderButtons extends Sprite{
     }
 }
 class HeaderButton extends ButtonSymbol{
+    private var f:Function;
     public function HeaderButton(symbol:DisplayObject,onDownFunction:Function){
-        this.onDownFunction=onDownFunction;
+        f=onDownFunction;
         addChild(symbol);
-        color=ColorFunction.brightness(Core.color,.4);
+        color=ColorUtility.brightness(Core.color,.4);
         background.filters=[new BlurFilter(8,8)];
+    }
+
+    override protected function onDown():void {
+        f.call();
     }
 }
 class HeaderTitle extends Sprite{
-    private var tf:TextSimple=new TextSimple(14,ColorFunction.brightness(Core.color,.7),true);
+    private var tf:TextSimple=new TextSimple(14,ColorUtility.brightness(Core.color,.7),true);
     public function HeaderTitle(){
         addChild(tf);
     }
@@ -475,7 +480,7 @@ class FolderBody extends ContentScroll{
     private var c:uint;
     public function FolderBody(folder:Folder):void {
         f = folder;
-        c = ColorFunction.brightness(f.color,.55);
+        c = ColorUtility.brightness(f.color,.55);
         super(c);
         x=f.borderThickness+GAP;
         bg.x=-GAP;
@@ -548,11 +553,11 @@ class FooterFolderAdjust extends ButtonSymbol {
         TW=f.width;
         TH=f.height;
         var s:Shape=new Shape;
-        Draw.resize(s.graphics,12,12/3);
+        GraphicUtility.resize(s.graphics,12,12/3);
         s.alpha=.7;
         addChild(s);
         background.filters=[new BlurFilter(8,8)];
-        color=ColorFunction.brightness(Core.color,.4);
+        color=ColorUtility.brightness(Core.color,.4);
         addEventListener(MouseEvent.MOUSE_OVER,onMouseOver);
         addEventListener(MouseEvent.MOUSE_OUT,onMouseOut);
         addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);

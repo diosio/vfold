@@ -13,7 +13,7 @@ import flash.display.Bitmap;
 import flash.events.Event;
 import vfold.core.Core;
 import vfold.core.CoreView;
-import vfold.utilities.ColorFunction;
+import vfold.utilities.ColorUtility;
 
 public class DashboardFooter extends CoreView {
 
@@ -26,7 +26,7 @@ public class DashboardFooter extends CoreView {
     public function DashboardFooter() {
 
         vf=new Logo as Bitmap;
-        TweenLite.to(vf,0,{colorTransform:{tint:ColorFunction.brightness(Core.color,.7)}});
+        TweenLite.to(vf,0,{colorTransform:{tint:ColorUtility.brightness(Core.color,.7)}});
         addChild(vf);
     }
     override public function get height():Number {return vf.height}

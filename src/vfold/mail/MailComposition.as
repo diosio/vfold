@@ -8,7 +8,7 @@
  *********************************************************************/
 
 package vfold.mail {
-import vfold.utilities.StringFunction;
+import vfold.utilities.StringUtility;
 
 public class MailComposition {
     // Send To
@@ -40,7 +40,7 @@ public class MailComposition {
         if(sb) return st;
         return sg.group;
     }
-    public function set tokens(value:Object):void{mgf=StringFunction.replaceTokens(mgr,value)}
+    public function set tokens(value:Object):void{mgf=StringUtility.replaceTokens(mgr,value)}
     public function get subject():String{return sbj}
     public function get message():String{return mgf}
 }
