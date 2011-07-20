@@ -19,31 +19,56 @@ public class PanelFolderBar extends CoreView{
     private var tb:Tabs;
     // Height
     private var h:Number;
+    // Folder Handler
+    private const fh:FolderHandler=Core.folderHandler;
     public function PanelFolderBar() {
 
+        fh.addEventListener(FolderHandler.FOLDER_CREATE,onFolderCreate);
+        fh.addEventListener(FolderHandler.FOLDER_SELECT,onFolderSelect);
+        fh.addEventListener(FolderHandler.FOLDER_CLOSE,onFolderClose);
+
+
         h=(Core.panelHandler.contentHeight-Core.panelHandler.contentGap)/2;
-        Core.folderHandler.addEventListener(FolderHandler.FOLDER_ADD,tabAdd);
-        Core.folderHandler.addEventListener(FolderHandler.FOLDER_SELECT,tabSelect);
-        Core.folderHandler.addEventListener(FolderHandler.FOLDER_CLOSE,tabClose);
+
         tb=new Tabs(Core.panelHandler.contentHeight/2-3,Core.color,.7,onTabSelect,onTabClose);
         tb.y=Core.panelHandler.contentHeight-tb.height;
         addChild(tb);
     }
-    private function tabClose(e:Event):void{
-        tb.removeTab(Core.folderHandler.currentIndex);
+    /****************************************
+     *
+     *  EVENT HANDLERS FROM FOLDER HANDLER
+     *
+     * **************************************
+     * */
+    private function onFolderCreate(e:Event):void {
+        tb.addTab(fh.currentFolder.title,fh.currentFolder);
+        tb.selectTab(fh.currentFolder);
     }
+    private function onFolderSelect(e:Event=null):void {
+        tb.selectTab(fh.currentFolder);
+    }
+    private function onFolderClose(e:Event):void{
+        tb.removeTab(fh.currentFolder);
+    }
+    /****************************************
+     *
+     *     FUNCTION CALLERS FROM TABS
+     *
+     * **************************************
+     * */
     private function onTabClose():void {
-        Core.folderHandler.closeFolderByIndex(tb.removedIndex);
+        //fh.closeFolder(tb.currentData);
     }
-    private function tabAdd(e:Event):void {
-        tb.selectTab(tb.addTab(Core.folderHandler.currentFolder.title).vectorIndex);
-    }
+
     private function onTabSelect():void{
-        Core.folderHandler.folderSelect(tb.currentIndex);
+        //fh.folderSelect(tb.currentData);
     }
-    private function tabSelect(e:Event=null):void {
-        tb.selectTab(Core.folderHandler.currentIndex);
-    }
+    /****************************************
+     *
+     *           NOT IMPORTANT
+     *
+     * **************************************
+     * */
     override public function onStageResize(e:Event = null):void {
         tb.adjust(stage.stageWidth-x);
     }

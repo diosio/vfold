@@ -13,7 +13,8 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
-import vfold.controls.button.ButtonSymbol;
+import flash.utils.Dictionary;
+
 import vfold.utilities.ColorUtility;
 
 public class Tabs extends Sprite{
@@ -27,15 +28,11 @@ public class Tabs extends Sprite{
     private var vI:int=0;
     // Current Selected Order Index
     private var oI:int=0;
-    // Last Removed Tab Index
-    private var rI:int=0;
-    // Last Remove Tab Was Selected
-    private var rs:Boolean=true;
     // Tab's Vector Index - Order Index Relation
     private var iV:Vector.<uint>=new Vector.<uint>;
     // Tab Radius
     public static const RADIUS:Number=24;
-    //
+    //  Width
     private var w:Number;
     // Sum of Tab TextField Widths
     private var stw:Number=0;
@@ -51,6 +48,8 @@ public class Tabs extends Sprite{
     private var cl:uint;
     // Bright Color
     private var bcl:uint;
+    // Data Dictionary
+    private var dd:Dictionary=new Dictionary();
 
     public function Tabs(height:Number,color:uint,bm:Number,onSelect:Function,onClose:Function) {
         const dif:Number=.3;
@@ -67,6 +66,12 @@ public class Tabs extends Sprite{
         addEventListener(MouseEvent.MOUSE_OUT,onMouseOut);
         addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
     }
+    /****************************************
+     *
+     *        MOUSE EVENT HANDLERS
+     *
+     * **************************************
+     * */
     private function onMouseOver(e:MouseEvent):void {
         if(e.target is CloseButton)CloseButton(e.target).onMouseOver();
     }
@@ -77,9 +82,16 @@ public class Tabs extends Sprite{
         if(e.target is CloseButton)closeTab(Tab(e.target.parent).index);
         else if(e.target is Tab)onSelect(Tab(e.target).index);
     }
+    /****************************************
+     *
+     *        ADD TAB
+     *
+     * **************************************
+     * */
     public function addTab(label:String="untitled",data:*=null):Tab {
         var i:uint=tV.length;
         tV.push(new Tab(th,cl,bcl,i));
+        dd[data]=i;
         tV[i].data=data;
         tV[i].label=label;
         addChildAt(tV[i],0);
@@ -99,10 +111,12 @@ public class Tabs extends Sprite{
         checkWidth();
         return tV[i];
     }
-    public function adjust(width:Number):void{
-        w=width;
-        checkWidth();
-    }
+    /****************************************
+     *
+     *        CHANGE LABEL
+     *
+     * **************************************
+     * */
     public function changeLabelAt(label:String,i:uint):void{
         var twd:Number,wd:Number;
         twd=tV[i].textWidthOrig;
@@ -112,6 +126,16 @@ public class Tabs extends Sprite{
         wd-=tV[i].widthOrig;
         stg-=twd;
         stw-=wd;
+        checkWidth();
+    }
+    /****************************************
+     *
+     *  TAB ADJUSTMENT
+     *
+     * **************************************
+     * */
+    public function adjust(width:Number):void{
+        w=width;
         checkWidth();
     }
     private function checkWidth():void{
@@ -130,18 +154,95 @@ public class Tabs extends Sprite{
             }
         }
     }
+    /****************************************
+     *
+     *  SELECT TAB
+     *
+     * **************************************
+     * */
+    public function selectTab(data:*):void{
+        selectTabByIndex(dd[data]);
+    }
+    private function selectTabByIndex(i:int):void{
+        if(vI!=i){
+            tV[vI].deselect();
+            swapChildren(tV[vI],bnk);
+            swapChildren(tV[i],bnk);
+        }
+        if(!tV[i].selected)tV[i].select();
+        vI=i;
+    }
+    private function onSelect(i:uint):void{
+        if(!tV[i].selected){
+            selectTabByIndex(i);
+            oI=tV[i].orderIndex;
+            bds.width=width-(tV[i].width);
+
+            sf.call();
+        }
+        tV[i].startDrag(false,bds);
+        stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
+        stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+    }
+    /****************************************
+     *
+     *  TAB MOVING
+     *
+     * **************************************
+     * */
+    private function onMouseMove(e:MouseEvent):void{
+        if (oI!=0)if(tV[vI].x<tV[iV[oI-1]].posX+tV[iV[oI-1]].width/2){
+            moveLeft(oI-1);
+            oI--;
+        }
+        if (oI!=tV.length-1)if(tV[vI].x+tV[vI].width>tV[iV[oI+1]].posX+tV[iV[oI+1]].width/2){
+            moveRight(oI+1);
+            oI++;
+        }
+    }
+    private function onMouseUp(e:MouseEvent):void {
+        stage.removeEventListener(MouseEvent.MOUSE_UP,onMouseUp);
+        stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+        tV[vI].stopDrag();
+        TweenLite.to(tV[vI],.3,{x:tV[vI].posX});
+    }
+    private function moveLeft(i:uint):void{
+        tV[vI].posX=tV[iV[i]].posX;
+        tV[iV[i]].posX+=tV[vI].width-RADIUS;
+        switchOrder(i);
+    }
+    private function moveRight(i:uint):void{
+        tV[iV[i]].posX=tV[vI].posX;
+        tV[vI].posX=tV[iV[i]].posX+tV[iV[i]].width-RADIUS;
+        switchOrder(i);
+    }
+    private function switchOrder(i:uint):void{
+        swapChildren(tV[iV[i]],bnk);
+        var t:Number;
+        TweenLite.to(tV[iV[i]],.3,{x:tV[iV[i]].posX });
+        tV[iV[i]].orderIndex=tV[vI].orderIndex;
+        tV[vI].orderIndex=i;
+        t=iV[oI];
+        iV[oI]=iV[i];
+        iV[i]=t;
+    }
+    /****************************************
+     *
+     *  REMOVE TAB
+     *
+     * **************************************
+     * */
+    public function removeTab(data:*):void {
+        removeTabByIndex(dd[data]);
+    }
     private function closeTab(i:uint):void{
-        rs=tV[i].selected;
-        rI=i;
-        removeTab(i);
+        var t:int=vI;
+        vI=i;
         cf.call();
+        vI=t;
+        removeTabByIndex(i);
     }
-    private function swap(i:uint):void{
-        swapChildren(tV[i],bnk);
-        swapChildren(tV[vI],bnk);
-        if(tV[i].selected&&!tV[vI].selected)tV[vI].select();
-    }
-    public function removeTab(i:uint):void {
+    private function removeTabByIndex(i:uint):void {
         stw-=tV[i].textWidthOrig;
         stg-=(tV[i].widthOrig-tV[i].textWidthOrig);
         if(tV.length!=1)stg+=RADIUS;
@@ -175,74 +276,29 @@ public class Tabs extends Sprite{
             cT.orderIndex--;
         }
         tV.splice(i,1);
-        for(j=0;j<tV.length;j++)tV[j].vectorIndex=j;
+        for(j=0;j<tV.length;j++){
+            tV[j].index=j;
+            dd[tV[j].data]=j;
+        }
         iV.splice(o,1);
         for(j=0;j<iV.length;j++)if(iV[j]>i)iV[j]--;
     }
-    public function selectTab(i:uint):Tab{
-        if(vI!=i){
-            tV[vI].deselect();
-            swapChildren(tV[vI],bnk);
-            swapChildren(tV[i],bnk);
-        }
-        if(!tV[i].selected)tV[i].select();
-        vI=i;
-        return tV[i];
+    private function swap(i:uint):void{
+        swapChildren(tV[i],bnk);
+        swapChildren(tV[vI],bnk);
+        if(tV[i].selected&&!tV[vI].selected)tV[vI].select();
     }
-    private function onSelect(i:uint):void{
-        if(!tV[i].selected){
-            selectTab(i);
-            oI=tV[i].orderIndex;
-            bds.width=width-tV[i].width;
-            tV[i].startDrag(false,bds);
-            stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
-            stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
-            //sf.call();
-        }
-    }
-    private function onMouseUp(e:MouseEvent):void {
-        stage.removeEventListener(MouseEvent.MOUSE_UP,onMouseUp);
-        stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
-        tV[vI].stopDrag();
-        TweenLite.to(tV[vI],.3,{x:tV[vI].posX});
-    }
-    private function onMouseMove(e:MouseEvent):void{
-        tV[vI].x+=2;
-        if (oI!=0)if(tV[vI].x<tV[iV[oI-1]].posX+tV[iV[oI-1]].width/2){
-            moveLeft(oI-1);
-            oI--;
-        }
-        if (oI!=tV.length-1)if(tV[vI].x+tV[vI].width>tV[iV[oI+1]].posX+tV[iV[oI+1]].width/2){
-            moveRight(oI+1);
-            oI++;
-        }
-    }
-    private function moveLeft(i:uint):void{
-        tV[vI].posX=tV[iV[i]].posX;
-        tV[iV[i]].posX+=tV[vI].width-RADIUS;
-        switchOrder(i);
-    }
-    private function moveRight(i:uint):void{
-        tV[iV[i]].posX=tV[vI].posX;
-        tV[vI].posX=tV[iV[i]].posX+tV[iV[i]].width-RADIUS;
-        switchOrder(i);
-    }
-    private function switchOrder(i:uint):void{
-        swapChildren(tV[iV[i]],bnk);
-        var t:Number;
-        TweenLite.to(tV[iV[i]],.3,{x:tV[iV[i]].posX });
-        tV[iV[i]].orderIndex=tV[vI].orderIndex;
-        tV[vI].orderIndex=i;
-        t=iV[oI];
-        iV[oI]=iV[i];
-        iV[i]=t;
-    }
-    public function get removedIndex():uint{return rI}
-    public function get removedSelected():Boolean{return rs}
+    /****************************************
+     *
+     *  GETTERS AND SETTERS
+     *
+     * **************************************
+     * */
     public function get currentIndex():uint{return vI}
-    public function deselectCurrent():void{tV[vI].deselect()}
     public function get length():uint{return tV.length}
     public function get minimumWidth():Number{return stg}
+    public function get currentData():*{return tV[vI].data}
+
     override public function get height():Number{return th}
     override public function get width():Number{return super.width}
 }
@@ -253,7 +309,6 @@ import vfold.core.Core;
 import vfold.display.text.TextSimple;
 import flash.text.TextFieldAutoSize;
 import vfold.controls.button.ButtonSymbol;
-import vfold.utilities.ColorUtility;
 import vfold.utilities.GraphicUtility;
 import vfold.controls.button.Button;
 import flash.display.Graphics;
@@ -347,9 +402,8 @@ class Tab extends Button{
     override protected function selectAction():void{draw(bg.graphics,bcl)}
     override protected function deselectAction():void{draw(bg.graphics,cl)}
     override public function get index():uint {return vI}
+    override public function set index(i:uint):void{vI=i}
     public function get widthOrig():Number{return cw}
-    public function set vectorIndex(i:uint):void{vI=i}
-    public function get vectorIndex():uint{return vI}
     public function get textWidthOrig():Number{return ctw}
     public function get orderIndex():uint{return oI}
     public function set orderIndex(value:uint):void{oI=value}

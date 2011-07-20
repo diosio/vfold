@@ -100,8 +100,10 @@ public class Folder extends CoreView{
         addChild(bd);
         addChild(hd);
         addChild(ft);
+        addChild(br);
 
         adjustEnd();
+        br.adjust(FW,FH);
     }
     public function addView(view:FolderView,layout:FolderLayout):void{
         if(!ld[layout]){
@@ -178,7 +180,7 @@ public class Folder extends CoreView{
     public function get currentLayout():FolderLayout{return lv[CV.layoutIndex]}
     public function get minWidth():Number{return MW}
     public function get minHeight():Number{return MH}
-    public function get borderUpdate():Function{return br.adjust}
+    public function get border():Border{return br}
 
     override public function get width():Number{return FW}
     override public function get height():Number{return FH}
@@ -203,10 +205,8 @@ public class Folder extends CoreView{
         stage.removeEventListener(MouseEvent.MOUSE_UP,onMouseUp);
     }
     override public function startDrag(lockCenter:Boolean = false, bounds:Rectangle = null):void {
-        addChild(br);
     }
     override public function stopDrag():void {
-        removeChild(br);
         adjustEnd();
     }
     private function adjustEnd():void{
@@ -228,7 +228,6 @@ import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.filters.BlurFilter;
 import flash.filters.DropShadowFilter;
-import flash.filters.GlowFilter;
 import flash.geom.ColorTransform;
 import flash.utils.Dictionary;
 
@@ -253,10 +252,13 @@ class Border extends Shape{
     private var g:Graphics = graphics;
     private var r:int;
     private var c:int;
-    public function Border(f:Folder){r=f.outerRadius,f.color}
+    public function Border(f:Folder){
+        r=f.outerRadius;
+        c=f.color;
+    }
     public function adjust(w:Number,h:Number):void{
         g.clear();
-        g.lineStyle(2,ColorUtility.brightness(c,.8),1,true);
+        g.lineStyle(2,ColorUtility.brightness(c,.65),1,true);
         g.drawRoundRect(0,0,w,h,r);
     }
 }
@@ -287,8 +289,6 @@ class Background extends Bitmap{
     private var cn:Sprite = new Sprite;
     // Blur Radius
     private const br:int=12;
-    // Glow Filter
-    private const gf:GlowFilter=new GlowFilter(ColorUtility.brightness(c,.8),1,7,7,2,1,true);
     // Drop Shadow Filter
     private const sf:DropShadowFilter=new DropShadowFilter(5,90,0,1,br,br,1,1,false,true);
     // Bitmap Data Drawing Color Transform
@@ -309,7 +309,6 @@ class Background extends Bitmap{
         g.beginFill(c,1);
         g.drawRoundRect(0,0,w,h,or);
         g.endFill();
-        bg.filters=[gf];
         bd.draw(cn,null,ct);
         bg.filters=[sf];
         bd.draw(cn);
@@ -362,21 +361,21 @@ class FolderHeader extends Sprite{
     }
     private function addView(view:FolderView):Number {
         ad[view]=tb.length;
-        tb.selectTab(tb.addTab(view.title).vectorIndex);
+        tb.selectTab(tb.addTab(view.title).index);
         return tb.minimumWidth+btn.width+f.outerRadius+g;
     }
     private function selectView(view:FolderView):void {
         tb.selectTab(ad[view]);
     }
     private function onTabClose():void {
-
-        ad[av[tb.removedIndex]]=null;
+       // TODO: Fix Header Tabs
+        /*ad[av[tb.removedIndex]]=null;
         av.splice(tb.removedIndex,1);
         for(var i:uint=tb.removedIndex;i<av.length;i++)ad[av[i]]-=1;
         if(tb.removedSelected){
             if(tb.length!=0)f.useView(av[tb.currentIndex]);
             else f.useView(f.defaultView);
-        }
+        }       */
     }
     private function onTabSelect():void{
         f.useView(av[tb.currentIndex]);
@@ -548,6 +547,9 @@ class FooterFolderAdjust extends ButtonSymbol {
     // Temporary Height
     private var TH:Number;
 
+    // Border
+    private var br:Border;
+
     public function FooterFolderAdjust(folder:Folder) {
         f=folder;
         TW=f.width;
@@ -572,7 +574,7 @@ class FooterFolderAdjust extends ButtonSymbol {
     private function onMouseMove(e:MouseEvent):void {
         oW=mouseX-lX;
         oH=mouseY-lY;
-        f.borderUpdate(folderWidth,folderHeight);
+        f.border.adjust(folderWidth,folderHeight);
     }
     private function get folderWidth():Number{return TW+(TW+oW>f.minWidth?oW:f.minWidth-TW)}
     private function get folderHeight():Number{return TH+(TH+oH>f.minHeight?oH:f.minHeight-TH)}

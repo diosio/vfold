@@ -21,7 +21,7 @@ import flash.events.Event;
 
 public class FolderHandler extends WorkspaceComponentHandler {
 
-    public static const FOLDER_ADD:String="FolderAdd";
+    public static const FOLDER_CREATE:String="FolderAdd";
     public static const FOLDER_CLOSE:String="FolderClose";
     public static const FOLDER_SELECT:String = "FolderSelect";
 
@@ -33,32 +33,25 @@ public class FolderHandler extends WorkspaceComponentHandler {
     private var cI:uint;
     // previous Index
     private var pI:uint;
-    // Folder Boundaries
-    private var bnd:Rectangle=new Rectangle();
     // Workspace Container Vector
     private var wcv:Vector.<Sprite>=new <Sprite>[];
-    // Dashboard Container
-    private var dbc:Sprite=new Sprite;
 
     public function FolderHandler():void{
-        addChild(dbc);
         mouseEnabled=false;
         addEventListener(Event.ADDED_TO_STAGE, addedToStage);
     }
     private function addedToStage(e:Event):void{
-
         removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
         y=Core.panelHandler.height;
     }
     public function addFolder(classPath:String):void {
-        Core.currentWorkspace.folders.getAppComponent(classPath).instantiate(onAppInstantiated);
-    }
-    private function onAppInstantiated(instance:*):void {
-        pI=cI;
-        cI=fV.length;
-        fV.push(instance as Folder);
-        wcv[Core.currentWorkspaceIndex].addChild(fV[cI]);
-        dispatchEvent(new Event(FOLDER_ADD));
+        Core.currentWorkspace.folders.getAppComponent(classPath).instantiate(function(instance:*):void{
+            pI=cI;
+            cI=fV.length;
+            fV.push(instance as Folder);
+            wcv[Core.currentWorkspaceIndex].addChild(fV[cI]);
+            dispatchEvent(new Event(FOLDER_CREATE));
+        });
     }
     private function folderRemove(index:uint):void{
 
@@ -77,7 +70,7 @@ public class FolderHandler extends WorkspaceComponentHandler {
         if(fd[folder])folderRemove(fd[folder]);
     }
     public function closeFolderByIndex(index:uint):void{
-         folderRemove(index);
+        folderRemove(index);
     }
     public function folderSelect(i:uint):void{
 
@@ -90,10 +83,6 @@ public class FolderHandler extends WorkspaceComponentHandler {
         addChildAt(fV[cI],numChildren-1);
         dispatchEvent(new Event(FOLDER_SELECT));
     }
-    override public function onStageResize(e:Event = null):void {
-        bnd.width=stage.stageWidth;
-        bnd.height=stage.stageHeight;
-    }
     override protected function onWorkspaceChange(e:Event):void {
         removeChildAt(0);
         addChild(wcv[Core.currentWorkspaceIndex]);
@@ -101,6 +90,12 @@ public class FolderHandler extends WorkspaceComponentHandler {
     override protected function onWorkspaceAdd(e:Event):void {
         wcv.push(new Sprite());
     }
+    /****************************************
+     *
+     *        GETTERS AND SETTERS
+     *
+     * **************************************
+     * */
     public function get currentIndex():uint{return cI}
     public function get currentFolder():Folder{return folder[cI]}
     public function get folder():Vector.<Folder>{return fV}

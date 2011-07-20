@@ -137,10 +137,11 @@ class SectionHeader extends Sprite{
         sf.call(null,av[tb.currentIndex]);
     }
     private function onTabClose():void{
-        ad[av[tb.removedIndex]]=null;
+        //TODO: Fix Section Tabs
+       /* ad[av[tb.removedIndex]]=null;
         av.splice(tb.removedIndex,1);
         for(var i:uint=tb.removedIndex;i<av.length;i++)ad[av[i]]-=1;
-        if(tb.removedSelected)onTabSelect();
+        if(tb.removedSelected)onTabSelect();    */
     }
     public function draw(w:Number,color:uint):void {
         tb.adjust(w-tb.x);
@@ -163,7 +164,7 @@ class SectionHeader extends Sprite{
     private function addView(child:DisplayObject,title:String):void {
         ad[child]=tb.length;
         av.push(child);
-        tb.selectTab(tb.addTab(title).vectorIndex);
+        tb.selectTab(tb.addTab(title).index);
     }
     private function selectView(view:DisplayObject):void {
         tb.selectTab(ad[view]);
