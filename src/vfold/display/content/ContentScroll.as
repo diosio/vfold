@@ -17,14 +17,18 @@ import flash.events.MouseEvent;
 import flash.events.Event;
 import com.greensock.TweenLite;
 
+import flash.media.scanHardware;
+
 public class ContentScroll extends Sprite {
 
     //content
     private var cnt:Sprite = new Sprite;
     //mask
     private var mS:Shape=new Shape;
-    // Thumbnail
-    private var tS:ContentThumbnail;
+    //Mask Graphics
+    private var g:Graphics=mS.graphics;
+    // ScrollBar
+    private var sb:ScrollBar;
     // Thumbnail Range
     private var tR:Number;
     // Y Offset
@@ -39,10 +43,16 @@ public class ContentScroll extends Sprite {
     private var mH:Number=0;
     private var we:Boolean=false;
     private var wa:Boolean=false;
+    // ScrollBar Gap
+    private const sg:int=3;
+    // Scroll Bar Height
+    private var sh:Number;
+    private var w:Number;
 
     public function ContentScroll(color:uint=0xFFFFFF):void{
         cnt.mask=mS;
-        tS=new ContentThumbnail(color,onScrollStart,onContentScrolling);
+        sb=new ScrollBar(color,onScrollStart,onContentScrolling);
+        sb.y=sg;
         width=200;
         height=300;
         addEventListener(Event.ADDED_TO_STAGE,init);
@@ -55,12 +65,12 @@ public class ContentScroll extends Sprite {
         cS = 0.9;
         super.addChild(mS);
         super.addChild(cnt);
-        super.addChild(tS);
+        super.addChild(sb);
     }
-    private function drawMask(g:Graphics):void{
+    private function draw():void{
         g.clear();
         g.beginFill(0,1);
-        g.drawRect(0,0,tS.x,mH);
+        g.drawRect(0,0,sb.visible?sb.x-sg:w,mH);
         g.endFill();
     }
     private function onStageMouseWheel(event:MouseEvent):void {
@@ -69,28 +79,25 @@ public class ContentScroll extends Sprite {
         if (spN > 1) spN = 1;
         if (spN < 0) spN = 0;
         moveContent();
-        tS.y=spN*tR;
+        sb.thumbY=spN*tR;
     }
     private function onScrollStart():void {
-        yoN = tS.parent.mouseY - tS.y;
+        yoN = sb.parent.mouseY - sb.thumbY;
     }
     private function onContentScrolling():void {
-        tS.y = tS.parent.mouseY-yoN;
+        sb.thumbY = sb.parent.mouseY-yoN;
         //restrict the movement of the thumb:
-        if (tS.y < 0) tS.y = 0;
-        if (tS.y > tR) tS.y = tR;
+        if (sb.thumbY < 0) sb.thumbY = 0;
+        if (sb.thumbY > tR) sb.thumbY = tR;
         //calculate scrollPercent and make it do stuff:
-        spN = (tS.y) / tR;
+        spN = (sb.thumbY) / tR;
         moveContent();
     }
     private function moveContent():void{TweenLite.to(cnt,cS,{y:-(spN * cR)})}
     public function reset():void {
-        tS.y=0;
+        sb.thumbY=0;
         cnt.y=0;
         spN=0;
-    }
-    private function draw():void{
-        drawMask(mS.graphics);
     }
     public function get scrollPercentage():Number{return spN}
     public function set wheelEnabled(value:Boolean):void {
@@ -102,44 +109,48 @@ public class ContentScroll extends Sprite {
         if (wa)addEventListener(MouseEvent.MOUSE_WHEEL,onStageMouseWheel);
         else removeEventListener(MouseEvent.MOUSE_WHEEL,onStageMouseWheel);
     }
-    public function get thumbnail():DisplayObject{return tS}
+    public function get thumbnail():DisplayObject{return sb}
     public function get content():Sprite{return cnt}
+    public function get barGap():int{return sb.visible?sg:0}
 
     public function updateContent():void{
-        tS.x=cnt.width-tS.width;
+        sb.x=cnt.width-sb.width-sg;
         updateValues();
     }
     override public function get height():Number{return mH}
     override public function set height(value:Number):void {
         mH=value;
-        tR=mH-tS.height;
+        tR=mH-sb.thumbHeight;
         updateValues();
     }
     override public function set width(value:Number):void {
-        tS.x=value-tS.width;
+        w=value;
+        sb.x=value-sb.width-sg;
         draw();
     }
+    public function get maskWidth():Number {
+        return mS.width;
+    }
+
     private function updateValues():void{
         cR=cnt.height-mH;
+        sh = mH-sg*2;
         if(cnt.height>mH){
             if(we&&!wa){
                 wheelActive=true;
+                sb.visible=true;
             }
-            if(!tS.enabled)tS.enabled=true;
             cnt.y=-spN*cR;
-            tS.height=(mH*mH)/cnt.height;
-            tR=mH-tS.height;
-            tS.y=spN*tR;
+            sb.adjust(sh,(sh*mH)/cnt.height);
+            tR=sh-sb.thumbHeight;
+            sb.thumbY=spN*tR;
         }
         else{
             if(we&&wa){
                 wheelActive=false;
+                sb.visible=false;
             }
-            tS.enabled=false;
             cnt.y=0;
-            tS.y=0;
-            tS.height=mH;
-            tR=mH-tS.height;
         }
         draw();
     }
@@ -152,15 +163,13 @@ import flash.events.MouseEvent;
 
 import vfold.utilities.ColorFunction;
 
-class ContentThumbnail extends Sprite{
+class ScrollBar extends Sprite{
     // Background Shape
     private var bs:Shape=new Shape();
     // Thumb Shape
-    private var ts:Shape=new Shape();
+    private var ts:Sprite=new Sprite();
     // Thumb Width
-    private var w:Number=9;
-    // Thumb Color
-    private var tc:uint;
+    private var w:Number=10;
     // Background Color
     private var bc:uint;
     // on Scroll Start Function
@@ -168,17 +177,18 @@ class ContentThumbnail extends Sprite{
     // on Scroll Moving Function
     private var smf:Function;
     // Gap
-    private const gap:int=1;
+    private const gap:int=2;
+    private var tc:uint;
 
-    public function ContentThumbnail(color:uint,onScrollStart:Function,onScrollMoving:Function):void{
+    public function ScrollBar(color:uint,onScrollStart:Function,onScrollMoving:Function):void{
         tc=color;
-        bc=ColorFunction.brightness(tc,-0.5);
+        bc=ColorFunction.brightness(tc,-.3);
         ssf=onScrollStart;
         smf=onScrollMoving;
         addChild(bs);
         addChild(ts);
         ts.x=ts.y=gap;
-        addEventListener(MouseEvent.MOUSE_DOWN,this.onScrollStart);
+        ts.addEventListener(MouseEvent.MOUSE_DOWN,this.onScrollStart);
     }
     private function onScrollStart(e:MouseEvent):void {
         ssf.call(null);
@@ -197,29 +207,22 @@ class ContentThumbnail extends Sprite{
         var g:Graphics=bs.graphics;
         g.clear();
         g.beginFill(bc);
-        drawShape(g,w,height);
+        g.drawRoundRect(0,0,w,height,w);
+        g.endFill();
         g = ts.graphics;
         g.clear();
         g.beginFill(tc);
-        drawShape(g,w-gap*2,thumbHeight-gap*2);
+        g.drawRoundRect(0,0,w-(gap*2),thumbHeight-(gap*2),w-(gap*2));
+        g.endFill();
     }
-    override public function get height():Number{return ts.height+gap*2}
-    private function drawShape(g:Graphics,width:Number,height:Number):void{
-        var w:Number = x+width,h:Number = y+height;
-        g.beginFill(bc);
-        g.curveTo(w,0,w,w);
-        g.lineTo(w,h-w);
-        g.curveTo(w,h,0,h);
-        g.lineTo(0,0);
+    public function get thumbHeight():Number{return ts.height+gap*2}
+    public function set thumbY(value:Number):void{
+        ts.y = value+gap;
     }
-    public function get enabled():Boolean{return alpha==1}
-
-    public function set enabled(value:Boolean):void{
-        if(value){
-            alpha=1;
-        }
-        else{
-            alpha=.5;
-        }
+    public function get thumbY():Number{
+        return ts.y-gap;
+    }
+    override public function get width():Number {
+        return w;
     }
 }

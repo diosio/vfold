@@ -13,6 +13,8 @@ import com.jac.mouse.MouseWheelEnabler;
 import com.lia.crypto.AES;
 
 import flash.display.Sprite;
+import flash.display3D.Context3D;
+import flash.display3D.Context3DRenderMode;
 import flash.events.EventDispatcher;
 import flash.net.NetConnection;
 import flash.net.ObjectEncoding;
@@ -104,6 +106,13 @@ public class Core extends Sprite {
         checkParameters();
         dispatchEvent(new Event(CORE_READY));
         notify("Powered by vfold ("+VERSION+")");
+
+        //TODO: Make vfold 3d accelerated
+        stage.stage3Ds[0].addEventListener(Event.CONTEXT3D_CREATE,onContextCreated);
+        stage.stage3Ds[0].requestContext3D();
+    }
+    private function onContextCreated(e:Event):void {
+        notify(stage.stage3Ds[0].context3D.driverInfo);
     }
     private function checkParameters():void{
         if(pr.confirmation){

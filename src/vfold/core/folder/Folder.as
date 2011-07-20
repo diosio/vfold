@@ -31,7 +31,7 @@ public class Folder extends CoreView{
 
 
     // Border Thickness
-    private const bT:int = 5;
+    private const bT:int = 7;
     // Header Height
     private const hh:int = 25;
     // Footer Height
@@ -472,8 +472,11 @@ class FolderBody extends ContentScroll{
     private var s:Shape = new Shape();
     private var g:Graphics=s.graphics;
     private var f:Folder;
+    private var c:uint;
     public function FolderBody(folder:Folder):void {
         f = folder;
+        c = ColorFunction.brightness(f.color,.55);
+        super(c);
         x=f.borderThickness+GAP;
         bg.x=-GAP;
         y=f.headerHeight;
@@ -488,13 +491,13 @@ class FolderBody extends ContentScroll{
     public function onFolderAdjust(w:Number,h:Number):void {
         var bd:BitmapData=new BitmapData(w,h,true,0);
         g.clear();
-        g.beginFill(ColorFunction.brightness(f.color,.55));
+        g.beginFill(c);
         g.drawRoundRect(0,0,w,h,f.innerRadius);
         bd.draw(s);
         bg.bitmapData=bd;
 
-        FolderLayout(content.getChildAt(0)).onFolderResize(w-GAP-thumbnail.width,h);
         width=w-GAP;height=h;
+        FolderLayout(content.getChildAt(0)).onFolderResize(maskWidth-(GAP-barGap),h);
     }
 
 }
