@@ -192,8 +192,9 @@ public class Tabs extends Sprite{
     private function onSelect(i:uint):void{
         if(!tV[i].selected){
             selectTab(i);
-            oI=tV[vI].orderIndex;
+            oI=tV[i].orderIndex;
             bds.width=width-tV[i].width;
+            tV[i].startDrag(false,bds);
             stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
             stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
             //sf.call();
