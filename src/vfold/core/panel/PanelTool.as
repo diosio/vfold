@@ -7,13 +7,13 @@
  * the Original Work                                                 *
  *********************************************************************/
 
-package vfold.core.tool {
+package vfold.core.panel {
 import flash.display.Sprite;
 import flash.events.Event;
 import vfold.core.Core;
 import vfold.core.panel.PanelToolBar;
 
-public class Tool extends Sprite {
+public class PanelTool extends Sprite {
 
     public static const ALIGN_LEFT:String="left";
     public static const ALIGN_RIGHT:String="right";
@@ -29,5 +29,9 @@ public class Tool extends Sprite {
         dispatchEvent(new Event(TOOL_CHANGE,true));
     }
     protected function get toolbar():PanelToolBar{return Core.panelHandler.toolbar}
+        // Tool Alignment
+    private var al:String="";
+    public function get alignment():String{return al}
+    public function set alignment(value:String):void{al=value}
 }
 }

@@ -37,6 +37,8 @@ public class FolderHandler extends WorkspaceComponentHandler {
     private var wcv:Vector.<Sprite>=new <Sprite>[];
 
     public function FolderHandler():void{
+        // This is a dummy dashboard workspace
+        addChild(new Sprite);
         mouseEnabled=false;
         addEventListener(Event.ADDED_TO_STAGE, addedToStage);
     }

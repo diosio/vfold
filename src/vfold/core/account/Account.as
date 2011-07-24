@@ -10,10 +10,10 @@
 package vfold.core.account {
 import flash.events.Event;
 import vfold.core.Core;
-import vfold.core.tool.Tool;
+import vfold.core.panel.PanelTool;
 import vfold.controls.button.ButtonLabel;
 
-public class Account extends Tool {
+public class Account extends PanelTool {
 
     // Account Button
     private var acb:ButtonLabel=new ButtonLabel();
