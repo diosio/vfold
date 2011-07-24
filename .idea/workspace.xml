@@ -22,18 +22,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="602afeac-122c-4c11-8e22-e9a638d8d41b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/core/panel/PanelBackground.as" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/core/panel/PanelFolderBar.as" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/core/panel/PanelMenuLauncher.as" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/core/panel/PanelToolBar.as" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/core/tool/ToolAlign.as" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/core/tool/ToolComponent.as" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/vfold/core/tool/Tool.as" afterPath="$PROJECT_DIR$/src/vfold/core/panel/PanelTool.as" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/utilities/Base64.as" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/utilities/JPEGEncoder.as" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/vfold/utilities/PNGEncoder.as" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/vfold/core/CoreObjectPool.as" afterPath="$PROJECT_DIR$/src/vfold/utilities/ObjectUtility.as" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/table/Table.as" afterPath="$PROJECT_DIR$/src/vfold/controls/table/Table.as" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/account/Account.as" afterPath="$PROJECT_DIR$/src/vfold/core/account/Account.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/panel/PanelHandler.as" afterPath="$PROJECT_DIR$/src/vfold/core/panel/PanelHandler.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/workspace/WorkspaceSwitcher.as" afterPath="$PROJECT_DIR$/src/vfold/core/workspace/WorkspaceSwitcher.as" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/panel/PanelOptions.as" afterPath="$PROJECT_DIR$/src/vfold/core/panel/PanelOptions.as" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/panel/PanelTool.as" afterPath="$PROJECT_DIR$/src/vfold/core/panel/PanelTool.as" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/utilities/GraphicUtility.as" afterPath="$PROJECT_DIR$/src/vfold/utilities/GraphicUtility.as" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/utilities/StringUtility.as" afterPath="$PROJECT_DIR$/src/vfold/utilities/StringUtility.as" />
     </list>
     <ignored path="vfold.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -101,10 +100,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PanelTool.as" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ObjectUtility.as" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/vfold/utilities/ObjectUtility.as">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PanelTool.as" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/vfold/core/panel/PanelTool.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="62" selection-start="1546" selection-end="1546" vertical-scroll-proportion="0.6503497">
+            <state line="10" column="0" selection-start="597" selection-end="597" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Account.as" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/vfold/core/account/Account.as">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="39" selection-start="1377" selection-end="1377" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -113,7 +130,7 @@
       <file leaf-file-name="PanelOptions.as" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/vfold/core/panel/PanelOptions.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="16" column="39" selection-start="747" selection-end="747" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -128,37 +145,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FolderSection.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderSection.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="139" column="32" selection-start="4833" selection-end="4833" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StringUtility.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/vfold/utilities/StringUtility.as">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="5" selection-start="2667" selection-end="2667" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="GraphicUtility.as" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/vfold/utilities/GraphicUtility.as">
           <provider selected="true" editor-type-id="text-editor">
+            <state line="98" column="42" selection-start="3268" selection-end="3268" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ColorUtility.as" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/vfold/utilities/ColorUtility.as">
+          <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Base64.as" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/vfold/utilities/Base64.as">
+      <file leaf-file-name="StringUtility.as" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/vfold/utilities/StringUtility.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="19" column="82" selection-start="919" selection-end="919" vertical-scroll-proportion="-1.4265734">
               <folding />
             </state>
           </provider>
@@ -187,22 +195,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/vfold/utilities/StringFunction.as" />
-        <option value="$PROJECT_DIR$/src/vfold/core/account/Account.as" />
-        <option value="$PROJECT_DIR$/src/vfold/utilities/GraphicUtility.as" />
-        <option value="$PROJECT_DIR$/src/vfold/core/folder/FolderSection.as" />
-        <option value="$PROJECT_DIR$/src/vfold/core/folder/Folder.as" />
-        <option value="$PROJECT_DIR$/src/vfold/controls/tabs/Tabs.as" />
-        <option value="$PROJECT_DIR$/src/vfold/core/panel/PanelBackground.as" />
-        <option value="$PROJECT_DIR$/src/vfold/core/panel/PanelMenuLauncher.as" />
-        <option value="$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/panel/PanelFolderBar.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/panel/PanelToolBar.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/panel/PanelHandler.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/tool/ToolComponent.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/tool/Tool.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/tool/PanelTool.as" />
+        <option value="$PROJECT_DIR$/src/vfold/core/account/Account.as" />
+        <option value="$PROJECT_DIR$/src/vfold/core/panel/PanelOptions.as" />
         <option value="$PROJECT_DIR$/src/vfold/core/panel/PanelTool.as" />
+        <option value="$PROJECT_DIR$/src/vfold/utilities/CoreObjectPool.as" />
+        <option value="$PROJECT_DIR$/src/vfold/utilities/ObjectUtility.as" />
+        <option value="$PROJECT_DIR$/src/vfold/utilities/JPEGEncoder.as" />
+        <option value="$PROJECT_DIR$/src/vfold/utilities/PNGEncoder.as" />
+        <option value="$PROJECT_DIR$/src/vfold/utilities/GraphicUtility.as" />
+        <option value="$PROJECT_DIR$/src/vfold/utilities/Base64.as" />
+        <option value="$PROJECT_DIR$/src/vfold/utilities/StringUtility.as" />
       </list>
     </option>
   </component>
@@ -254,6 +262,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="vfold" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vfold" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vfold" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vfold" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utilities" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -705,7 +735,7 @@
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up code.." />
+    <option name="LAST_COMMIT_MESSAGE" value="Simplifying classes" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -732,6 +762,7 @@
     <MESSAGE value="renaming and fixing the folder tabs" />
     <MESSAGE value="renaming classes and fixing the folder tabs" />
     <MESSAGE value="Cleaned up code.." />
+    <MESSAGE value="Simplifying classes" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -786,11 +817,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderOptions.as">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/vfold/core/Core.as">
       <provider selected="true" editor-type-id="text-editor">
         <state line="105" column="54" selection-start="3581" selection-end="3581" vertical-scroll-proportion="0.0" />
@@ -799,11 +825,6 @@
     <entry file="file://$PROJECT_DIR$/src/vfold/controls/button/ButtonSymbol.as">
       <provider selected="true" editor-type-id="text-editor">
         <state line="50" column="0" selection-start="1780" selection-end="1780" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/core/account/Account.as">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="0" selection-start="2342" selection-end="2342" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/vfold/controls/tabs/Tabs.as">
@@ -821,21 +842,6 @@
         <state line="139" column="32" selection-start="4833" selection-end="4833" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/utilities/StringUtility.as">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="5" selection-start="2667" selection-end="2667" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/utilities/GraphicUtility.as">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/utilities/Base64.as">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as">
       <provider selected="true" editor-type-id="text-editor">
         <state line="586" column="5" selection-start="17800" selection-end="17800" vertical-scroll-proportion="0.0">
@@ -850,9 +856,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/vfold/core/account/Account.as">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="39" selection-start="1377" selection-end="1377" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vfold/core/panel/PanelTool.as">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="597" selection-end="597" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/vfold/core/panel/PanelOptions.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="16" column="39" selection-start="747" selection-end="747" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -864,9 +884,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/core/panel/PanelTool.as">
+    <entry file="file://$PROJECT_DIR$/src/vfold/utilities/ObjectUtility.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="62" selection-start="1546" selection-end="1546" vertical-scroll-proportion="0.6503497">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vfold/utilities/GraphicUtility.as">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="98" column="42" selection-start="3268" selection-end="3268" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vfold/utilities/ColorUtility.as">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/vfold/utilities/StringUtility.as">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="82" selection-start="919" selection-end="919" vertical-scroll-proportion="-1.4265734">
           <folding />
         </state>
       </provider>

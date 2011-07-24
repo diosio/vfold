@@ -12,7 +12,7 @@ package vfold.core.panel {
 
 import flash.display.Bitmap;
 import vfold.controls.button.ButtonOptions;
-import vfold.core.tool.ToolComponent;
+import vfold.core.workspace.WorkspaceComponent;
 
 public class PanelOptions{
     // Menu
@@ -25,7 +25,7 @@ public class PanelOptions{
     public var logo:Bitmap;
 
     public function get menu():Vector.<ButtonOptions> {return m}
-    public function getToolComponent(classPath:String):ToolComponent{return to[classPath] as ToolComponent}
-    public function setToolComponent(toolComponent:ToolComponent):void{to[toolComponent.classPath]=toolComponent}
+    public function getToolComponent(classPath:String):WorkspaceComponent{return to[classPath] as WorkspaceComponent}
+    public function setToolComponent(toolComponent:WorkspaceComponent):void{to[toolComponent.classPath]=toolComponent}
 }
 }

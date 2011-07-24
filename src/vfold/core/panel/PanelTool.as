@@ -11,7 +11,6 @@ package vfold.core.panel {
 import flash.display.Sprite;
 import flash.events.Event;
 import vfold.core.Core;
-import vfold.core.panel.PanelToolBar;
 
 public class PanelTool extends Sprite {
 
@@ -23,7 +22,6 @@ public class PanelTool extends Sprite {
     // Tool Change
     public static const TOOL_CHANGE:String="toolChange";
 
-    protected function get toolbarWidth():Number{return Core.panelHandler.toolbar.width}
     override public function get height():Number {return Core.panelHandler.toolbar.height}
     protected function change():void{
         dispatchEvent(new Event(TOOL_CHANGE,true));

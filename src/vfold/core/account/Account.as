@@ -28,8 +28,8 @@ public class Account extends PanelTool {
 
     public function Account() {
         Core.dispatcher.addEventListener(Core.ACCOUNT_CHANGE,onAccountChange);
-        sib.setDropBox(sic, toolbar);
-        jnb.setDropBox(jnc, toolbar);
+        sib.setDropBox(sic,toolbar);
+        jnb.setDropBox(jnc,toolbar);
 
         addChild(sib);
         addChild(jnb);

@@ -7,8 +7,8 @@
  * the Original Work                                                 *
  *********************************************************************/
 
-package vfold.core {
-public class CoreObjectPool {
+package vfold.utilities {
+public class ObjectUtility {
     // Available Objects
     private var aov:Vector.<Object>=new Vector.<Object>();
     // Contemporary Objects
@@ -18,7 +18,7 @@ public class CoreObjectPool {
     // If getObject function instantiated the Class
     private var ib:Boolean=true;
 
-    public function CoreObjectPool(ObjectClass:Class) {
+    public function ObjectUtility(ObjectClass:Class) {
         OC=ObjectClass;
     }
     public function getObject():Object{
