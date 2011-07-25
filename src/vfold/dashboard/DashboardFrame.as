@@ -15,7 +15,7 @@ import flash.display.Sprite;
 
 import vfold.core.Core;
 import vfold.core.CoreView;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 public class DashboardFrame extends CoreView {
 

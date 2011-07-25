@@ -108,11 +108,11 @@ import flash.display.Sprite;
 import vfold.controls.menu.MenuButtons;
 import vfold.controls.button.*;
 import vfold.core.Core;
-import vfold.utilities.GraphicUtility;
+import vfold.utility.GraphicUtility;
 import vfold.display.text.TextSimple;
 import flash.display.Graphics;
 import flash.display.Shape;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 class MenuParent extends Sprite{
 
     // Button Container

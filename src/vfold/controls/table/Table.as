@@ -12,7 +12,7 @@ import flash.display.DisplayObject;
 import vfold.display.content.ContentContainer;
 import vfold.display.content.ContentScroll;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 public class Table extends ContentContainer {
     // Width
@@ -152,9 +152,9 @@ import flash.display.Graphics;
 import flash.display.Shape;
 import flash.text.TextFormat;
 import vfold.controls.button.Button;
-import vfold.utilities.ObjectUtility;
+import vfold.utility.ObjectUtility;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 import flash.display.DisplayObject;
 import flash.display.Sprite;
 

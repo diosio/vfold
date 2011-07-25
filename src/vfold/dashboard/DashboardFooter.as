@@ -13,7 +13,7 @@ import flash.display.Bitmap;
 import flash.events.Event;
 import vfold.core.Core;
 import vfold.core.CoreView;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 public class DashboardFooter extends CoreView {
 

@@ -7,7 +7,7 @@
  * the Original Work                                                 *
  *********************************************************************/
 
-package vfold.utilities {
+package vfold.utility {
 public class ObjectUtility {
     // Available Objects
     private var aov:Vector.<Object>=new Vector.<Object>();

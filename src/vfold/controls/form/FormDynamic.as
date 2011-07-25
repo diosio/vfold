@@ -15,7 +15,7 @@ import flash.display.Sprite;
 
 import vfold.core.Core;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 public class FormDynamic extends Sprite{
     // Input Field

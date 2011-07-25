@@ -7,7 +7,7 @@
  * the Original Work                                                 *
  *********************************************************************/
 
-package vfold.utilities {
+package vfold.utility {
 import flash.display.BitmapData;
 import flash.display.CapsStyle;
 import flash.display.Graphics;
@@ -273,7 +273,7 @@ final class JPEGEncoder
         UVAC_HT = computeHuffmanTbl(std_ac_chrominance_nrcodes,std_ac_chrominance_values);
     }
 
-    private static var bitcode:Vector.<BitString> = new Vector.<BitString>(65535, true);
+    private static var bitcode:Vector.<BitString>;
     private static var category:Vector.<int> = new Vector.<int>(65535, true);
 
     private static function initCategoryNumber():void
@@ -663,6 +663,7 @@ final class JPEGEncoder
 
     public function JPEGEncoder(quality:int=50)
     {
+        bitcode= new Vector.<BitString>(65535, true)
         ZigZag.fixed = true;
         aasf.fixed = true;
         YQT.fixed = true;

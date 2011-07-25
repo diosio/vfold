@@ -6,7 +6,7 @@
  * following licensing notice adjacent to the copyright notice for   *
  * the Original Work                                                 *
  *********************************************************************/
-package vfold.utilities {
+package vfold.utility {
 import flash.utils.ByteArray;
 
 public class StringUtility {

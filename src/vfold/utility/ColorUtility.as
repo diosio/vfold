@@ -6,8 +6,8 @@
  * following licensing notice adjacent to the copyright notice for   *
  * the Original Work                                                 *
  *********************************************************************/
-package vfold.utilities {
-import vfold.utilities.MathUtility;
+package vfold.utility {
+import vfold.utility.MathUtility;
 
 public class ColorUtility {
 

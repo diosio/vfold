@@ -72,7 +72,7 @@ import vfold.core.account.AccountRole;
 import vfold.core.account.AccountVO;
 import vfold.controls.form.Form;
 import vfold.mail.MailComposition;
-import vfold.utilities.StringUtility;
+import vfold.utility.StringUtility;
 
 class SignIn extends Form{
     private var ef:Function;

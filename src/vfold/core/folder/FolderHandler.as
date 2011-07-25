@@ -9,80 +9,73 @@
 
 
 package vfold.core.folder {
+import avmplus.getQualifiedClassName;
+
+import flash.display.DisplayObject;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
-import flash.geom.Rectangle;
-import flash.utils.Dictionary;
+import flash.system.ApplicationDomain;
 
-import vfold.controls.button.Button;
+import vfold.controls.tabs.Tabs;
+
 import vfold.core.Core;
 import vfold.core.workspace.WorkspaceComponentHandler;
 import flash.events.Event;
 
-public class FolderHandler extends WorkspaceComponentHandler {
+public final class FolderHandler extends WorkspaceComponentHandler {
 
     public static const FOLDER_CREATE:String="FolderAdd";
-    public static const FOLDER_CLOSE:String="FolderClose";
+    public static const FOLDER_CLOSING:String="FolderClose";
     public static const FOLDER_SELECT:String = "FolderSelect";
 
-    // folder Dictionary
-    private var fd:Dictionary=new Dictionary;
-    // Folder Vector
-    private var fV:Vector.<Folder>=new <Folder>[];
-    // current Index
-    private var cI:uint;
-    // previous Index
-    private var pI:uint;
     // Workspace Container Vector
     private var wcv:Vector.<Sprite>=new <Sprite>[];
+    // Active Folder
+    private var af:Folder;
+    // Tabs
+    private var tb:Tabs;
+
 
     public function FolderHandler():void{
+
         // This is a dummy dashboard workspace
         addChild(new Sprite);
         mouseEnabled=false;
-        addEventListener(Event.ADDED_TO_STAGE, addedToStage);
     }
-    private function addedToStage(e:Event):void{
+    override protected function onStageAdded():void {
+        tb=new Tabs(Core.panelHandler.contentHeight/2-3,Core.color,.7,onTabSelect,onTabClose);
+        tb.y=Core.panelHandler.contentHeight-tb.height;
+        addChild(tb);
         removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
         y=Core.panelHandler.height;
     }
+    private function onTabClose():void {removeFolder(tb.currentData);}
+    private function onTabSelect():void{folderSelect(tb.currentData);}
+    private function addedToStage(e:Event):void{
+
+    }
     public function addFolder(classPath:String):void {
         Core.currentWorkspace.folders.getAppComponent(classPath).instantiate(function(instance:*):void{
-            pI=cI;
-            cI=fV.length;
-            fV.push(instance as Folder);
-            wcv[Core.currentWorkspaceIndex].addChild(fV[cI]);
+            var f:Folder = Folder(instance);
+            currentWorkspace.addChild(f);
+            tb.addTab(f.title,f);
             dispatchEvent(new Event(FOLDER_CREATE));
+            folderSelect(f);
         });
     }
-    private function folderRemove(index:uint):void{
-
-        removeChild(fV[index]);
-        fV[index]=fd[fV[index]]=null;
-        fV.splice(i,1);
-        for (var i:uint=index;i<fV.length;i++){
-            fd[fV[i]]=i;
-        }
-        dispatchEvent(new Event(FOLDER_CLOSE));
-    }
-    public function getFolderIndex(folder:Folder):uint{
-        return fd[folder];
+    private function removeFolder(folder:Folder):void{
+        af=folder;
+        currentWorkspace.removeChild(folder);
+        dispatchEvent(new Event(FOLDER_CLOSING));
     }
     public function closeFolder(folder:Folder):void{
-        if(fd[folder])folderRemove(fd[folder]);
+        tb.removeTabByData(folder);
+        removeFolder(folder);
     }
-    public function closeFolderByIndex(index:uint):void{
-        folderRemove(index);
-    }
-    public function folderSelect(i:uint):void{
-
-        cI=i;
-        if(pI!=cI){
-            fV[cI].active=true;
-            if(pI<fV.length)fV[pI].active=false;
-            pI=cI;
-        }
-        addChildAt(fV[cI],numChildren-1);
+    public function folderSelect(folder:Folder):void{
+        tb.selectTab(folder);
+        af=folder;
+        currentWorkspace.addChildAt(folder,currentWorkspace.numChildren-1);
         dispatchEvent(new Event(FOLDER_SELECT));
     }
     override protected function onWorkspaceChange(e:Event):void {
@@ -92,15 +85,13 @@ public class FolderHandler extends WorkspaceComponentHandler {
     override protected function onWorkspaceAdd(e:Event):void {
         wcv.push(new Sprite());
     }
-    /****************************************
-     *
-     *        GETTERS AND SETTERS
-     *
-     * **************************************
-     * */
-    public function get currentIndex():uint{return cI}
-    public function get currentFolder():Folder{return folder[cI]}
-    public function get folder():Vector.<Folder>{return fV}
+    override public function onStageResize(e:Event = null):void {
+        tb.adjust(stage.stageWidth-x);
+    }
+
+    private function get currentWorkspace():Sprite{return  wcv[Core.currentWorkspaceIndex]}
+    public function get folderBar():DisplayObject{return tb}
+    public function get activeFolder():Folder{return af}
 
 }
 }

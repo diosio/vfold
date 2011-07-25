@@ -9,10 +9,13 @@
 
 
 package vfold.core.folder {
+
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
 import flash.utils.Dictionary;
+
+import vfold.controls.button.ButtonSymbol;
 
 import vfold.core.Core;
 import vfold.core.CoreView;
@@ -104,7 +107,25 @@ public class Folder extends CoreView{
 
         adjustEnd();
         br.adjust(FW,FH);
+
+        addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
     }
+    private function onMouseDown(e:MouseEvent):void {
+        switch(e.target.constructor){
+            case HeaderTitle:
+                startDrag();
+                break;
+            case HeaderButton:
+                ButtonSymbol(e.target).onMouseDown();
+                break;
+            case FooterFolderAdjust:
+                FooterFolderAdjust(e.target).onMouseDown();
+                break;
+            default:
+                break;
+        }
+    }
+
     public function addView(view:FolderView,layout:FolderLayout):void{
         if(!ld[layout]){
             layout.y=FolderBody.GAP;
@@ -186,12 +207,6 @@ public class Folder extends CoreView{
     override public function get height():Number{return FH}
 
 
-    public function onStartDrag(e:MouseEvent):void {
-        xO = stage.mouseX-x;
-        yO = stage.mouseY-y;
-        stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
-        stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
-    }
     private function onMouseMove(e:MouseEvent):void {
         x=stage.mouseX-xO;
         y=stage.mouseY-yO;
@@ -205,6 +220,10 @@ public class Folder extends CoreView{
         stage.removeEventListener(MouseEvent.MOUSE_UP,onMouseUp);
     }
     override public function startDrag(lockCenter:Boolean = false, bounds:Rectangle = null):void {
+        xO = stage.mouseX-x;
+        yO = stage.mouseY-y;
+        stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
+        stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
     }
     override public function stopDrag():void {
         adjustEnd();
@@ -239,8 +258,8 @@ import vfold.core.folder.FolderView;
 import vfold.core.folder.Folder;
 import vfold.display.content.ContentScroll;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorUtility;
-import vfold.utilities.GraphicUtility;
+import vfold.utility.ColorUtility;
+import vfold.utility.GraphicUtility;
 
 /*******************************************************
  *
@@ -341,7 +360,6 @@ class FolderHeader extends Sprite{
         btn=new HeaderButtons(f.minimize,f.maximize,f.close);
 
         ht.title=f.title;
-        ht.addEventListener(MouseEvent.MOUSE_DOWN,f.onStartDrag);
 
         addChild(ht);
         addChild(btn);
@@ -368,14 +386,14 @@ class FolderHeader extends Sprite{
         tb.selectTab(ad[view]);
     }
     private function onTabClose():void {
-       // TODO: Fix Header Tabs
+        // TODO: Fix Header Tabs
         /*ad[av[tb.removedIndex]]=null;
-        av.splice(tb.removedIndex,1);
-        for(var i:uint=tb.removedIndex;i<av.length;i++)ad[av[i]]-=1;
-        if(tb.removedSelected){
-            if(tb.length!=0)f.useView(av[tb.currentIndex]);
-            else f.useView(f.defaultView);
-        }       */
+         av.splice(tb.removedIndex,1);
+         for(var i:uint=tb.removedIndex;i<av.length;i++)ad[av[i]]-=1;
+         if(tb.removedSelected){
+         if(tb.length!=0)f.useView(av[tb.currentIndex]);
+         else f.useView(f.defaultView);
+         }       */
     }
     private function onTabSelect():void{
         f.useView(av[tb.currentIndex]);
@@ -422,11 +440,9 @@ class HeaderButtons extends Sprite{
         align();
         addEventListener(MouseEvent.MOUSE_OVER,onMouseOver);
         addEventListener(MouseEvent.MOUSE_OUT,onMouseOut);
-        addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
     }
-    private function onMouseOver(e:MouseEvent):void {ButtonSymbol(e.target.onMouseOver())}
-    private function onMouseOut(e:MouseEvent):void {ButtonSymbol(e.target.onMouseOut())}
-    private function onMouseDown(e:MouseEvent):void {ButtonSymbol(e.target.onMouseDown())}
+    private function onMouseOver(e:MouseEvent):void {ButtonSymbol(e.target).onMouseOver()}
+    private function onMouseOut(e:MouseEvent):void {ButtonSymbol(e.target).onMouseOut()}
     private function align():void{
         var mxh:Number=Math.max(MN.height,MX.height,CL.height);
         var i:int=numChildren;
@@ -458,6 +474,7 @@ class HeaderTitle extends Sprite{
     private var tf:TextSimple=new TextSimple(14,ColorUtility.brightness(Core.color,.7),true);
     public function HeaderTitle(){
         addChild(tf);
+        mouseChildren=false;
     }
     public function set title(value:String):void{
         tf.text=value;
@@ -547,8 +564,6 @@ class FooterFolderAdjust extends ButtonSymbol {
     // Temporary Height
     private var TH:Number;
 
-    // Border
-    private var br:Border;
 
     public function FooterFolderAdjust(folder:Folder) {
         f=folder;
@@ -562,14 +577,12 @@ class FooterFolderAdjust extends ButtonSymbol {
         color=ColorUtility.brightness(Core.color,.4);
         addEventListener(MouseEvent.MOUSE_OVER,onMouseOver);
         addEventListener(MouseEvent.MOUSE_OUT,onMouseOut);
-        addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
     }
     override protected function onDown():void {
         lX=mouseX;
         lY=mouseY;
         stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
         stage.addEventListener(MouseEvent.MOUSE_UP,onMouseUp);
-        f.startDrag();
     }
     private function onMouseMove(e:MouseEvent):void {
         oW=mouseX-lX;

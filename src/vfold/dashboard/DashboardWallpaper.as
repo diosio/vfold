@@ -18,7 +18,7 @@ import flash.system.Capabilities;
 import vfold.core.Core;
 import vfold.core.CoreView;
 import vfold.display.assets.Images;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 public class DashboardWallpaper extends CoreView {
 

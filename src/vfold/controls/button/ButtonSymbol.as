@@ -15,7 +15,7 @@ import flash.display.Sprite;
 
 import flash.filters.BlurFilter;
 
-import vfold.utilities.GraphicUtility;
+import vfold.utility.GraphicUtility;
 public class ButtonSymbol extends Button {
     // Background
     private var bg:Shape=new Shape;

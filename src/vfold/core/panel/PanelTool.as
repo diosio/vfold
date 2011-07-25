@@ -8,6 +8,8 @@
  *********************************************************************/
 
 package vfold.core.panel {
+import flash.display.DisplayObject;
+import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
 import flash.events.Event;
 import vfold.core.Core;
@@ -22,11 +24,10 @@ public class PanelTool extends Sprite {
     // Tool Change
     public static const TOOL_CHANGE:String="toolChange";
 
-    override public function get height():Number {return Core.panelHandler.toolbar.height}
     protected function change():void{
         dispatchEvent(new Event(TOOL_CHANGE,true));
     }
-    protected function get toolbar():PanelToolBar{return Core.panelHandler.toolbar}
+    protected function get toolbar():DisplayObject{return Core.panelHandler.toolbar}
         // Tool Alignment
     private var al:String="";
     public function get alignment():String{return al}

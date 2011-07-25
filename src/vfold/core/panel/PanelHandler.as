@@ -9,6 +9,7 @@
 
 package vfold.core.panel {
 import flash.display.Bitmap;
+import flash.display.DisplayObject;
 import flash.events.Event;
 import vfold.controls.menu.Menu;
 import vfold.core.Core;
@@ -24,10 +25,10 @@ public class PanelHandler extends WorkspaceComponentHandler {
     private var mn:Menu;
     // Menu Gap
     private var mg:uint=7;
-    // Folder Bar
-    private var fb:PanelFolderBar;
     // Tool Bar
     private var tb:PanelToolBar;
+    // Folder Bar
+    private var fb:DisplayObject;
 
     // Content Height
     private const ch:uint=50;
@@ -42,8 +43,8 @@ public class PanelHandler extends WorkspaceComponentHandler {
         mn=new Menu(Core.color,mg);
         bg=new PanelBackground;
         amn=new PanelMenuLauncher;
-        fb=new PanelFolderBar;
         tb=new PanelToolBar;
+        fb =Core.folderHandler.folderBar;
 
         mn.x=mg;
         mn.y=th+mg;
@@ -73,6 +74,7 @@ public class PanelHandler extends WorkspaceComponentHandler {
     public function get menu():Menu{return mn}
     public function get contentGap():uint{return cg}
     public function get contentHeight():uint{return ch}
+    public function get toolbar():DisplayObject{return tb}
     override public function get height():Number {return th}
 
 }
@@ -102,7 +104,7 @@ import vfold.core.folder.FolderHandler;
 import vfold.core.panel.PanelTool;
 import vfold.core.workspace.WorkspaceSwitcher;
 import vfold.display.assets.Images;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 class PanelBackground extends CoreView{
     // Background
@@ -203,66 +205,6 @@ class PanelMenuLauncher extends CoreView {
     override public function get height():Number {return h}
 
 }
-class PanelFolderBar extends CoreView{
-    // Tabs
-    private var tb:Tabs;
-    // Height
-    private var h:Number;
-    // Folder Handler
-    private const fh:FolderHandler=Core.folderHandler;
-    public function PanelFolderBar() {
-
-        fh.addEventListener(FolderHandler.FOLDER_CREATE,onFolderCreate);
-        fh.addEventListener(FolderHandler.FOLDER_SELECT,onFolderSelect);
-        fh.addEventListener(FolderHandler.FOLDER_CLOSE,onFolderClose);
-
-
-        h=(Core.panelHandler.contentHeight-Core.panelHandler.contentGap)/2;
-
-        tb=new Tabs(Core.panelHandler.contentHeight/2-3,Core.color,.7,onTabSelect,onTabClose);
-        tb.y=Core.panelHandler.contentHeight-tb.height;
-        addChild(tb);
-    }
-    /****************************************
-     *
-     *  EVENT HANDLERS FROM FOLDER HANDLER
-     *
-     * **************************************
-     * */
-    private function onFolderCreate(e:Event):void {
-        tb.addTab(fh.currentFolder.title,fh.currentFolder);
-        tb.selectTab(fh.currentFolder);
-    }
-    private function onFolderSelect(e:Event=null):void {
-        tb.selectTab(fh.currentFolder);
-    }
-    private function onFolderClose(e:Event):void{
-        tb.removeTab(fh.currentFolder);
-    }
-    /****************************************
-     *
-     *     FUNCTION CALLERS FROM TABS
-     *
-     * **************************************
-     * */
-    private function onTabClose():void {
-        //fh.closeFolder(tb.currentData);
-    }
-
-    private function onTabSelect():void{
-        //fh.folderSelect(tb.currentData);
-    }
-    /****************************************
-     *
-     *           NOT IMPORTANT
-     *
-     * **************************************
-     * */
-    override public function onStageResize(e:Event = null):void {
-        tb.adjust(stage.stageWidth-x);
-    }
-    override public function get height():Number {return h}
-}
 class PanelToolBar extends CoreView {
 
     // Left Container
@@ -343,6 +285,4 @@ class PanelToolBar extends CoreView {
     }
     override public function get width():Number {return w}
     override public function get height():Number {return h}
-
-    public function get workspaceSwitcher():WorkspaceSwitcher{return ws}
 }

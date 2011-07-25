@@ -104,7 +104,7 @@ import flash.utils.Dictionary;
 import vfold.controls.button.ButtonStyle;
 import vfold.controls.tabs.Tabs;
 import vfold.core.Core;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 class SectionHeader extends Sprite{
     // Header Tabs

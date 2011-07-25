@@ -28,9 +28,10 @@ public class WorkspaceSwitcher extends PanelTool {
 
         align=PanelTool.ALIGN_LEFT;
         Core.dispatcher.addEventListener(Core.WORKSPACE_CHANGE,onWorkspaceChange);
+        Core.dispatcher.addEventListener(Core.WORKSPACE_ADD,onWorkspaceAdd);
     }
-    public function addSwitch(label:String):void{
-        //lt.addEntry(label);
+    private function onWorkspaceAdd(e:Event):void {
+        //add workspace to list
     }
     private function onWorkspaceChange(e:Event):void{useSwitch(Core.currentWorkspaceIndex)}
     private function useSwitch(index:uint):void{/*bt.label=lt.entries[index].text*/}

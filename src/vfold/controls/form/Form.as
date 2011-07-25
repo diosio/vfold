@@ -106,6 +106,8 @@ public class Form extends Sprite{
 }
 import flash.display.Bitmap;
 import flash.display.Graphics;
+import flash.events.Event;
+import flash.events.FocusEvent;
 import flash.events.MouseEvent;
 import flash.text.TextFieldType;
 
@@ -119,7 +121,7 @@ import vfold.controls.table.TableRowData;
 import vfold.core.Core;
 import vfold.display.assets.Images;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 class Title extends TextSimple{
     public function Title(label:String){

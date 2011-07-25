@@ -8,7 +8,7 @@
  *********************************************************************/
 
 package vfold.mail {
-import vfold.utilities.StringUtility;
+import vfold.utility.StringUtility;
 
 public class MailComposition {
     // Send To

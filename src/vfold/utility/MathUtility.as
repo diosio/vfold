@@ -6,7 +6,7 @@
  * following licensing notice adjacent to the copyright notice for   *
  * the Original Work                                                 *
  *********************************************************************/
-package vfold.utilities {
+package vfold.utility {
 public class MathUtility {
     public static function randomNumber(from:Number,to:Number):Number{
         return (Math.random()*(to-from))+from;

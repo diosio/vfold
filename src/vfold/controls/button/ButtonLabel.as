@@ -16,7 +16,7 @@ import flash.events.MouseEvent;
 
 import vfold.core.Core;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 public class ButtonLabel extends Button {
 

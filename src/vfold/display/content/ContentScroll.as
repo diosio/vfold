@@ -157,7 +157,7 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 class ScrollBar extends Sprite{
     // Background Shape

@@ -13,9 +13,10 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
+import flash.text.engine.TabAlignment;
 import flash.utils.Dictionary;
 
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 public class Tabs extends Sprite{
     // Tab vector
@@ -79,7 +80,9 @@ public class Tabs extends Sprite{
         if(e.target is CloseButton)CloseButton(e.target).onMouseOut();
     }
     private function onMouseDown(e:MouseEvent):void {
-        if(e.target is CloseButton)closeTab(Tab(e.target.parent).index);
+        if(e.target is CloseButton){
+            closeTab(Tab(e.target.parent).index);
+        }
         else if(e.target is Tab)onSelect(Tab(e.target).index);
     }
     /****************************************
@@ -232,7 +235,7 @@ public class Tabs extends Sprite{
      *
      * **************************************
      * */
-    public function removeTab(data:*):void {
+    public function removeTabByData(data:*):void {
         removeTabByIndex(dd[data]);
     }
     private function closeTab(i:uint):void{
@@ -242,7 +245,7 @@ public class Tabs extends Sprite{
         vI=t;
         removeTabByIndex(i);
     }
-    private function removeTabByIndex(i:uint):void {
+    public function removeTabByIndex(i:uint):void {
         stw-=tV[i].textWidthOrig;
         stg-=(tV[i].widthOrig-tV[i].textWidthOrig);
         if(tV.length!=1)stg+=RADIUS;
@@ -309,7 +312,7 @@ import vfold.core.Core;
 import vfold.display.text.TextSimple;
 import flash.text.TextFieldAutoSize;
 import vfold.controls.button.ButtonSymbol;
-import vfold.utilities.GraphicUtility;
+import vfold.utility.GraphicUtility;
 import vfold.controls.button.Button;
 import flash.display.Graphics;
 import flash.display.Shape;

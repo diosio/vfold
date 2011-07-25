@@ -13,7 +13,7 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import vfold.display.text.TextSimple;
-import vfold.utilities.ColorUtility;
+import vfold.utility.ColorUtility;
 
 
 public class WindowHeader extends Sprite {
@@ -108,7 +108,7 @@ public class WindowHeader extends Sprite {
 import flash.display.Shape;
 import flash.events.MouseEvent;
 import vfold.controls.button.Button;
-import vfold.utilities.GraphicUtility;
+import vfold.utility.GraphicUtility;
 
 class ButtonMinimize extends Button{
 

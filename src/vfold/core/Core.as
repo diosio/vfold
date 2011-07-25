@@ -132,7 +132,6 @@ public class Core extends Sprite {
     }
     public static function addWorkspace(workspace:Workspace):void{
         ws.push(workspace);
-        pn.toolbar.workspaceSwitcher.addSwitch(workspace.title);
         ed.dispatchEvent(new Event(WORKSPACE_ADD));
     }
     public static function useWorkspace(index:uint):void{
