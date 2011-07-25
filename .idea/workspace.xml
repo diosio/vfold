@@ -2,10 +2,10 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as" line="22" mnemonic="1" />
-    <bookmark url="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as" line="269" mnemonic="2" />
-    <bookmark url="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as" line="343" mnemonic="3" />
-    <bookmark url="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as" line="488" mnemonic="4" />
-    <bookmark url="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as" line="529" mnemonic="5" />
+    <bookmark url="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as" line="279" mnemonic="2" />
+    <bookmark url="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as" line="353" mnemonic="3" />
+    <bookmark url="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as" line="494" mnemonic="4" />
+    <bookmark url="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as" line="535" mnemonic="5" />
   </component>
   <component name="CCaseConfig">
     <option name="checkoutReserved" value="false" />
@@ -22,34 +22,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="602afeac-122c-4c11-8e22-e9a638d8d41b" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/vfold/utilities/ColorUtility.as" afterPath="$PROJECT_DIR$/src/vfold/utility/ColorUtility.as" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/vfold/utilities/GraphicUtility.as" afterPath="$PROJECT_DIR$/src/vfold/utility/GraphicUtility.as" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/vfold/utilities/MathUtility.as" afterPath="$PROJECT_DIR$/src/vfold/utility/MathUtility.as" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/vfold/utilities/ObjectUtility.as" afterPath="$PROJECT_DIR$/src/vfold/utility/ObjectUtility.as" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/vfold/utilities/StringUtility.as" afterPath="$PROJECT_DIR$/src/vfold/utility/StringUtility.as" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/button/ButtonLabel.as" afterPath="$PROJECT_DIR$/src/vfold/controls/button/ButtonLabel.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/button/ButtonSymbol.as" afterPath="$PROJECT_DIR$/src/vfold/controls/button/ButtonSymbol.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/form/Form.as" afterPath="$PROJECT_DIR$/src/vfold/controls/form/Form.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/form/FormDynamic.as" afterPath="$PROJECT_DIR$/src/vfold/controls/form/FormDynamic.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/menu/MenuButtons.as" afterPath="$PROJECT_DIR$/src/vfold/controls/menu/MenuButtons.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/table/Table.as" afterPath="$PROJECT_DIR$/src/vfold/controls/table/Table.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/controls/tabs/Tabs.as" afterPath="$PROJECT_DIR$/src/vfold/controls/tabs/Tabs.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/Core.as" afterPath="$PROJECT_DIR$/src/vfold/core/Core.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/account/Account.as" afterPath="$PROJECT_DIR$/src/vfold/core/account/Account.as" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/Folder.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/Folder.as" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/folder/FolderSection.as" afterPath="$PROJECT_DIR$/src/vfold/core/folder/FolderSection.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/panel/PanelHandler.as" afterPath="$PROJECT_DIR$/src/vfold/core/panel/PanelHandler.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/panel/PanelTool.as" afterPath="$PROJECT_DIR$/src/vfold/core/panel/PanelTool.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/core/workspace/WorkspaceSwitcher.as" afterPath="$PROJECT_DIR$/src/vfold/core/workspace/WorkspaceSwitcher.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/dashboard/DashboardFooter.as" afterPath="$PROJECT_DIR$/src/vfold/dashboard/DashboardFooter.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/dashboard/DashboardFrame.as" afterPath="$PROJECT_DIR$/src/vfold/dashboard/DashboardFrame.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/dashboard/DashboardWallpaper.as" afterPath="$PROJECT_DIR$/src/vfold/dashboard/DashboardWallpaper.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/display/content/ContentScroll.as" afterPath="$PROJECT_DIR$/src/vfold/display/content/ContentScroll.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/display/window/WindowHeader.as" afterPath="$PROJECT_DIR$/src/vfold/display/window/WindowHeader.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/display/window/WindowSimple.as" afterPath="$PROJECT_DIR$/src/vfold/display/window/WindowSimple.as" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/vfold/mail/MailComposition.as" afterPath="$PROJECT_DIR$/src/vfold/mail/MailComposition.as" />
     </list>
     <ignored path="vfold.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -120,7 +95,7 @@
       <file leaf-file-name="FolderHandler.as" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="0" selection-start="3193" selection-end="3193" vertical-scroll-proportion="0.0">
+            <state line="78" column="51" selection-start="2973" selection-end="2973" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -192,7 +167,7 @@
       <file leaf-file-name="Folder.as" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="599" selection-end="599" vertical-scroll-proportion="0.23913044">
+            <state line="101" column="56" selection-start="2889" selection-end="2889" vertical-scroll-proportion="0.5507246">
               <folding />
             </state>
           </provider>
@@ -834,7 +809,7 @@
     <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Class Merging" />
+    <option name="LAST_COMMIT_MESSAGE" value="Folder Optimization, Focus Event Dispatching in progress&#10;And some minor changes" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -863,6 +838,7 @@
     <MESSAGE value="Cleaned up code.." />
     <MESSAGE value="Simplifying classes" />
     <MESSAGE value="Class Merging" />
+    <MESSAGE value="Folder Optimization, Focus Event Dispatching in progress&#10;And some minor changes" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -992,6 +968,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="51" selection-start="2973" selection-end="2973" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/vfold/controls/form/Form.as">
       <provider selected="true" editor-type-id="text-editor">
         <state line="198" column="0" selection-start="6194" selection-end="6194" vertical-scroll-proportion="-15.0">
@@ -999,16 +982,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/FolderHandler.as">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="0" selection-start="3193" selection-end="3193" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/vfold/core/folder/Folder.as">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="599" selection-end="599" vertical-scroll-proportion="0.23913044">
+        <state line="101" column="56" selection-start="2889" selection-end="2889" vertical-scroll-proportion="0.5507246">
           <folding />
         </state>
       </provider>

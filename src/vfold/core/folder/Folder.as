@@ -22,6 +22,10 @@ import vfold.core.CoreView;
 
 public class Folder extends CoreView{
 
+    public static const FOLDER_SELECT:String="folderSelect";
+    // Folder Select Event
+    private var fse:Event=new Event(FOLDER_SELECT,true);
+
     // Folder Layout Dictionary
     private var ld:Dictionary=new Dictionary();
     // Folder Layout Vector;
@@ -80,6 +84,8 @@ public class Folder extends CoreView{
     private var xO:Number;
     // y position Offset
     private var yO:Number;
+    // Folder Active
+    private var fa:Boolean=false;
 
 
     public function Folder(defaultView:FolderView,defaultLayout:FolderLayout) {
@@ -121,11 +127,9 @@ public class Folder extends CoreView{
             case FooterFolderAdjust:
                 FooterFolderAdjust(e.target).onMouseDown();
                 break;
-            default:
-                break;
         }
+        if(!fa)dispatchEvent(fse);
     }
-
     public function addView(view:FolderView,layout:FolderLayout):void{
         if(!ld[layout]){
             layout.y=FolderBody.GAP;
@@ -186,7 +190,13 @@ public class Folder extends CoreView{
     }
 
     protected function set color_(value:uint):void{FC = value}
-    public function set active(b:Boolean):void{hd.active=b}
+    public function set active(b:Boolean):void{
+        fa=b;
+        if(b)
+            hd.alpha=br.alpha=ft.alpha=1;
+        else
+            hd.alpha=br.alpha=ft.alpha=.4;
+    }
     public function set minWidth(value:Number):void{MW=value}
     public function get title():String{return FT}
     public function get color():uint{return FC}
@@ -401,10 +411,6 @@ class FolderHeader extends Sprite{
     public function onFolderAdjust():void {
         btn.x=f.width-btn.width-f.outerRadius/2;
         tb.adjust(btn.x-g);
-    }
-    public function set active(b:Boolean):void{
-        if(b)tb.alpha=btn.alpha=1;
-        else tb.alpha=btn.alpha=.4;
     }
 }
 

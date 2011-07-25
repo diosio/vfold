@@ -9,12 +9,9 @@
 
 
 package vfold.core.folder {
-import avmplus.getQualifiedClassName;
 
 import flash.display.DisplayObject;
 import flash.display.Sprite;
-import flash.events.MouseEvent;
-import flash.system.ApplicationDomain;
 
 import vfold.controls.tabs.Tabs;
 
@@ -41,6 +38,10 @@ public final class FolderHandler extends WorkspaceComponentHandler {
         // This is a dummy dashboard workspace
         addChild(new Sprite);
         mouseEnabled=false;
+        addEventListener(Folder.FOLDER_SELECT,onFolderSelect);
+    }
+    private function onFolderSelect(e:Event):void {
+        selectFolder(Folder(e.target));
     }
     override protected function onStageAdded():void {
         tb=new Tabs(Core.panelHandler.contentHeight/2-3,Core.color,.7,onTabSelect,onTabClose);
@@ -50,17 +51,16 @@ public final class FolderHandler extends WorkspaceComponentHandler {
         y=Core.panelHandler.height;
     }
     private function onTabClose():void {removeFolder(tb.currentData);}
-    private function onTabSelect():void{folderSelect(tb.currentData);}
+    private function onTabSelect():void{selectFolder(tb.currentData);}
     private function addedToStage(e:Event):void{
 
     }
     public function addFolder(classPath:String):void {
         Core.currentWorkspace.folders.getAppComponent(classPath).instantiate(function(instance:*):void{
             var f:Folder = Folder(instance);
-            currentWorkspace.addChild(f);
             tb.addTab(f.title,f);
             dispatchEvent(new Event(FOLDER_CREATE));
-            folderSelect(f);
+            selectFolder(f);
         });
     }
     private function removeFolder(folder:Folder):void{
@@ -72,10 +72,12 @@ public final class FolderHandler extends WorkspaceComponentHandler {
         tb.removeTabByData(folder);
         removeFolder(folder);
     }
-    public function folderSelect(folder:Folder):void{
+    public function selectFolder(folder:Folder):void{
+        if(currentWorkspace.numChildren>0)Folder(currentWorkspace.getChildAt(currentWorkspace.numChildren-1)).active=false;
+        folder.active=true;
         tb.selectTab(folder);
         af=folder;
-        currentWorkspace.addChildAt(folder,currentWorkspace.numChildren-1);
+        currentWorkspace.addChildAt(folder,currentWorkspace.numChildren);
         dispatchEvent(new Event(FOLDER_SELECT));
     }
     override protected function onWorkspaceChange(e:Event):void {
