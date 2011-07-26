@@ -34,8 +34,11 @@ public class Form extends Sprite{
     private var ev:Vector.<FormDynamic>=new Vector.<FormDynamic>;
     // Error Notification Text
     private var et:String;
+    // Text Color
+    private var tc:uint;
 
-    public function Form():void{
+    public function Form(textColor:uint = 0xFFFFFF):void{
+        tc = textColor;
         icc.addEventListener(Event.CHANGE,onChange);
         icc.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
         addChild(tcc);
@@ -44,7 +47,7 @@ public class Form extends Sprite{
     private var ho:Number=0;
     public function addEntry(entry:FormEntry):void{
         var i:uint=ev.length;
-        var t:Title=new Title(entry.title+": ");
+        var t:Title=new Title(entry.title+": ",tc);
         switch(entry.type){
             case FormEntry.INPUT:
                 ev[i]=new FormInput();
@@ -124,9 +127,9 @@ import vfold.display.text.TextSimple;
 import vfold.utility.ColorUtility;
 
 class Title extends TextSimple{
-    public function Title(label:String){
-        color=0xFFFFFF;
+    public function Title(label:String,textColor:uint){
         text=label;
+        color=textColor;
     }
 }
 class FormInput extends FormDynamic{

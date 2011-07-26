@@ -9,6 +9,7 @@
 
 
 package vfold.controls.button {
+
 public class ButtonStyle {
 
     private var fc:uint;
@@ -19,7 +20,7 @@ public class ButtonStyle {
     private var tc:uint;
     private var tb:Boolean=false;
 
-    public function ButtonStyle(fillColor:uint=0,fillAlpha:Number=1,strokeThickness:uint=0,strokeColor:uint=0,strokeAlpha:Number=1,textColor:uint=0xFFFFFF):void {
+    public function ButtonStyle(fillColor:uint=0,fillAlpha:Number=1,strokeThickness:uint=1,strokeColor:uint=0xFFFFFF,strokeAlpha:Number=1,textColor:uint=0xFFFFFF):void {
         fc=fillColor;
         fa=fillAlpha;
         lt=strokeThickness;

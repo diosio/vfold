@@ -17,67 +17,98 @@ public class Account extends PanelTool {
 
     // Account Button
     private var acb:ButtonLabel=new ButtonLabel();
-    // Sign in Button
-    private var sib:ButtonLabel=new ButtonLabel();
     // Join Button
-    private var jnb:ButtonLabel=new ButtonLabel();
-    // Sign in Drop Box Content
-    private var sic:SignIn=new SignIn(onSignExit);
+    private var sib:ButtonLabel=new ButtonLabel();
     // Join Drop Box Content
-    private var jnc:Join=new Join(onJoinExit);
+    private var sic:Join=new Join();
 
     public function Account() {
         Core.dispatcher.addEventListener(Core.ACCOUNT_CHANGE,onAccountChange);
         sib.setDropBox(sic,toolbar);
-        jnb.setDropBox(jnc,toolbar);
 
         addChild(sib);
-        addChild(jnb);
 
-        sib.label="sign in";
-        jnb.label="join";
-
-        jnb.x=sib.width+3;
+        sib.label="join";
     }
     private function onAccountChange(e:Event):void{
         if(Core.currentUser){
             if(!contains(acb)){
                 addChild(acb);
                 removeChild(sib);
-                removeChild(jnb);
             }
             acb.label=Core.currentUser.firstname+" "+Core.currentUser.lastname;
         }
         else{
             removeChild(acb);
             addChild(sib);
-            addChild(jnb);
         }
         change();
     }
     private function onJoinExit():void{
-        jnb.onStageDown();
-    }
-    private function onSignExit():void {
         sib.onStageDown();
     }
 }
 }
 
+import flash.display.Graphics;
+import flash.display.Shape;
+import flash.display.Sprite;
 import flash.net.registerClassAlias;
+
+import vfold.controls.button.ButtonLabel;
+import vfold.controls.button.ButtonStyle;
 
 import vfold.controls.form.FormEntry;
 import vfold.core.Core;
 import vfold.core.account.AccountRole;
 import vfold.core.account.AccountVO;
 import vfold.controls.form.Form;
+import vfold.display.text.TextSimple;
 import vfold.mail.MailComposition;
+import vfold.utility.ColorUtility;
 import vfold.utility.StringUtility;
+
+class Join extends Sprite{
+    private var cb:ButtonLabel;
+    private var si:SignIn=new SignIn();
+    public function Join(){
+        var bc:uint=ColorUtility.brightness(Core.color,.85);
+        cb=new ButtonLabel(new ButtonStyle(ColorUtility.brightness(Core.color,.2),1,1,bc,1,bc));
+        cb.label="Create an Account";
+        addChild(cb);
+        addChild(si);
+        si.y = cb.height;
+        cb.x = (si.width-cb.width)/2;
+    }
+}
+class Separator extends Sprite{
+    private var g:Graphics;
+    private const tf:TextSimple = new TextSimple();
+    private var w:Number;
+    public function Separator(){
+        var s:Shape = new Shape();
+        g=s.graphics;
+        addChild(s);
+    }
+    public function set label(value:String):void{
+        tf.text =value;
+    }
+    private function draw():void{
+        g.clear();
+        g.lineStyle(1,1,1);
+        g.moveTo(0,0);
+        g.lineTo(tf.x,0);
+        g.moveTo(tf.x+tf.width,0);
+        g.lineTo(width,0);
+    }
+    override public function get width():Number {return w}
+    override public function set width(value:Number):void {w = value}
+}
 
 class SignIn extends Form{
     private var ef:Function;
     private var ps:String;
-    public function SignIn(exitFunction:Function):void{
+    public function SignIn(exitFunction:Function=null):void{
         ef=exitFunction;
         var d:FormEntry=new FormEntry();
         d.title="Login Name";
@@ -120,7 +151,7 @@ class SignIn extends Form{
         entries[1].setStatus(s?Form.ERROR:Form.WARNING,s);
     }
 }
-class Join extends Form{
+class Register extends Form{
     // Mail Composition
     private var mc:MailComposition;
     // Mail Tokens
@@ -129,7 +160,7 @@ class Join extends Form{
     private var ef:Function;
     // Account Value Object
     private var acc:AccountVO=new AccountVO();
-    public function Join(exitFunction:Function):void {
+    public function Register(exitFunction:Function):void {
         ef=exitFunction;
         mt.domain=Core.projectDomain;
         mt.title=Core.projectTitle;

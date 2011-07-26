@@ -40,14 +40,10 @@ public class ButtonLabel extends Button {
         tf.y=tf.leading;
         addChild(bg);
         addChild(tf);
-
         onOut();
         tf.addEventListener(MouseEvent.MOUSE_OVER,onMouseOver);
         tf.addEventListener(MouseEvent.MOUSE_OUT,onMouseOut);
         tf.addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
-    }
-    public function modify(data:ButtonOptions):void{
-
     }
     public function set label(value:String):void{
         tf.text=value;
@@ -61,14 +57,13 @@ public class ButtonLabel extends Button {
         g.drawRoundRect(0,0,tf.width,tf.height,10);
         g.endFill();
     }
+    public function get buttonsStyle():ButtonStyle{return bs}
     override public function get height():Number {return bg.height}
     override protected function onOver():void {
         bg.alpha=1;
-        tf.alpha=1;
     }
     override protected function onOut():void {
         bg.alpha=.6;
-        tf.alpha=.7;
     }
     override protected function onDown():void {
         onOut();
