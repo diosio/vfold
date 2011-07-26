@@ -65,19 +65,20 @@ public final class FolderHandler extends WorkspaceComponentHandler {
     }
     private function removeFolder(folder:Folder):void{
         af=folder;
-        currentWorkspace.removeChild(folder);
+        wSpace.removeChild(folder);
         dispatchEvent(new Event(FOLDER_CLOSING));
+        if(wSpace.numChildren>0)Folder(wSpace.getChildAt(wSpace.numChildren-1)).active=true;
     }
     public function closeFolder(folder:Folder):void{
         tb.removeTabByData(folder);
         removeFolder(folder);
     }
     public function selectFolder(folder:Folder):void{
-        if(currentWorkspace.numChildren>0)Folder(currentWorkspace.getChildAt(currentWorkspace.numChildren-1)).active=false;
+        if(wSpace.numChildren>0)Folder(wSpace.getChildAt(wSpace.numChildren-1)).active=false;
         folder.active=true;
         tb.selectTab(folder);
         af=folder;
-        currentWorkspace.addChildAt(folder,currentWorkspace.numChildren);
+        wSpace.addChildAt(folder,wSpace.numChildren);
         dispatchEvent(new Event(FOLDER_SELECT));
     }
     override protected function onWorkspaceChange(e:Event):void {
@@ -90,8 +91,8 @@ public final class FolderHandler extends WorkspaceComponentHandler {
     override public function onStageResize(e:Event = null):void {
         tb.adjust(stage.stageWidth-x);
     }
-
-    private function get currentWorkspace():Sprite{return  wcv[Core.currentWorkspaceIndex]}
+    // Current Workspace
+    private function get wSpace():Sprite{return  wcv[Core.currentWorkspaceIndex]}
     public function get folderBar():DisplayObject{return tb}
     public function get activeFolder():Folder{return af}
 

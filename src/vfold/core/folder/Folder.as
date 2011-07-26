@@ -10,6 +10,8 @@
 
 package vfold.core.folder {
 
+import avmplus.getQualifiedClassName;
+
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
@@ -118,14 +120,14 @@ public class Folder extends CoreView{
     }
     private function onMouseDown(e:MouseEvent):void {
         switch(e.target.constructor){
-            case HeaderTitle:
-                startDrag();
-                break;
             case HeaderButton:
                 ButtonSymbol(e.target).onMouseDown();
                 break;
             case FooterFolderAdjust:
                 FooterFolderAdjust(e.target).onMouseDown();
+                break;
+            case Background:
+                startDrag();
                 break;
         }
         if(!fa)dispatchEvent(fse);
@@ -298,7 +300,7 @@ class Border extends Shape{
  *
  ********************************************************/
 
-class Background extends Bitmap{
+class Background extends Sprite{
 
     // Shape for Background Drawings
     // Not used as a Child
@@ -322,8 +324,10 @@ class Background extends Bitmap{
     private const sf:DropShadowFilter=new DropShadowFilter(5,90,0,1,br,br,1,1,false,true);
     // Bitmap Data Drawing Color Transform
     private const ct:ColorTransform=new ColorTransform(1,1,1,.8);
-
+    //bitmap
+    private var bm:Bitmap = new Bitmap();
     public function Background(folder:Folder) {
+        addChild(bm);
         cn.addChild(bg);
         bg.x=bg.y=br;
         x = y = -br;
@@ -342,7 +346,7 @@ class Background extends Bitmap{
         bg.filters=[sf];
         bd.draw(cn);
         bg.filters=[];
-        bitmapData=bd;
+        bm.bitmapData=bd;
         g.clear();
     }
 }
@@ -480,6 +484,7 @@ class HeaderTitle extends Sprite{
     private var tf:TextSimple=new TextSimple(14,ColorUtility.brightness(Core.color,.7),true);
     public function HeaderTitle(){
         addChild(tf);
+        mouseEnabled=false;
         mouseChildren=false;
     }
     public function set title(value:String):void{
