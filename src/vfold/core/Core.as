@@ -9,6 +9,7 @@
 
 package vfold.core{
 
+import com.facebook.graph.Facebook;
 import com.jac.mouse.MouseWheelEnabler;
 import com.lia.crypto.AES;
 
@@ -67,7 +68,7 @@ public class Core extends Sprite {
     public static const ACCOUNT_CHANGE:String="accountChange";
     public static const WORKSPACE_CHANGE:String="workspaceChange";
     public static const WORKSPACE_ADD:String="workspaceAdd";
-    public static const VERSION:String="2011.04.13";
+    public static const VERSION:String="2011.07.28";
 
     // Net Connection
     private static const nc:NetConnection=new NetConnection();
@@ -110,6 +111,10 @@ public class Core extends Sprite {
         //TODO: Make vfold 3d accelerated
         stage.stage3Ds[0].addEventListener(Event.CONTEXT3D_CREATE,onContextCreated);
         stage.stage3Ds[0].requestContext3D();
+
+        Facebook.init(op.facebookOptions.appID,function(success:Object,failure:Object):void{
+
+        });
     }
     private function onContextCreated(e:Event):void {
         notify(stage.stage3Ds[0].context3D.driverInfo);
@@ -161,17 +166,29 @@ public class Core extends Sprite {
     public static function encryptPassword(password:String):String{
         return AES.encrypt(op.securityKey,password,AES.BIT_KEY_256);
     }
-    public static function signInAccount(account:AccountVO,password:String):Boolean{
-        if(!ca){
-            if (op.securityKey==AES.decrypt(account.password,password,AES.BIT_KEY_256)){
-                ca=account;
-                notify("Welcome back "+ca.firstname+"!");
-                ed.dispatchEvent(new Event(ACCOUNT_CHANGE));
-                return true;
-            }
-            notify("Wrong password, try again");
-        }
-        return false;
+    public static function signInAccount(loginName:String,password:String,callback:Function):void{
+        Core.amfCall("Account.getAccount",
+                function(a:AccountVO):void{
+                    if(a)
+                        if(a.role==AccountRole.NONE)
+                            callback(false,"Account has not yet been confirmed\nCheck your e-mail");
+                        else{
+                            if (op.securityKey==AES.decrypt(a.password,password,AES.BIT_KEY_256)){
+                                ca=a;
+                                notify("Welcome back "+ca.firstname+"!");
+                                ed.dispatchEvent(new Event(ACCOUNT_CHANGE));
+                                callback(true,"success");
+                            }
+                            else{
+                                notify("Wrong password, try again");
+                                callback(false,"wrong pass");
+                            }
+                        }
+                    else
+                    callback(false,"wrong username");
+                },
+                loginName
+        );
     }
     public static function sendMail(composition:MailComposition,options:MailOptions=null,onSuccess:Function=null,onFailure:Function=null):void{
         mailComposition=composition;

@@ -455,7 +455,6 @@ public class Facebook extends AbstractFacebook {
         ExternalInterface.addCallback('sessionChange', handleSessionChange);
         ExternalInterface.addCallback('logout', handleLogout);
         ExternalInterface.addCallback('uiResponse', handleUI);
-
         _initCallback = callback;
 
         this.applicationId = applicationId;
@@ -577,9 +576,7 @@ public class Facebook extends AbstractFacebook {
             }
         }
     }
-    protected function handleSessionChange(result:String,
-                                           permissions:String = null
-            ):void {
+    protected function handleSessionChange(result:String,permissions:String = null):void {
         var resultObj:Object;
         var success:Boolean = true;
 
@@ -610,13 +607,14 @@ public class Facebook extends AbstractFacebook {
             }
         }
 
-        if (_initCallback != null) {
-            _initCallback(session, null);
-            _initCallback = null;
+        if (_initCallback) {
+            _initCallback.call(null,session, null);
+            _initCallback=null;
+            trace(_initCallback,"null?");
         }
 
-        if (_loginCallback != null) {
-            _loginCallback(session, null);
+        if (_loginCallback) {
+            _loginCallback.call(null,session, null);
             _loginCallback = null;
         }
     }

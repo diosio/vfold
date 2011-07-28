@@ -71,6 +71,7 @@ public class ButtonLabel extends Button {
             stage.removeEventListener(MouseEvent.MOUSE_DOWN,onStageDown);
             addEventListener(MouseEvent.MOUSE_OVER,onMouseOver);
             addEventListener(MouseEvent.MOUSE_OUT,onMouseOut);
+            addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
             db.onClose();
             removeChild(db);
             onOut();
@@ -114,10 +115,11 @@ public class ButtonLabel extends Button {
             stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageDown);
             removeEventListener(MouseEvent.MOUSE_OVER,onMouseOver);
             removeEventListener(MouseEvent.MOUSE_OUT,onMouseOut);
+            removeEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
             addChildAt(db,1);
             db.onOpen();
         }
-        if(af)af.call(null);
+        if(af)af.call();
     }
     override public function get height():Number {return bg.height}
     public function get style():ButtonStyle{return bs}

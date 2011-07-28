@@ -8,6 +8,8 @@
  *********************************************************************/
 
 package vfold.core {
+import com.facebook.graph.FacebookOptions;
+
 import vfold.core.workspace.Workspace;
 import vfold.mail.MailOptions;
 import vfold.display.assets.Images;
@@ -28,8 +30,11 @@ public class CoreOptions {
     private var t:String="a VFOLD project";
     // Project Domain
     private var d:String;
+    // Facebook Options
+    private var fo:FacebookOptions;
 
-    public function CoreOptions(domain:String,gateway:String,mailOptions:MailOptions){
+    public function CoreOptions(domain:String,gateway:String,mailOptions:MailOptions,facebookOptions:FacebookOptions){
+        fo=facebookOptions;
         d=domain;
         mo=mailOptions;
         gw=gateway;
@@ -41,6 +46,7 @@ public class CoreOptions {
         w.title="vfold.dashboard.Dashboard";
         ws[0]=w;
     }
+    public function get facebookOptions():FacebookOptions{return fo}
     public function get projectDomain():String{return d}
     public function get projectTitle():String{return t}
     public function set projectTitle(value:String):void{t=value}

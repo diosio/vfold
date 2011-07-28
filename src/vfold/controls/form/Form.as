@@ -88,6 +88,7 @@ public class Form extends Sprite{
         ho+=t.height+G;
     }
     public function enable(index:uint):void{ev[index].enable=true}
+    public function getTextField(index:uint):TextSimple{return ev[index].textField}
     public function disable(index:uint):void{ev[index].enable=false}
     public function enabled(index:uint):Boolean{return ev[index].enabled}
     public function setStatus(index:uint,value:String,message:String="undefined"):void{ev[index].setStatus(value,message)}

@@ -48,6 +48,9 @@ public class Account extends PanelTool {
     }
 }
 }
+
+import com.facebook.graph.Facebook;
+
 import flash.display.Graphics;
 import flash.display.Shape;
 import flash.display.Sprite;
@@ -84,6 +87,14 @@ class Join extends ButtonDropBox{
                 rb:ButtonLabel=new ButtonLabel(bs),
                 fb:ButtonLabel=new ButtonLabel(bs);
         si=new SignIn(bc,fc);
+        fb.actionFunction=function():void{trace("action");Facebook.init(
+                "137172046368016",
+                function facebookInit(success:Object,fail:Object):void{
+                    if(success){
+
+                    }
+                }
+        )};
         rb.label="Register";
         fb.label="Facebook";
         fb.icon=new Images.Facebook;
@@ -111,7 +122,7 @@ class Join extends ButtonDropBox{
         fb.x = width-fb.width;
     }
     override public function onOpen():void {
-        stage.focus=si.entries[0];
+        stage.focus=si.getTextField(0);
     }
     override public function onClose():void {
     }
@@ -164,7 +175,6 @@ class Separator extends Sprite{
 
 class SignIn extends Form{
     private var ef:Function;
-    private var ps:String;
     public function SignIn(titleColor:uint,fillColor:uint,exitFunction:Function=null):void{
         super(titleColor,fillColor);
         ef=exitFunction;
@@ -182,17 +192,11 @@ class SignIn extends Form{
         registerClassAlias("VFOLD.VO.Account",AccountVO);
     }
     override protected function onSubmitForm():void {
-        ps=getText(1);
-        Core.amfCall("Account.getAccount",onGetAccount,getText(0));
+        Core.signInAccount(getText(0),getText(1),
+        function():void{
+
+        });
         ef.call(null);
-    }
-    private function onGetAccount(a:AccountVO):void{
-        if(a.role==AccountRole.NONE){
-            Core.notify("Your account has not yet been confirmed\nCheck your e-mail")
-        }
-        else{
-            Core.signInAccount(a,ps);
-        }
     }
     private function checkLoginName():void{
         var s:String=getText(0).length>0?getText(0).length>5?"Invalid Login Name":"Login Name must be minimum 6 characters":"Enter your Login Name";
