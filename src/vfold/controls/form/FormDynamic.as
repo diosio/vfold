@@ -12,10 +12,9 @@ package vfold.controls.form {
 import flash.display.Graphics;
 import flash.display.Shape;
 import flash.display.Sprite;
+import flash.filters.GlowFilter;
 
-import vfold.core.Core;
 import vfold.display.text.TextSimple;
-import vfold.utility.ColorUtility;
 
 public class FormDynamic extends Sprite{
     // Input Field
@@ -37,39 +36,67 @@ public class FormDynamic extends Sprite{
     // Width
     private var w:Number;
     // Fill Color
-    private const fc:uint=ColorUtility.brightness(Core.color,.5);
-    // Stroke Color
-    private var sc:uint=0;
+    private var fc:uint=0xFFFFFF;
+    // Glow
+    private var gf:GlowFilter=new GlowFilter();
+
 
     public function FormDynamic():void{
+        gf.strength=2.2;
         oh=tf.height;
         tf.leftMargin=3;
         width=120;
         addChild(bg);
         addChild(tf);
-        text="";
+        tf.text="";
+        tf.y=tf.leading;
+        active=false;
     }
-    protected function draw():void{
+    private function draw():void{
         g.clear();
-        if(s!=Form.UNSET)g.lineStyle(2,sc,1,true);
-        else{g.lineStyle(1,0,1,true)}
         g.beginFill(fc);
         g.drawRoundRect(0,0,w,tf.height,8);
         g.endFill();
     }
     public function onChange():void{if(af)af.call()}
 
+    public function setStatus(value:String,message:String="undefined"):void{
+        sm=message;
+        s=enabled?value:Form.UNSET;
+        var sc:uint;
+        switch (s){
+            case Form.OK:
+                sc=0x7CCF53;
+                break;
+            case Form.WARNING:
+                sc=0xF2BB05;
+                break;
+            case Form.ERROR:
+                sc=0xFF7575;
+                break;
+        }
+        draw();
+        gf.color=sc;
+        bg.filters=[gf];
+    }
     override public function set width(value:Number):void {w=tf.width=value;draw();}
     override public function get width():Number {return w}
 
-    public function get text():String{return tf.text}
-    public function set text(value:String):void{tf.text=value}
+    protected function get background():Shape{return bg}
+
+    public function get enabled():Boolean{return en}
+    public function get textField():TextSimple{return tf}
+    public function get fillColor():uint{return fc}
     public function get status():String{return s}
     public function get changeFunction():Function{return af}
+    public function get statusMessage():String{return sm}
     public function set changeFunction(value:Function):void{af=value}
     public function set maxChars(value:uint):void{tf.maxChars=value}
     public function set password(value:Boolean):void{tf.displayAsPassword=value}
-    public function get statusMessage():String{return sm}
+    public function set textColor(value:uint):void{tf.color=value}
+    public function set fillColor(value:uint):void{fc=value}
+    public function set text(value:String):void{tf.text=value}
+    public function get text():String{return tf.text}
     public function set numLines(value:uint):void{
         if(value>1){
             tf.multiline=tf.wordWrap=true;
@@ -79,23 +106,6 @@ public class FormDynamic extends Sprite{
             tf.multiline=tf.wordWrap=false;
             tf.height=oh;
         }
-    }
-
-    public function setStatus(value:String,message:String="undefined"):void{
-        sm=message;
-        s=enabled?value:Form.UNSET;
-        switch (s){
-            case Form.OK:
-                sc=0x7CCF53;
-                break;
-            case Form.WARNING:
-                sc=0xF2BB05;
-                break;
-            case Form.ERROR:
-                sc=0xC94444;
-                break;
-        }
-        draw();
     }
     public function set enable(value:Boolean){
         if(value&&!en){
@@ -112,10 +122,14 @@ public class FormDynamic extends Sprite{
         }
         en=value;
     }
-    public function get enabled():Boolean{return en}
-    protected function get textField():TextSimple{return tf}
-    protected function get background():Shape{return bg}
-    protected function get strokeColor():uint{return sc}
-    protected function get fillColor():uint{return fc}
+    public function set active(value:Boolean):void{
+        if(value){
+            gf.blurX=gf.blurY=6;
+        }
+        else{
+            gf.blurX=gf.blurY=2;
+        }
+        bg.filters=[gf];
+    }
 }
 }

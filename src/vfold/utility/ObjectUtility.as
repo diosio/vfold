@@ -6,47 +6,34 @@
  * following licensing notice adjacent to the copyright notice for   *
  * the Original Work                                                 *
  *********************************************************************/
-
 package vfold.utility {
-public class ObjectUtility {
-    // Available Objects
-    private var aov:Vector.<Object>=new Vector.<Object>();
-    // Contemporary Objects
-    private var cov:Vector.<Object>=new Vector.<Object>();
-    // Object Class
-    private var OC:Class;
-    // If getObject function instantiated the Class
-    private var ib:Boolean=true;
+import flash.utils.ByteArray;
+import flash.utils.getDefinitionByName;
+import flash.utils.getQualifiedClassName;
 
-    public function ObjectUtility(ObjectClass:Class) {
-        OC=ObjectClass;
+public class ObjectUtility {
+    public function ObjectUtility() {
     }
-    public function getObject():Object{
-        var o:Object;
-        if(aov.length > 0){
-            o=aov.pop();
-            ib=false;
-        }
-        else{
-            o=new OC;
-            ib=true;
-        }
-        cov.push(o);
-        return o;
+     public static function newSibling(sourceObj:Object):* {
+         if(sourceObj) {
+
+             var objSibling:*;
+             try {
+                 var classOfSourceObj:Class = getDefinitionByName(getQualifiedClassName(sourceObj)) as Class;
+                 objSibling = new classOfSourceObj();
+             }
+
+             catch(e:Object) {}
+
+             return objSibling;
+         }
+         return null;
+     }
+    public static function clone(source:Object):* {
+        var copier:ByteArray = new ByteArray();
+        copier.writeObject(source);
+        copier.position = 0;
+        return copier.readObject() as source.constructor;
     }
-    public function returnToPool(object:Object):void{
-        cov.splice(cov.indexOf(object),1);
-        aov.push(object);
-    }
-    public function returnAll():void{
-        while(cov.length>0){
-            var o:Object=cov[0];
-            cov.splice(0,1);
-            aov.push(o);
-        }
-    }
-    public function get objects():Vector.<Object>{return cov}
-    public function get instantiated():Boolean{return ib}
-    public function get availableObjects():uint{return aov.length}
 }
 }

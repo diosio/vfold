@@ -10,8 +10,10 @@
 package vfold.controls.form {
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.events.FocusEvent;
 import flash.events.KeyboardEvent;
 import vfold.core.Core;
+import vfold.display.text.TextSimple;
 
 public class Form extends Sprite{
 
@@ -36,18 +38,26 @@ public class Form extends Sprite{
     private var et:String;
     // Text Color
     private var tc:uint;
+    // Fill Color
+    private var fc:uint;
+    // Current Active Field
+    private var ca:FormDynamic;
+    // Height Offset
+    private var ho:Number=0;
 
-    public function Form(textColor:uint = 0xFFFFFF):void{
-        tc = textColor;
+    public function Form(titleColor:uint=0xFFFFFF,fillColor:uint = 0xFFFFFF):void{
+        tc = titleColor;
+        fc = fillColor;
         icc.addEventListener(Event.CHANGE,onChange);
         icc.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
+        icc.addEventListener(FocusEvent.FOCUS_IN,onFocusIn);
         addChild(tcc);
         addChild(icc);
     }
-    private var ho:Number=0;
     public function addEntry(entry:FormEntry):void{
         var i:uint=ev.length;
-        var t:Title=new Title(entry.title+": ",tc);
+        var t:TextSimple=new TextSimple(13,tc);
+        t.text=entry.title+": ";
         switch(entry.type){
             case FormEntry.INPUT:
                 ev[i]=new FormInput();
@@ -64,24 +74,40 @@ public class Form extends Sprite{
                 ev[i]=new Browse();
                 break;
         }
+        ev[i].fillColor=fc;
         ev[i].y=t.y=ho;
         ev[i].changeFunction=entry.actionFunction;
         ev[i].maxChars=entry.maxChars;
         ev[i].numLines=entry.numLines;
         ev[i].password=entry.password;
-        ev[i].text=entry.defaultText;
+        ev[i].textField.text=entry.defaultText;
+        ev[i].textColor=tc;
         tcc.addChild(t);
         icc.addChild(ev[i]);
         icc.x=tcc.width;
         ho+=t.height+G;
     }
-    public function get entries():Vector.<FormDynamic>{return ev}
+    public function enable(index:uint):void{ev[index].enable=true}
+    public function disable(index:uint):void{ev[index].enable=false}
+    public function enabled(index:uint):Boolean{return ev[index].enabled}
+    public function setStatus(index:uint,value:String,message:String="undefined"):void{ev[index].setStatus(value,message)}
+    public function getText(index:uint):String{return ev[index].textField.text}
+    public function getStatus(index:uint):String{return ev[index].status}
     public function checkAll():void{for each(var i:FormInput in ev)i.onChange()}
+
     private function onChange(e:Event):void{
         if(e.target.parent is FormInput){
             var ti:FormInput=e.target.parent as FormInput;
             ti.onChange();
         }
+    }
+    private function onFocusIn(e:FocusEvent):void {
+        if(ca)ca.active=false;
+        if (e.target.parent is FormInput) {
+            ca = e.target.parent as FormInput;
+            ca.active = true;
+        }
+
     }
     private function onKeyDown(e:KeyboardEvent):void{
         if(e.keyCode==13){
@@ -109,8 +135,6 @@ public class Form extends Sprite{
 }
 import flash.display.Bitmap;
 import flash.display.Graphics;
-import flash.events.Event;
-import flash.events.FocusEvent;
 import flash.events.MouseEvent;
 import flash.text.TextFieldType;
 
@@ -123,15 +147,8 @@ import vfold.controls.table.TableData;
 import vfold.controls.table.TableRowData;
 import vfold.core.Core;
 import vfold.display.assets.Images;
-import vfold.display.text.TextSimple;
 import vfold.utility.ColorUtility;
 
-class Title extends TextSimple{
-    public function Title(label:String,textColor:uint){
-        text=label;
-        color=textColor;
-    }
-}
 class FormInput extends FormDynamic{
     public function FormInput(){
         textField.type=TextFieldType.INPUT;
@@ -157,7 +174,9 @@ class FormTable extends FormInput {
         ic.y=(textField.height-ic.height)/2;
         addChild(ic);
         tb=new Table(Core.color,data,onSelect);
-        db=new ButtonDropBox(tb,null,new ButtonStyle(fillColor));
+        db=new ButtonDropBox();
+        db.dispatcher=tb;
+        db.style=new ButtonStyle(fillColor);
         db.onButtonAdjust(width,height);
         tb.onNoResult=onNoResult;
         tb.height=130;
@@ -194,20 +213,9 @@ class Browse extends FormDynamic {
         textField.width-=ic.width+3;
         ic.x=textField.width;
         ic.y=(textField.height-ic.height)/2;
-        addEventListener(MouseEvent.ROLL_OVER,onRollOver);
-        addEventListener(MouseEvent.ROLL_OUT,onRollOut);
         addEventListener(MouseEvent.CLICK,onClick);
     }
-    private function onRollOver(e:MouseEvent):void{
-        g.clear();
-        if(status!=Form.UNSET)g.lineStyle(2,strokeColor,1,true);
-        g.beginFill(bc);
-        g.drawRoundRect(0,0,width,height,8);
-        g.endFill();
-    }
-    private function onRollOut(e:MouseEvent=null):void{draw();}
     private function onClick(e:MouseEvent):void{
-        onRollOut();
         onChange();
     }
 }

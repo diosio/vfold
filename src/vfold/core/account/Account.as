@@ -24,11 +24,10 @@ public class Account extends PanelTool {
 
     public function Account() {
         Core.dispatcher.addEventListener(Core.ACCOUNT_CHANGE,onAccountChange);
-        sib.setDropBox(sic,toolbar);
-
+        sib.dropBox=sic;
+        sic.dispatcher=toolbar;
+        sib.label="Join";
         addChild(sib);
-
-        sib.label="join";
     }
     private function onAccountChange(e:Event):void{
         if(Core.currentUser){
@@ -49,11 +48,12 @@ public class Account extends PanelTool {
     }
 }
 }
-
 import flash.display.Graphics;
 import flash.display.Shape;
 import flash.display.Sprite;
 import flash.net.registerClassAlias;
+
+import vfold.controls.button.ButtonDropBox;
 
 import vfold.controls.button.ButtonLabel;
 import vfold.controls.button.ButtonStyle;
@@ -63,52 +63,110 @@ import vfold.core.Core;
 import vfold.core.account.AccountRole;
 import vfold.core.account.AccountVO;
 import vfold.controls.form.Form;
+import vfold.display.assets.Images;
 import vfold.display.text.TextSimple;
 import vfold.mail.MailComposition;
 import vfold.utility.ColorUtility;
 import vfold.utility.StringUtility;
 
-class Join extends Sprite{
-    private var cb:ButtonLabel;
-    private var si:SignIn=new SignIn();
+class Join extends ButtonDropBox{
+    private const g:int=8;
+    private var si:SignIn;
+
     public function Join(){
-        var bc:uint=ColorUtility.brightness(Core.color,.85);
-        cb=new ButtonLabel(new ButtonStyle(ColorUtility.brightness(Core.color,.2),1,1,bc,1,bc));
-        cb.label="Create an Account";
-        addChild(cb);
+        var bc:uint=ColorUtility.brightness(Core.color,.7),
+                fc:uint=ColorUtility.brightness(Core.color,.04),
+                s1:Separator=new Separator(bc),
+                s2:Separator=new Separator(bc),
+                t1:TextSimple = new TextSimple(13,bc),
+                t2:TextSimple = new TextSimple(13,bc),
+                bs:ButtonStyle=new ButtonStyle(fc,1,1,bc,1,bc),
+                rb:ButtonLabel=new ButtonLabel(bs),
+                fb:ButtonLabel=new ButtonLabel(bs);
+        si=new SignIn(bc,fc);
+        rb.label="Register";
+        fb.label="Facebook";
+        fb.icon=new Images.Facebook;
+        t1.text="Not a member?";
+        t2.text="Sign in with:";
+
+        addChild(rb);
+        addChild(fb);
         addChild(si);
-        si.y = cb.height;
-        cb.x = (si.width-cb.width)/2;
+        addChild(s1);
+        addChild(s2);
+        addChild(t1);
+        addChild(t2);
+
+        fb.x = t2.x+t2.width+g;
+        s1.width=s2.width=width;
+        s1.label="or";
+        s1.y = rb.height;
+        t2.y =fb.y= s1.y+s1.height;
+        t2.y+=(fb.height-t2.height)>>1;
+
+        s2.y = fb.y+fb.height+g;
+        si.y = s2.y+s2.height+g;
+        rb.x = width-rb.width;
+        fb.x = width-fb.width;
+    }
+    override public function onOpen():void {
+        stage.focus=si.entries[0];
+    }
+    override public function onClose():void {
     }
 }
 class Separator extends Sprite{
     private var g:Graphics;
     private const tf:TextSimple = new TextSimple();
-    private var w:Number;
-    public function Separator(){
+    private var w:Number=100;
+    private var c:uint;
+    public function Separator(color:uint = 0xFFFFFF){
+        tf.color=color;
+        c = color;
         var s:Shape = new Shape();
         g=s.graphics;
         addChild(s);
+        draw();
     }
     public function set label(value:String):void{
-        tf.text =value;
+        if(value){
+            if(!contains(tf))addChild(tf);
+            tf.text =value;
+            tf.x=(w-tf.width)/2;
+            draw();
+        }
+        else
+        if(contains(tf))removeChild(tf);
     }
     private function draw():void{
         g.clear();
-        g.lineStyle(1,1,1);
-        g.moveTo(0,0);
-        g.lineTo(tf.x,0);
-        g.moveTo(tf.x+tf.width,0);
-        g.lineTo(width,0);
+        g.lineStyle(1,c,1);
+        if(contains(tf)){
+            var y:Number = tf.height/2;
+            g.moveTo(0,y);
+            g.lineTo(tf.x,y);
+            g.moveTo(tf.x+tf.width,y);
+            g.lineTo(width,y);
+        }
+        else{
+            g.moveTo(0,0);
+            g.lineTo(width,0);
+        }
     }
     override public function get width():Number {return w}
-    override public function set width(value:Number):void {w = value}
+    override public function set width(value:Number):void {
+        w = value;
+        draw();
+    }
+
 }
 
 class SignIn extends Form{
     private var ef:Function;
     private var ps:String;
-    public function SignIn(exitFunction:Function=null):void{
+    public function SignIn(titleColor:uint,fillColor:uint,exitFunction:Function=null):void{
+        super(titleColor,fillColor);
         ef=exitFunction;
         var d:FormEntry=new FormEntry();
         d.title="Login Name";
@@ -124,8 +182,8 @@ class SignIn extends Form{
         registerClassAlias("VFOLD.VO.Account",AccountVO);
     }
     override protected function onSubmitForm():void {
-        ps=entries[1].text;
-        Core.amfCall("Account.getAccount",onGetAccount,entries[0].text);
+        ps=getText(1);
+        Core.amfCall("Account.getAccount",onGetAccount,getText(0));
         ef.call(null);
     }
     private function onGetAccount(a:AccountVO):void{
@@ -137,18 +195,18 @@ class SignIn extends Form{
         }
     }
     private function checkLoginName():void{
-        var s:String=entries[0].text.length>0?entries[0].text.length>5?"Invalid Login Name":"Login Name must be minimum 6 characters":"Enter your Login Name";
-        entries[0].setStatus(Form.ERROR,s);
-        if(entries[0].text.length>5){
-            Core.amfCall("Account.checkLoginName",onCheckLoginName,entries[0].text);
+        var s:String=getText(0).length>0?getText(0).length>5?"Invalid Login Name":"Login Name must be minimum 6 characters":"Enter your Login Name";
+        setStatus(0,Form.ERROR,s);
+        if(getText(0).length>5){
+            Core.amfCall("Account.checkLoginName",onCheckLoginName,getText(0));
         }
     }
     private function onCheckLoginName(b:Boolean):void{
-        if(b)entries[0].setStatus(Form.OK);
+        if(b)setStatus(0,Form.OK);
     }
     private function checkPassword():void{
-        var s:String=entries[1].text.length>0?entries[1].text.length>7?null:"Password must be 8 characters minimum in length":"Enter your password";
-        entries[1].setStatus(s?Form.ERROR:Form.WARNING,s);
+        var s:String=getText(1).length>0?getText(1).length>7?null:"Password must be 8 characters minimum in length":"Enter your password";
+        setStatus(1,s?Form.ERROR:Form.WARNING,s);
     }
 }
 class Register extends Form{
@@ -167,7 +225,7 @@ class Register extends Form{
         Core.amfCall("HTML.getHTML",function(h:String):void{mc=new MailComposition("Testing",h);},"welcome");
         acc.role=AccountRole.NONE;
         addEntries();
-        entries[4].enable=false;
+        disable(4);
     }
     private function addEntries():void{
         var d:FormEntry=new FormEntry();
@@ -197,14 +255,14 @@ class Register extends Form{
         checkAll();
     }
     override protected function onSubmitForm():void{
-        acc.firstname=entries[0].text;
-        acc.lastname=entries[1].text;
-        acc.loginname=entries[2].text;
-        acc.password=Core.encryptPassword(entries[4].text);
-        acc.email=entries[5].text;
+        acc.firstname=getText(0);
+        acc.lastname=getText(1);
+        acc.loginname=getText(2);
+        acc.password=Core.encryptPassword(getText(4));
+        acc.email=getText(5);
         acc.code=mt.code=StringUtility.generate(24);
-        mt.firstname=entries[0].text;
-        mc.sendToSingle(entries[0].text+" "+entries[1].text,entries[5].text);
+        mt.firstname=getText(0);
+        mc.sendToSingle(getText(0)+" "+getText(1),getText(5));
         mc.tokens=mt;
         Core.sendMail(mc,null,onEmailSuccess);
         Core.notify("Sending confirmation letter...");
@@ -215,46 +273,46 @@ class Register extends Form{
         Core.amfCall("Account.addAccount",null,acc);
     }
     private function checkFirstName():void{
-        var s:String=entries[0].text.length>0?null:"Enter your First Name";
-        entries[0].setStatus(s?Form.ERROR:Form.OK,s);
+        var s:String=getText(0).length>0?null:"Enter your First Name";
+        setStatus(0,s?Form.ERROR:Form.OK,s);
     }
     private function checkLastName():void{
-        var s:String=entries[1].text.length>0?null:"Enter your Last Name";
-        entries[1].setStatus(s?Form.ERROR:Form.OK,s);
+        var s:String=getText(1).length>0?null:"Enter your Last Name";
+        setStatus(1,s?Form.ERROR:Form.OK,s);
     }
     private function checkLoginName():void{
-        var s:String=entries[2].text.length>0?entries[2].text.length>5?null:"Enter a login name with 8 characters minimum in length":"Enter a Desired Login Name";
-        entries[2].setStatus(s?Form.ERROR:Form.OK,s);
+        var s:String=getText(2).length>0?getText(2).length>5?null:"Enter a login name with 8 characters minimum in length":"Enter a Desired Login Name";
+        setStatus(2,s?Form.ERROR:Form.OK,s);
         if(!s){
-            Core.amfCall("Account.checkLoginName",onCheckLoginName,entries[2].text);
+            Core.amfCall("Account.checkLoginName",onCheckLoginName,getText(2));
         }
     }
     private function onCheckLoginName(b:Boolean):void{
-        entries[2].setStatus(b?Form.ERROR:Form.OK,"Login Name already exists");
+        setStatus(2,b?Form.ERROR:Form.OK,"Login Name already exists");
     }
     private function checkPassword():void{
-        var s:String=entries[3].text.length>0?entries[3].text.length>7?null:"Enter a password with 8 characters minimum in length":"Enter a password";
-        entries[3].setStatus(s?Form.ERROR:Form.OK,s);
-        if(!s&&!entries[4].enabled)entries[4].enable=true;
-        else if(s&&entries[4].enabled)entries[4].enable=false;
+        var s:String=getText(3).length>0?getText(3).length>7?null:"Enter a password with 8 characters minimum in length":"Enter a password";
+        setStatus(3,s?Form.ERROR:Form.OK,s);
+        if(!s&&!enabled(4))enable(4);
+        else if(s&&enabled(4))disable(4);
     }
     private function reCheckPassword():void{
-        var s:String=entries[4].text.length>0?entries[3].text==entries[4].text?null:"Passwords do not match":"Re-Enter the password";
-        entries[4].setStatus(s?Form.ERROR:Form.OK,s);
+        var s:String=getText(4).length>0?getText(3)==getText(4)?null:"Passwords do not match":"Re-Enter the password";
+        setStatus(4,s?Form.ERROR:Form.OK,s);
     }
     private function checkEmail():void{
         var s:String;
-        if(entries[5].text.length>0)
-            if(StringUtility.isValidEmail(entries[5].text)){
-                entries[5].setStatus(Form.WARNING,"Your e-mail may be correct");
-                Core.amfCall("Account.checkEmail",onCheckEmail,entries[5].text);
+        if(getText(5).length>0)
+            if(StringUtility.isValidEmail(getText(5))){
+                setStatus(5,Form.WARNING,"Your e-mail may be correct");
+                Core.amfCall("Account.checkEmail",onCheckEmail,getText(5));
                 return;
             }
             else s="Not a valid E-Mail";
         else s="Enter your e-mail";
-        entries[5].setStatus(Form.ERROR,s);
+        setStatus(5,Form.ERROR,s);
     }
     private function onCheckEmail(b:Boolean):void{
-        if(b)entries[5].setStatus(Form.ERROR,"An account is already using this e-mail");
+        if(b)setStatus(5,Form.ERROR,"An account is already using this e-mail");
     }
 }

@@ -16,6 +16,8 @@ import flash.display.Sprite;
 import flash.filters.BlurFilter;
 
 import vfold.utility.GraphicUtility;
+import vfold.utility.MathUtility;
+
 public class ButtonSymbol extends Button {
     // Background
     private var bg:Shape=new Shape;
@@ -35,7 +37,7 @@ public class ButtonSymbol extends Button {
     }
     private function draw():void{
         bg.graphics.clear();
-        rd=Math.sqrt((Math.pow(smc.width,2)+Math.pow(smc.height,2))/4)+gp;
+        rd=MathUtility.findRadius(smc,gp);
         GraphicUtility.circle(bg.graphics,rd*2,cl,1);
         smc.x=smc.y=rd+1;
     }

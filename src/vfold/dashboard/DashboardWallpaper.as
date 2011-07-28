@@ -8,54 +8,13 @@
  *********************************************************************/
 
 package vfold.dashboard{
-
-import com.greensock.TweenMax;
-import flash.display.Bitmap;
-import flash.display.BitmapData;
-import flash.geom.Matrix;
-import flash.system.Capabilities;
-
-import vfold.core.Core;
 import vfold.core.CoreView;
-import vfold.display.assets.Images;
-import vfold.utility.ColorUtility;
+
 
 public class DashboardWallpaper extends CoreView {
 
-    // Wallpaper
-    private var wl:Bitmap;
 
     public function DashboardWallpaper() {
-        makeWallpaper();
-    }
-    private function makeWallpaper():void{
-
-        var m:Matrix=new Matrix;
-        var t:Bitmap=new Images.WallpaperTile as Bitmap;
-
-        wl=new Bitmap(new BitmapData(Capabilities.screenResolutionX,Capabilities.screenResolutionY,false));
-
-        // x-axis repeats
-        var xR:uint=Math.ceil(wl.width/t.width);
-        // y-axis repeats
-        var yR:uint=Math.ceil(wl.height/t.height);
-
-        for (var i:uint=0;i<xR;i++){
-
-            m.tx=i*t.width;
-
-            for (var j:uint=0;j<yR;j++){
-
-                m.ty=j*t.height;
-
-                wl.bitmapData.draw(t,m);
-            }
-        }
-        color=Core.color;
-        addChild(wl);
-    }
-    public function set color(value:uint):void{
-        TweenMax.to(wl,0,{colorMatrixFilter:{colorize:ColorUtility.brightness(value,.2),amount:1}});
     }
 }
 }

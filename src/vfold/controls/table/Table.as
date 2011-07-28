@@ -152,7 +152,7 @@ import flash.display.Graphics;
 import flash.display.Shape;
 import flash.text.TextFormat;
 import vfold.controls.button.Button;
-import vfold.utility.ObjectUtility;
+import vfold.utility.PoolingUtility;
 import vfold.display.text.TextSimple;
 import vfold.utility.ColorUtility;
 import flash.display.DisplayObject;
@@ -189,7 +189,7 @@ class TableColumn extends Sprite{
 class TableRow extends Button{
 
     // Object Pool
-    private var op:ObjectUtility=new ObjectUtility(TextSimple);
+    private var op:PoolingUtility=new PoolingUtility(TextSimple);
     // Text Format
     private var tf:TextFormat;
     // Row Height
@@ -287,11 +287,11 @@ class TableContent extends Sprite{
     // Data Vector
     private var dv:Vector.<TableRowData>;
     // List Row Pool
-    private var lrp:ObjectUtility=new ObjectUtility(TableRow);
+    private var lrp:PoolingUtility=new PoolingUtility(TableRow);
     // List Row Map Vector
     private var lrm:Vector.<TableRow>;
     // Column Pool
-    private var clp:ObjectUtility=new ObjectUtility(TableColumn);
+    private var clp:PoolingUtility=new PoolingUtility(TableColumn);
     // Row Container
     private var rcn:Sprite=new Sprite;
     // Color
@@ -494,7 +494,7 @@ class TableContent extends Sprite{
 }
 class Header extends Sprite{
     // Text Field Object pool
-    private var op:ObjectUtility=new ObjectUtility(TextSimple);
+    private var op:PoolingUtility=new PoolingUtility(TextSimple);
     // Color
     private var cl:uint;
     // Text Metrics Reference

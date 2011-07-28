@@ -19,7 +19,7 @@ public class Images {
     public static var Browse:Class;
     [Embed(source="images/arrow_down.png")]
     public static var ArrowDown:Class;
-    [Embed(source="images/wallpaper.tile.jpg")]
-    public static var WallpaperTile:Class;
+    [Embed(source="images/facebook.png")]
+    public static var Facebook:Class;
 }
 }
