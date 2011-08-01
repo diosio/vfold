@@ -55,6 +55,7 @@ public class PanelHandler extends WorkspaceComponentHandler {
         addChild(mn);
         mouseEnabled=false;
     }
+    public function addTool(tool:PanelTool):void{tb.addTool(tool)}
     override protected function onWorkspaceChange(e:Event):void {
         // Default Logo
         var d:Bitmap=Core.defaultWorkspace.panel.logo;
@@ -93,14 +94,8 @@ import flash.events.MouseEvent;
 import flash.geom.Matrix;
 
 import vfold.controls.button.ButtonDropBox;
-
-import vfold.controls.tabs.Tabs;
-
 import vfold.core.Core;
-
 import vfold.core.CoreView;
-import vfold.core.user.UserTool;
-import vfold.core.folder.FolderHandler;
 import vfold.core.panel.PanelTool;
 import vfold.core.workspace.WorkspaceSwitcher;
 import vfold.display.assets.Images;
@@ -222,8 +217,6 @@ class PanelToolBar extends CoreView {
      * GLOBAL TOOLS                           *
      ******************************************/
 
-    // Account Tool
-    private var ac:UserTool;
     // Workspace Switcher Tool
     private var ws:WorkspaceSwitcher;
 
@@ -235,9 +228,7 @@ class PanelToolBar extends CoreView {
     }
     override protected function onStageAdded():void {
 
-        ac=new UserTool();
         ws=new WorkspaceSwitcher();
-        addTool(ac);
         addTool(ws);
         addChild(lc);
         addChild(rc);
@@ -260,7 +251,7 @@ class PanelToolBar extends CoreView {
                 break;
         }
     }
-    private function addTool(tool:PanelTool):void{
+    public function addTool(tool:PanelTool):void{
         var i:uint;
         switch(tool.align){
 
