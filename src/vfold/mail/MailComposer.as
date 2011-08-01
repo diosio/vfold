@@ -10,7 +10,7 @@
 package vfold.mail {
 import vfold.utility.StringUtility;
 
-public class MailComposition {
+public class MailComposer {
     // Send To
     private var st:String;
     // Send To Group
@@ -24,7 +24,7 @@ public class MailComposition {
     // Message Final
     private var mgf:String;
 
-    public function MailComposition(subject:String,message:String) {
+    public function MailComposer(subject:String,message:String) {
         sbj=subject;
         mgr=mgf=message;
     }

@@ -610,7 +610,6 @@ public class Facebook extends AbstractFacebook {
         if (_initCallback) {
             _initCallback.call(null,session, null);
             _initCallback=null;
-            trace(_initCallback,"null?");
         }
 
         if (_loginCallback) {

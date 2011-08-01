@@ -23,10 +23,10 @@ public class Button extends Sprite{
        slB=selected;
     }
 
-    public function onMouseOver(e:MouseEvent=null):void{if(sbB)onOver();}
-    public function onMouseDown(e:MouseEvent=null):void{if(sbB)onDown();}
-    public function onMouseUp(e:MouseEvent=null):void{if(sbB)onUp()}
-    public function onMouseOut(e:MouseEvent=null):void{if(sbB)onOut()}
+    public function onMouseOver(e:MouseEvent=null):void{if(sbB)onOver();if(e)e.stopImmediatePropagation()}
+    public function onMouseDown(e:MouseEvent=null):void{if(sbB)onDown();if(e)e.stopImmediatePropagation()}
+    public function onMouseUp(e:MouseEvent=null):void{if(sbB)onUp();if(e)e.stopImmediatePropagation()}
+    public function onMouseOut(e:MouseEvent=null):void{if(sbB)onOut();if(e)e.stopImmediatePropagation()}
 
     protected function onOver():void{}
     protected function onDown():void{}

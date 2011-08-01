@@ -15,6 +15,7 @@ import flash.display.Shape;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Point;
+import flash.text.engine.CFFHinting;
 
 public class ButtonDropBox extends Sprite {
     // Adjust Offset
@@ -56,6 +57,8 @@ public class ButtonDropBox extends Sprite {
     private var rr:Number;
     // Dispatcher
     private var d:DisplayObject;
+    // Close Function
+    private var cf:Function;
 
     public function ButtonDropBox() {
         super.addChild(bg);
@@ -127,5 +130,8 @@ public class ButtonDropBox extends Sprite {
     }
     public function onOpen():void{}
     public function onClose():void{}
+    public function get close():Function{return cf}
+    public function set close(value:Function):void{cf=value}
+
 }
 }

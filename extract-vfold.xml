@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="vfold" default="extract">
-    <property file="extract-swf.properties"/>
+    <property file="extract-vfold.properties"/>
     <target name="extract">
         <!-- Extract the SWCs library file and rename it -->
         <unzip src="${src.dir}/libraries.swc/${name}.swc" dest="${src.dir}/libraries.swc">

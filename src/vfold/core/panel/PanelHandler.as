@@ -99,7 +99,7 @@ import vfold.controls.tabs.Tabs;
 import vfold.core.Core;
 
 import vfold.core.CoreView;
-import vfold.core.account.Account;
+import vfold.core.user.UserTool;
 import vfold.core.folder.FolderHandler;
 import vfold.core.panel.PanelTool;
 import vfold.core.workspace.WorkspaceSwitcher;
@@ -223,7 +223,7 @@ class PanelToolBar extends CoreView {
      ******************************************/
 
     // Account Tool
-    private var ac:Account;
+    private var ac:UserTool;
     // Workspace Switcher Tool
     private var ws:WorkspaceSwitcher;
 
@@ -235,7 +235,7 @@ class PanelToolBar extends CoreView {
     }
     override protected function onStageAdded():void {
 
-        ac=new Account();
+        ac=new UserTool();
         ws=new WorkspaceSwitcher();
         addTool(ac);
         addTool(ws);

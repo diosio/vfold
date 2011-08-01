@@ -129,6 +129,7 @@ public class ButtonLabel extends Button {
         db=value;
         db.style=bs;
         db.onButtonAdjust(bg.width,bg.height);
+        db.close=onStageDown;
     }
     public function set icon(i:Bitmap):void{
         if(bm)removeChild(bm);
